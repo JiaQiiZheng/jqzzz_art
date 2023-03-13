@@ -7,9 +7,9 @@ export default function RegisterPage() {
   async function register(ev) {
     ev.preventDefault();
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/register`, {
-        body: JSON.stringify({ username, password }),
-        headers: { "Content-Type": "application/json" },
+      await axios.post("/register", {
+        username,
+        password,
       });
       alert("registration successful");
     } catch (error) {
