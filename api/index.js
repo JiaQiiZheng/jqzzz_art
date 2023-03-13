@@ -121,15 +121,15 @@ app.post("/api/post", uploadMiddleware.single("file"), async (req, res) => {
 
 app.put("/api/post", uploadMiddleware.single("file"), async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
-  let newPath = null;
+  // let newPath = null;
   if (req.file) {
     const { path, originalname, mimetype } = req.file;
     // const parts = originalname.split(".");
     // const ext = parts[parts.length - 1];
     // newPath = path + "." + ext;
     // fs.renameSync(path, newPath);
+    var url = await uploadToS3(path, originalname, mimetype);
   }
-  const url = await uploadToS3(path, originalname, mimetype);
   const { token } = req.cookies;
   jwt.verify(token, secret, {}, async (err, info) => {
     if (err) throw err;
@@ -143,7 +143,7 @@ app.put("/api/post", uploadMiddleware.single("file"), async (req, res) => {
       title,
       summary,
       content,
-      cover: url,
+      cover: url ? url : postDoc.cover,
     });
 
     res.json(postDoc);
