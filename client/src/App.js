@@ -12,7 +12,7 @@ import PostPage from "./pages/PostPage";
 import EditPost from "./pages/EditPost";
 import axios from "axios";
 
-axios.defaults.baseURL = import.meta.env.REACT_APP_API_URL;
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
 function App() {
