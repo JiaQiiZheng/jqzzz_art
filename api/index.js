@@ -7,25 +7,46 @@ const bcrypt = require("bcryptjs");
 const app = express();
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
-const multer = require("multer");
-const uploadMiddleware = multer({ dest: "uploads/" });
 const fs = require("fs");
 const dotenv = require("dotenv");
 dotenv.config();
+const multer = require("multer");
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 
 const salt = bcrypt.genSaltSync(10);
 const secret = "asdfe45we45w345wegw345werjktjwertkj";
+const bucket = "jqzzz";
 
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
-mongoose.connect(
-  "mongodb+srv://jqzzz:jiayou@jqzzz.jwqu1eq.mongodb.net/jqBlog?retryWrites=true&w=majority"
-);
+async function uploadToS3(path, originalFileName, mimetype) {
+  const client = new S3Client({
+    region: "us-east-1",
+    credentials: {
+      accessKeyId: process.env.S3_ACCESS_KEY,
+      secretAccessKey: process.env.S3_SECERT_ACCESS_KEY,
+    },
+  });
+  const parts = originalFileName.split(".");
+  const ext = parts[parts.length - 1];
+  const newFileName = Date.now() + "." + ext;
+  const command = new PutObjectCommand({
+    Bucket: bucket,
+    Body: fs.readFileSync(path),
+    Key: newFileName,
+    ContentType: mimetype,
+    ACL: "public-read",
+  });
+  const data = await client.send(command);
+  // console.log({ data });
+  return `https://${bucket}.s3.amazonaws.com/${newFileName}`;
+}
 
 app.post("/register", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   const { username, password } = req.body;
   try {
     const userDoc = await User.create({
@@ -40,6 +61,7 @@ app.post("/register", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   const { username, password } = req.body;
   const userDoc = await User.findOne({ username });
   const passOk = bcrypt.compareSync(password, userDoc.password);
@@ -58,6 +80,7 @@ app.post("/login", async (req, res) => {
 });
 
 app.get("/profile", (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   const { token } = req.cookies;
   jwt.verify(token, secret, {}, (err, info) => {
     if (err) throw err;
@@ -69,12 +92,15 @@ app.post("/logout", (req, res) => {
   res.cookie("token", "").json("ok");
 });
 
+const uploadMiddleware = multer({ dest: "/tmp" });
 app.post("/post", uploadMiddleware.single("file"), async (req, res) => {
-  const { originalname, path } = req.file;
-  const parts = originalname.split(".");
-  const ext = parts[parts.length - 1];
-  const newPath = path + "." + ext;
-  fs.renameSync(path, newPath);
+  mongoose.connect(process.env.MONGO_URL);
+  const { path, originalname, mimetype } = req.file;
+  // const parts = originalname.split(".");
+  // const ext = parts[parts.length - 1];
+  // const newPath = path + "." + ext;
+  // fs.renameSync(path, newPath);
+  const url = await uploadToS3(path, originalname, mimetype);
 
   const { token } = req.cookies;
   jwt.verify(token, secret, {}, async (err, info) => {
@@ -84,7 +110,7 @@ app.post("/post", uploadMiddleware.single("file"), async (req, res) => {
       title,
       summary,
       content,
-      cover: newPath,
+      cover: url,
       author: info.id,
     });
     res.json(postDoc);
@@ -92,6 +118,7 @@ app.post("/post", uploadMiddleware.single("file"), async (req, res) => {
 });
 
 app.put("/post", uploadMiddleware.single("file"), async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   let newPath = null;
   if (req.file) {
     const { originalname, path } = req.file;
@@ -122,6 +149,7 @@ app.put("/post", uploadMiddleware.single("file"), async (req, res) => {
 });
 
 app.get("/post", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   res.json(
     await Post.find()
       .populate("author", ["username"])
@@ -131,6 +159,7 @@ app.get("/post", async (req, res) => {
 });
 
 app.get("/post/:id", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   const { id } = req.params;
   const postDoc = await Post.findById(id).populate("author", ["username"]);
   res.json(postDoc);
