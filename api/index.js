@@ -45,7 +45,7 @@ async function uploadToS3(path, originalFileName, mimetype) {
   return `https://${bucket}.s3.amazonaws.com/${newFileName}`;
 }
 
-app.post("/register", async (req, res) => {
+app.post("api/register", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const { username, password } = req.body;
   try {
@@ -60,7 +60,7 @@ app.post("/register", async (req, res) => {
   }
 });
 
-app.post("/login", async (req, res) => {
+app.post("api/login", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const { username, password } = req.body;
   const userDoc = await User.findOne({ username });
@@ -79,7 +79,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.get("/profile", (req, res) => {
+app.get("api/profile", (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const { token } = req.cookies;
   jwt.verify(token, secret, {}, (err, info) => {
@@ -88,7 +88,7 @@ app.get("/profile", (req, res) => {
   });
 });
 
-app.post("/logout", (req, res) => {
+app.post("api/logout", (req, res) => {
   res.cookie("token", "").json("ok");
 });
 
@@ -117,7 +117,7 @@ app.post("/post", uploadMiddleware.single("file"), async (req, res) => {
   });
 });
 
-app.put("/post", uploadMiddleware.single("file"), async (req, res) => {
+app.put("api/post", uploadMiddleware.single("file"), async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   let newPath = null;
   if (req.file) {
@@ -148,7 +148,7 @@ app.put("/post", uploadMiddleware.single("file"), async (req, res) => {
   });
 });
 
-app.get("/post", async (req, res) => {
+app.get("api/post", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   res.json(
     await Post.find()
@@ -158,7 +158,7 @@ app.get("/post", async (req, res) => {
   );
 });
 
-app.get("/post/:id", async (req, res) => {
+app.get("api/post/:id", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const { id } = req.params;
   const postDoc = await Post.findById(id).populate("author", ["username"]);
