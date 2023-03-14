@@ -36,17 +36,22 @@ header nav {
 }
 
 div.posts {
+  justify-items: center;
   align-items: center;
   display: grid;
   grid-template-columns: 0.33fr 0.33fr 0.33fr;
   gap: 20px;
+}
+@media screen and (max-width: 700px) {
+  div.posts {
+    grid-template-columns: 1fr;
+  }
 }
 
 div.post {
   display: grid;
   grid-template-columns: 1fr;
   gap: 20px;
-  margin-left: 50px;
   margin-bottom: 60px;
   max-width: 400px;
   object-fit: cover;
