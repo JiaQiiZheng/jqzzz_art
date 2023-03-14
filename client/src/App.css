@@ -36,17 +36,20 @@ header nav {
 }
 
 div.posts {
+  align-items: center;
   display: grid;
-  grid-template-columns: 0.5fr 0.5fr;
+  grid-template-columns: 0.33fr 0.33fr 0.33fr;
+  gap: 20px;
 }
 
 div.post {
   display: grid;
   grid-template-columns: 1fr;
   gap: 20px;
-  margin-bottom: 30px;
-  max-width: 500px;
-  object-fit: co;
+  margin-left: 50px;
+  margin-bottom: 60px;
+  max-width: 400px;
+  object-fit: cover;
 }
 @media screen and (min-width: 700px) {
   div.post {
