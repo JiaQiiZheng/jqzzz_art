@@ -27,12 +27,18 @@ export default function Header() {
   return (
     <header>
       <Link to="/" className="logo">
-        ART STUDY @jiaqi
+        <div className="atelierZZZ">
+          <h1 id="atelier">ATELIER</h1>
+          <div className="ZZZ">
+            <h1>ZZZ</h1>
+            <h1>ZZZ</h1>
+          </div>
+        </div>
       </Link>
       <nav>
         {username && (
           <>
-            <Link to="/create">Create new post</Link>
+            <Link to="/create">Create New Publish</Link>
             <a onClick={logout}>Logout ({username})</a>
           </>
         )}
