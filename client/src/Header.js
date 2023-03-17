@@ -28,7 +28,7 @@ export default function Header() {
     <header>
       <Link to="/" className="logo">
         <div className="atelierZZZ">
-          <h1 id="atelier">ATELIER</h1>
+          <h1 id="atelier">A-School Computational Community</h1>
           <div className="ZZZ">
             <h1>ZZZ</h1>
             <h1>ZZZ</h1>
