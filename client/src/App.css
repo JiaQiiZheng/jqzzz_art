@@ -34,9 +34,8 @@ img {
   max-width: 100%;
 }
 main {
-  padding: 10px;
   max-width: 1980px;
-  margin: 0 auto;
+  margin: auto 20px;
 }
 header {
   display: flex;
@@ -54,7 +53,6 @@ header #atelier {
   font-weight: 100;
 }
 .ZZZ {
-  margin-left: 20px;
   display: flex;
 }
 
@@ -125,25 +123,32 @@ div.posts {
   justify-items: center;
   align-items: center;
   display: grid;
-  gap: 200px;
+  gap: 5rem;
   grid-template-columns: 0.33fr 0.33fr 0.33fr;
 }
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 600px) {
   div.posts {
     grid-template-columns: 1fr;
   }
   header nav {
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
     font-size: 0.8rem;
+  }
+  header .atelierZZZ {
+    display: flex;
+    flex-direction: column;
+  }
+  header #atelier {
+    font-size: 1rem;
+    margin-top: -1rem;
   }
 }
 
 div.post .image {
   display: flex;
   flex-direction: column;
-  width: 400px;
+  width: 300px;
   margin-top: auto;
   margin-bottom: auto;
 }
@@ -155,7 +160,7 @@ div.post {
   max-width: 400px;
   justify-content: space-between;
 }
-@media screen and (min-width: 700px) {
+@media screen and (min-width: 600px) {
   div.post {
     grid-template-columns: 1fr;
   }
@@ -248,7 +253,6 @@ div.post-page div.image img {
   object-fit: cover;
   object-position: center center;
   width: calc(var(--mediaMaxWidth) * 0.5);
-
   margin-bottom: 3rem;
 }
 div.post-page a {
