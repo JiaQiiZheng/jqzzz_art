@@ -18,7 +18,7 @@
   --imgSize_A: 20rem;
   --textFrame_width: 30rem;
   --transitionTime: 0.4s;
-  --mediaMaxWidth: calc(1980 * 0.5px);
+  --mediaMaxWidth: 60vw;
 }
 
 * {
@@ -327,8 +327,12 @@ a svg {
   margin-bottom: auto;
 }
 .content .ql-video {
-  width: var(--mediaMaxWidth);
+  width: calc(var(--mediaMaxWidth));
   height: calc(var(--mediaMaxWidth) * 1080 / 1980);
+}
+
+.content .ql-video .ql-align-center {
+  align-self: center;
 }
 
 .content img {
@@ -344,6 +348,11 @@ a svg {
 .ql-align-left {
   text-align: left;
 }
+
 .ql-editor {
   min-height: 40vh;
+}
+
+.ql-counter {
+  margin: 1rem;
 }

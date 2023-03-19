@@ -1,8 +1,14 @@
 import React from "react";
 import { Quill } from "react-quill";
 import ImageCompress from "quill-image-compress";
+import Counter from "./Counter";
+
 Quill.register("modules/imageCompress", ImageCompress);
 
+//customize counter
+Quill.register("modules/counter", Counter);
+
+// Redo button icon component for Quill editor
 const CustomUndo = () => (
   <svg viewBox="0 0 18 18">
     <polygon className="ql-fill ql-stroke" points="6 10 4 12 2 10 6 10" />
@@ -64,14 +70,16 @@ export const modules = {
     userOnly: true,
   },
   imageCompress: {
-    quality: 1,
+    quality: 0.7,
     maxWidth: 2560,
     maxHeight: 2560,
     imageType: "image/jpeg",
+    ignoreImageTypes: ["image/gif"],
     debug: true,
     suppressErrorLogging: false,
     insertIntoEditor: undefined,
   },
+  counter: true,
 };
 
 // Formats objects for setting up the Quill editor
