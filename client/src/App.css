@@ -35,7 +35,7 @@ img {
 }
 main {
   max-width: 1980px;
-  margin: auto 20px;
+  margin: 20px auto;
 }
 header {
   display: flex;
@@ -142,6 +142,11 @@ div.posts {
   header #atelier {
     font-size: 1rem;
     margin-top: -1rem;
+  }
+}
+@media screen and (max-width: 1024px) and (min-width: 600px) {
+  div.posts {
+    grid-template-columns: 0.5fr 0.5fr;
   }
 }
 
