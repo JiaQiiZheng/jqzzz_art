@@ -114,7 +114,11 @@ header a.logo {
 }
 header nav {
   display: flex;
-  gap: 24px;
+  gap: 1rem;
+}
+
+header nav .header_button:hover {
+  text-decoration: underline;
 }
 
 div.posts {
@@ -127,6 +131,12 @@ div.posts {
 @media screen and (max-width: 700px) {
   div.posts {
     grid-template-columns: 1fr;
+  }
+  header nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    font-size: 0.8rem;
   }
 }
 
@@ -180,6 +190,11 @@ form.register {
   max-width: 400px;
   margin: 0 auto;
 }
+.edit_form .form_button {
+  display: grid;
+  grid-template-columns: 0.5fr 0.5fr;
+  gap: 0.5rem;
+}
 input {
   display: block;
   margin-bottom: 5px;
@@ -193,8 +208,7 @@ button {
   cursor: pointer;
   width: 100%;
   display: block;
-  background-color: #555;
-  color: #fff;
+  color: black;
   border-radius: 5px;
   margin-top: 2rem;
   padding: 7px 0;
@@ -209,9 +223,15 @@ button:active {
   border: 1px solid black;
   background-color: transparent;
   color: black;
-  scale: 110%;
   transition: 0.05s;
 }
+.form_button {
+  margin-top: 0px;
+}
+.negative_button {
+  text-decoration: none;
+}
+
 form.login h1,
 form.register h1 {
   text-align: center;
@@ -313,4 +333,7 @@ a svg {
 }
 .ql-align-left {
   text-align: left;
+}
+.ql-editor {
+  min-height: 40vh;
 }

@@ -28,24 +28,32 @@ export default function Header() {
     <header>
       <Link to="/" className="logo">
         <div className="atelierZZZ">
-          <h1 id="atelier">A-School Computational Community</h1>
           <div className="ZZZ">
             <h1>ZZZ</h1>
             <h1>ZZZ</h1>
           </div>
+          <h1 id="atelier">Intuition & Computation</h1>
         </div>
       </Link>
       <nav>
         {username && (
           <>
-            <Link to="/create">Create New Publish</Link>
-            <a onClick={logout}>Logout ({username})</a>
+            <Link className="header_button" to="/create">
+              Create New Publish
+            </Link>
+            <a className="header_button" onClick={logout}>
+              Logout ({username})
+            </a>
           </>
         )}
         {!username && (
           <>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
+            <Link className="header_button" to="/login">
+              Login
+            </Link>
+            <Link className="header_button" to="/register">
+              Register
+            </Link>
           </>
         )}
       </nav>

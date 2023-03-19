@@ -3,6 +3,7 @@ import "react-quill/dist/quill.snow.css";
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import Editor from "../Editor";
+import { Link } from "react-router-dom";
 
 export default function CreatePost() {
   const [title, setTitle] = useState("");
@@ -31,7 +32,7 @@ export default function CreatePost() {
     return <Navigate to={"/"} />;
   }
   return (
-    <form onSubmit={createNewPost}>
+    <form className="edit_form" onSubmit={createNewPost}>
       <input
         type="title"
         placeholder={"Title"}
@@ -46,7 +47,12 @@ export default function CreatePost() {
       />
       <input type="file" onChange={(ev) => setFiles(ev.target.files)} />
       <Editor value={content} onChange={setContent} />
-      <button style={{ marginTop: "5px" }}>Create post</button>
+      <nav className="form_button">
+        <button className="positive_button">Create</button>
+        <Link className="negative_button" to="/">
+          <button>Back</button>
+        </Link>
+      </nav>
     </form>
   );
 }
