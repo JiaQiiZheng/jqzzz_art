@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import Editor from "../Editor";
+import { Link } from "react-router-dom";
 
 export default function EditPost() {
   const { id } = useParams();
@@ -45,7 +46,7 @@ export default function EditPost() {
   }
 
   return (
-    <form onSubmit={updatePost}>
+    <form className="edit_form" onSubmit={updatePost}>
       <input
         type="title"
         maxLength={60}
