@@ -4,6 +4,7 @@ import { formatISO9075 } from "date-fns";
 import { UserContext } from "../UserContext";
 import { Link } from "react-router-dom";
 import Image from "../image";
+
 const baseUrl = process.env.REACT_APP_API_URL;
 
 export default function PostPage() {
@@ -22,8 +23,11 @@ export default function PostPage() {
 
   return (
     <div className="post-page">
+      <div className="image">
+        <Image src={postInfo.cover} alt="" />
+      </div>
       <h1>{postInfo.title}</h1>
-      <time>{formatISO9075(new Date(postInfo.createdAt))}</time>
+      <time>{formatISO9075(new Date(postInfo.createdAt)).split(" ")[0]}</time>
       <div className="author">by @{postInfo.author.username}</div>
       {userInfo.id === postInfo.author._id && (
         <div className="edit-row">
@@ -46,9 +50,7 @@ export default function PostPage() {
           </Link>
         </div>
       )}
-      <div className="image">
-        <Image src={postInfo.cover} alt="" />
-      </div>
+
       <div
         className="content"
         dangerouslySetInnerHTML={{ __html: postInfo.content }}

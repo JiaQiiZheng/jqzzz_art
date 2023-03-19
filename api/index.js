@@ -94,7 +94,10 @@ app.post("/api/logout", (req, res) => {
   res.cookie("token", "").json("ok");
 });
 
-const uploadMiddleware = multer({ dest: "/tmp" });
+const uploadMiddleware = multer({
+  dest: "/tmp",
+  limits: { fieldSize: 50 * 1024 * 1024 },
+});
 app.post("/api/post", uploadMiddleware.single("file"), async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const { path, originalname, mimetype } = req.file;

@@ -26,7 +26,7 @@ export default function Post({
         </Link>
         <p className="info">
           <a className="author">{author.username}</a>
-          <time>{formatISO9075(new Date(createdAt))}</time>
+          <time>{formatISO9075(new Date(createdAt)).split(" ")[0]}</time>
         </p>
         <p className="summary">{summary}</p>
       </div>

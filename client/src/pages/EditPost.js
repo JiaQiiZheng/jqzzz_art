@@ -48,12 +48,14 @@ export default function EditPost() {
     <form onSubmit={updatePost}>
       <input
         type="title"
+        maxLength={60}
         placeholder={"Title"}
         value={title}
         onChange={(ev) => setTitle(ev.target.value)}
       />
       <input
         type="summary"
+        maxLength={200}
         placeholder={"Summary"}
         value={summary}
         onChange={(ev) => setSummary(ev.target.value)}
