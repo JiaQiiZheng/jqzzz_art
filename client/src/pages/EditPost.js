@@ -62,7 +62,12 @@ export default function EditPost() {
       />
       <input type="file" onChange={(ev) => setFiles(ev.target.files)} />
       <Editor onChange={setContent} value={content} />
-      <button style={{ marginTop: "2rem" }}>Update post</button>
+      <nav className="form_button">
+        <button style={{ marginTop: "2rem" }}>Update</button>
+        <Link className="negative_button" to="/">
+          <button>Back</button>
+        </Link>
+      </nav>
     </form>
   );
 }
