@@ -18,8 +18,8 @@
   --imgSize_A: 20rem;
   --textFrame_width: 30rem;
   --transitionTime: 0.4s;
-  --mediaMaxWidth: 90vw;
-  --mediaMaxHeight: 90vh;
+  --mediaMaxWidth: 1280px;
+  --mediaMaxHeight: 1280px;
 }
 
 * {

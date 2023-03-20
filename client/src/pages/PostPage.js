@@ -8,10 +8,36 @@ import Zmage from "react-zmage";
 
 const baseUrl = process.env.REACT_APP_API_URL;
 
+function img_find() {
+  var imgs = document.getElementsByTagName("img");
+  var imgSrc = [];
+  var imgSet = [];
+  for (var i = 1; i < imgs.length; i++) {
+    imgSrc.push(imgs[i].src);
+    imgSet.push({ src: imgs[i].src, alt: "not found" });
+  }
+  return [imgSrc, imgSet];
+}
+
+function img_defaultIndex(currentSrc, imgSrc) {
+  for (var i = 0; i < imgSrc.length; i++) {
+    if (currentSrc === imgSrc[i]) {
+      console.log(i);
+      return i;
+    }
+  }
+}
+
 function richTextClick(event) {
   if (event.target.nodeName == "IMG" || event.target.nodeName == "img") {
-    const imgSrc = event.target.currentSrc;
-    Zmage.browsing({ src: imgSrc });
+    const imgCurrentSrc = event.target.currentSrc;
+    var [imgSrc, imgSet] = img_find();
+    Zmage.browsing({
+      src: imgCurrentSrc,
+      preset: "desktop",
+      set: imgSet,
+      defaultPage: img_defaultIndex(imgCurrentSrc, imgSrc),
+    });
   }
 }
 
