@@ -96,7 +96,7 @@ app.post("/api/logout", (req, res) => {
 
 const uploadMiddleware = multer({
   dest: "/tmp",
-  limits: { fieldSize: 50 * 1024 * 1024 },
+  limits: { fieldSize: 5000 * 1024 * 1024 },
 });
 app.post("/api/post", uploadMiddleware.single("file"), async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);

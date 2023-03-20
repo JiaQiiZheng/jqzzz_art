@@ -1,6 +1,7 @@
 import React from "react";
 import { Quill } from "react-quill";
 import ImageCompress from "quill-image-compress";
+import ImageUploader from "quill-image-uploader";
 import Counter from "./Counter";
 import { ImageBlot, CardEditableModule } from "./Caption";
 
@@ -18,6 +19,9 @@ Quill.register(
   },
   true
 );
+
+//customize imageUploader
+Quill.register("modules/imageUploader", ImageUploader);
 
 // Redo button icon component for Quill editor
 const CustomUndo = () => (
@@ -92,6 +96,27 @@ export const modules = {
   },
   counter: true,
   cardEditable: true,
+  // imageUploader: {
+  //   upload: (file) => {
+  //     return new Promise((resolve, reject) => {
+  //       const data = new FormData();
+  //       data.set("file", file);
+  //       fetch(`${process.env.REACT_APP_API_URL}/post`, {
+  //         method: "POST",
+  //         body: data,
+  //       })
+  //         .then((response) => response.json())
+  //         .then((result) => {
+  //           console.log(result);
+  //           resolve(result.data.url);
+  //         })
+  //         .catch((error) => {
+  //           reject("Upload failed");
+  //           console.error("Error:", error);
+  //         });
+  //     });
+  //   },
+  // },
 };
 
 // Formats objects for setting up the Quill editor
@@ -115,6 +140,7 @@ export const formats = [
   "video",
   "color",
   "code-block",
+  "imageBlot",
 ];
 
 // Quill Toolbar component
