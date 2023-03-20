@@ -100,15 +100,17 @@ export const modules = {
   //   upload: (file) => {
   //     return new Promise((resolve, reject) => {
   //       const data = new FormData();
-  //       data.set("file", file);
-  //       fetch(`${process.env.REACT_APP_API_URL}/post`, {
+  //       data.append("image", file);
+  //       console.log(data);
+  //       fetch(`${process.env.REACT_APP_API_URL}/ql/image`, {
   //         method: "POST",
   //         body: data,
+  //         credentials: "include",
   //       })
   //         .then((response) => response.json())
   //         .then((result) => {
   //           console.log(result);
-  //           resolve(result.data.url);
+  //           resolve(result.cover);
   //         })
   //         .catch((error) => {
   //           reject("Upload failed");

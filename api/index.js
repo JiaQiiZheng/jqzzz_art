@@ -96,7 +96,7 @@ app.post("/api/logout", (req, res) => {
 
 const uploadMiddleware = multer({
   dest: "/tmp",
-  limits: { fieldSize: 5000 * 1024 * 1024 },
+  limits: { fieldSize: 500 * 1024 * 1024 },
 });
 app.post("/api/post", uploadMiddleware.single("file"), async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
@@ -121,6 +121,35 @@ app.post("/api/post", uploadMiddleware.single("file"), async (req, res) => {
     res.json(postDoc);
   });
 });
+
+//quill image uploader
+app.post(
+  "/api/ql/image",
+  uploadMiddleware.single("image"),
+  async (req, res) => {
+    mongoose.connect(process.env.MONGO_URL);
+    const { path, originalname, mimetype } = req.file;
+    // const parts = originalname.split(".");
+    // const ext = parts[parts.length - 1];
+    // const newPath = path + "." + ext;
+    // fs.renameSync(path, newPath);
+    const url = await uploadToS3(path, originalname, mimetype);
+
+    const { token } = req.cookies;
+    jwt.verify(token, secret, {}, async (err, info) => {
+      if (err) throw err;
+      const { title, summary, content } = req.body;
+      const postDoc = await Post.create({
+        title,
+        summary,
+        content,
+        cover: url,
+        author: info.id,
+      });
+      res.json(postDoc);
+    });
+  }
+);
 
 app.put("/api/post", uploadMiddleware.single("file"), async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
