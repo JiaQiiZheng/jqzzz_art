@@ -4,8 +4,16 @@ import { formatISO9075 } from "date-fns";
 import { UserContext } from "../UserContext";
 import { Link } from "react-router-dom";
 import Image from "../image";
+import Zmage from "react-zmage";
 
 const baseUrl = process.env.REACT_APP_API_URL;
+
+function richTextClick(event) {
+  if (event.target.nodeName == "IMG" || event.target.nodeName == "img") {
+    const imgSrc = event.target.currentSrc;
+    Zmage.browsing({ src: imgSrc });
+  }
+}
 
 export default function PostPage() {
   const [postInfo, setPostInfo] = useState(null);
@@ -52,6 +60,7 @@ export default function PostPage() {
       )}
 
       <div
+        onClick={richTextClick}
         className="content"
         dangerouslySetInnerHTML={{ __html: postInfo.content }}
       />

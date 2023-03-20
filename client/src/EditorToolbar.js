@@ -2,11 +2,22 @@ import React from "react";
 import { Quill } from "react-quill";
 import ImageCompress from "quill-image-compress";
 import Counter from "./Counter";
+import { ImageBlot, CardEditableModule } from "./Caption";
 
 Quill.register("modules/imageCompress", ImageCompress);
 
 //customize counter
 Quill.register("modules/counter", Counter);
+
+//customize caption
+Quill.register(
+  {
+    // Other formats or modules
+    "formats/image": ImageBlot,
+    "modules/cardEditable": CardEditableModule,
+  },
+  true
+);
 
 // Redo button icon component for Quill editor
 const CustomUndo = () => (
@@ -80,6 +91,7 @@ export const modules = {
     insertIntoEditor: undefined,
   },
   counter: true,
+  cardEditable: true,
 };
 
 // Formats objects for setting up the Quill editor
