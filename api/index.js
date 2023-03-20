@@ -12,6 +12,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 const multer = require("multer");
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
+const bodyParser = require("body-parser");
 
 const salt = bcrypt.genSaltSync(10);
 const secret = "asdfe45we45w345wegw345werjktjwertkj";
@@ -23,6 +24,9 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static(__dirname + "/uploads"));
+// Body Parser Middleware
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
 async function uploadToS3(path, originalFileName, mimetype) {
   const client = new S3Client({
