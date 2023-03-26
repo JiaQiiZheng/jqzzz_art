@@ -123,6 +123,7 @@ header nav .header_button:hover {
 
 .menu {
   list-style-type: none;
+  margin-bottom: 2rem;
 }
 
 .menu .menu_text {

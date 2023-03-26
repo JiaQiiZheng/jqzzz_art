@@ -222,6 +222,12 @@ app.get("/api/design/post/:id", async (req, res) => {
   res.json(postDoc);
 });
 
+app.delete("/api/design/post/:id", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  const { id } = req.params;
+  await Post.deleteOne({ _id: id });
+});
+
 //section exihibition
 app.post(
   "/api/post/exihibition",
@@ -307,6 +313,12 @@ app.get("/api/exihibition/post/:id", async (req, res) => {
   const { id } = req.params;
   const postDoc = await Post.findById(id).populate("author", ["username"]);
   res.json(postDoc);
+});
+
+app.delete("/api/exihibition/post/:id", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  const { id } = req.params;
+  await Post.deleteOne({ _id: id });
 });
 
 //section computation
@@ -396,6 +408,12 @@ app.get("/api/computation/post/:id", async (req, res) => {
   res.json(postDoc);
 });
 
+app.delete("/api/computation/post/:id", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  const { id } = req.params;
+  await Post.deleteOne({ _id: id });
+});
+
 //section art
 app.post("/api/post/art", uploadMiddleware.single("file"), async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
@@ -472,6 +490,12 @@ app.get("/api/art/post/:id", async (req, res) => {
   const { id } = req.params;
   const postDoc = await Post.findById(id).populate("author", ["username"]);
   res.json(postDoc);
+});
+
+app.delete("/api/art/post/:id", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  const { id } = req.params;
+  await Post.deleteOne({ _id: id });
 });
 
 if (process.env.API_PORT) {

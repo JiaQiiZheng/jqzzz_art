@@ -44,7 +44,7 @@ export default function Header() {
         {username && (
           <>
             <Link className="header_button" to={sectionName_create}>
-              Create New Publish
+              New Publish
             </Link>
             <a className="header_button" onClick={logout}>
               Logout ({username})

@@ -24,7 +24,9 @@ export default function Post({
           <h2>{title}</h2>
         </Link>
         <p className="info">
-          <a className="author">{author.username}</a>
+          <a href={`/${section}/post/${_id}`} className="author">
+            {author.username}
+          </a>
           <time>{formatISO9075(new Date(createdAt)).split(" ")[0]}</time>
         </p>
         <p className="summary">{summary}</p>

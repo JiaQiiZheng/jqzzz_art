@@ -41,10 +41,18 @@ function richTextClick(event) {
   }
 }
 
+function deletePublish() {
+  const currentUrlArray = window.location.href.split("/");
+  const id = currentUrlArray[currentUrlArray.length - 1];
+  const sectionName = currentUrlArray[currentUrlArray.length - 3];
+  fetch(`${baseUrl}/${sectionName}/post/${id}`, { method: "DELETE" });
+}
+
 export default function PostPage() {
   const [postInfo, setPostInfo] = useState(null);
   const { userInfo } = useContext(UserContext);
   const { id } = useParams();
+
   useEffect(() => {
     //get section name
     const currentUrlArray = window.location.href.split("/");
@@ -87,6 +95,13 @@ export default function PostPage() {
               />
             </svg>
             Edit
+          </Link>
+          <Link
+            onClick={deletePublish}
+            className="delete-btn"
+            to={`/${postInfo.section}`}
+          >
+            Delete
           </Link>
         </div>
       )}
