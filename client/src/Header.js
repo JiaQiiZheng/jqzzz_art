@@ -3,6 +3,11 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "./UserContext";
 
 export default function Header() {
+  //get section name
+  const currentUrlArray = window.location.href.split("/");
+  const sectionName = currentUrlArray[currentUrlArray.length - 1];
+  const sectionName_create = `/${sectionName}/create`;
+
   const { setUserInfo, userInfo } = useContext(UserContext);
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/profile`, {
@@ -19,7 +24,7 @@ export default function Header() {
       credentials: "include",
       method: "POST",
     });
-    setUserInfo(null);
+    setUserInfo("");
   }
 
   const username = userInfo?.username;
@@ -38,7 +43,7 @@ export default function Header() {
       <nav>
         {username && (
           <>
-            <Link className="header_button" to="/create">
+            <Link className="header_button" to={sectionName_create}>
               Create New Publish
             </Link>
             <a className="header_button" onClick={logout}>

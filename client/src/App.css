@@ -5,7 +5,7 @@
   --lightFontColor: lightgray;
   --backgroundColor: rgba(255, 255, 255, 0.7);
   --backgroundColorDark: var(--themeColor);
-  --testColor: gray;
+  --secondFontColor: gray;
   --animationFactor: 10%;
   --workCardSize: 250px;
   --workImageSize: 200px;
@@ -121,6 +121,21 @@ header nav .header_button:hover {
   text-decoration: underline;
 }
 
+.menu {
+  list-style-type: none;
+}
+
+.menu .menu_text {
+  color: var(--secondFontColor);
+  text-decoration: none;
+}
+
+.menu .menu_text:hover {
+  color: var(--mainColor);
+  text-decoration: underline;
+  transition: 0.5s;
+}
+
 div.posts {
   justify-items: center;
   align-items: center;
@@ -150,6 +165,13 @@ div.posts {
   div.posts {
     grid-template-columns: 0.5fr 0.5fr;
   }
+}
+
+div.home_page .profile {
+  display: flex;
+  max-height: 80vh;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 div.post .image {

@@ -11,6 +11,7 @@ import CreatePost from "./pages/CreatePost";
 import PostPage from "./pages/PostPage";
 import EditPost from "./pages/EditPost";
 import axios from "axios";
+import HomePage from "./pages/HomePage";
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
@@ -20,12 +21,33 @@ function App() {
     <UserContextProvider>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<IndexPage />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route index element={<HomePage />} />
+          <Route path="/login/" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/create" element={<CreatePost />} />
-          <Route path="/post/:id" element={<PostPage />} />
-          <Route path="/edit/:id" element={<EditPost />} />
+        </Route>
+        <Route path="/design" element={<Layout />}>
+          <Route index element={<IndexPage />} />
+          <Route path="/design/create" element={<CreatePost />} />
+          <Route path="/design/post/:id" element={<PostPage />} />
+          <Route path="/design/edit/:id" element={<EditPost />} />
+        </Route>
+        <Route path="/exihibition" element={<Layout />}>
+          <Route index element={<IndexPage />} />
+          <Route path="/exihibition/create" element={<CreatePost />} />
+          <Route path="/exihibition/post/:id" element={<PostPage />} />
+          <Route path="/exihibition/edit/:id" element={<EditPost />} />
+        </Route>
+        <Route path="/computation" element={<Layout />}>
+          <Route index element={<IndexPage />} />
+          <Route path="/computation/create" element={<CreatePost />} />
+          <Route path="/computation/post/:id" element={<PostPage />} />
+          <Route path="/computation/edit/:id" element={<EditPost />} />
+        </Route>
+        <Route path="/art" element={<Layout />}>
+          <Route index element={<IndexPage />} />
+          <Route path="/art/create" element={<CreatePost />} />
+          <Route path="/art/post/:id" element={<PostPage />} />
+          <Route path="/art/edit/:id" element={<EditPost />} />
         </Route>
       </Routes>
     </UserContextProvider>

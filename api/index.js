@@ -104,29 +104,6 @@ const uploadMiddleware = multer({
   dest: "/tmp",
   limits: { fieldSize: 500 * 1024 * 1024 },
 });
-app.post("/api/post", uploadMiddleware.single("file"), async (req, res) => {
-  mongoose.connect(process.env.MONGO_URL);
-  const { path, originalname, mimetype } = req.file;
-  // const parts = originalname.split(".");
-  // const ext = parts[parts.length - 1];
-  // const newPath = path + "." + ext;
-  // fs.renameSync(path, newPath);
-  const url = await uploadToS3(path, originalname, mimetype);
-
-  const { token } = req.cookies;
-  jwt.verify(token, secret, {}, async (err, info) => {
-    if (err) throw err;
-    const { title, summary, content } = req.body;
-    const postDoc = await Post.create({
-      title,
-      summary,
-      content,
-      cover: url,
-      author: info.id,
-    });
-    res.json(postDoc);
-  });
-});
 
 //quill image uploader
 app.post(
@@ -144,20 +121,308 @@ app.post(
     const { token } = req.cookies;
     jwt.verify(token, secret, {}, async (err, info) => {
       if (err) throw err;
-      const { title, summary, content } = req.body;
+      const { title, summary, content, section } = req.body;
       const postDoc = await Post.create({
         title,
         summary,
         content,
         cover: url,
         author: info.id,
+        section: section,
       });
       res.json(postDoc);
     });
   }
 );
 
-app.put("/api/post", uploadMiddleware.single("file"), async (req, res) => {
+//section design
+app.post(
+  "/api/post/design",
+  uploadMiddleware.single("file"),
+  async (req, res) => {
+    mongoose.connect(process.env.MONGO_URL);
+    const { path, originalname, mimetype } = req.file;
+    // const parts = originalname.split(".");
+    // const ext = parts[parts.length - 1];
+    // const newPath = path + "." + ext;
+    // fs.renameSync(path, newPath);
+    const url = await uploadToS3(path, originalname, mimetype);
+
+    const { token } = req.cookies;
+    jwt.verify(token, secret, {}, async (err, info) => {
+      if (err) throw err;
+      const { title, summary, content, section } = req.body;
+      const postDoc = await Post.create({
+        title,
+        summary,
+        content,
+        cover: url,
+        author: info.id,
+        section: section,
+      });
+      res.json(postDoc);
+    });
+  }
+);
+
+app.put(
+  "/api/post/design",
+  uploadMiddleware.single("file"),
+  async (req, res) => {
+    mongoose.connect(process.env.MONGO_URL);
+    // let newPath = null;
+    if (req.file) {
+      const { path, originalname, mimetype } = req.file;
+      // const parts = originalname.split(".");
+      // const ext = parts[parts.length - 1];
+      // newPath = path + "." + ext;
+      // fs.renameSync(path, newPath);
+      var url = await uploadToS3(path, originalname, mimetype);
+    }
+    const { token } = req.cookies;
+    jwt.verify(token, secret, {}, async (err, info) => {
+      if (err) throw err;
+      const { id, title, summary, content } = req.body;
+      const postDoc = await Post.findById(id);
+      const isAuthor =
+        JSON.stringify(postDoc.author) === JSON.stringify(info.id);
+      if (!isAuthor) {
+        return res.status(400).json("you are not the author");
+      }
+      await postDoc.update({
+        title,
+        summary,
+        content,
+        cover: url ? url : postDoc.cover,
+      });
+
+      res.json(postDoc);
+    });
+  }
+);
+
+app.get("/api/post/design", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  const currentUrlArray = req.url.split("/");
+  const section_name = currentUrlArray[currentUrlArray.length - 1];
+  // res.send(section_name);
+  res.json(
+    //find by the post type
+    await Post.find({ section: section_name })
+      .populate("author", ["username"])
+      .sort({ createdAt: -1 })
+      .limit(20)
+  );
+});
+
+app.get("/api/design/post/:id", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  const { id } = req.params;
+  const postDoc = await Post.findById(id).populate("author", ["username"]);
+  res.json(postDoc);
+});
+
+//section exihibition
+app.post(
+  "/api/post/exihibition",
+  uploadMiddleware.single("file"),
+  async (req, res) => {
+    mongoose.connect(process.env.MONGO_URL);
+    const { path, originalname, mimetype } = req.file;
+    // const parts = originalname.split(".");
+    // const ext = parts[parts.length - 1];
+    // const newPath = path + "." + ext;
+    // fs.renameSync(path, newPath);
+    const url = await uploadToS3(path, originalname, mimetype);
+
+    const { token } = req.cookies;
+    jwt.verify(token, secret, {}, async (err, info) => {
+      if (err) throw err;
+      const { title, summary, content, section } = req.body;
+      const postDoc = await Post.create({
+        title,
+        summary,
+        content,
+        cover: url,
+        author: info.id,
+        section: section,
+      });
+      res.json(postDoc);
+    });
+  }
+);
+
+app.put(
+  "/api/post/exihibition",
+  uploadMiddleware.single("file"),
+  async (req, res) => {
+    mongoose.connect(process.env.MONGO_URL);
+    // let newPath = null;
+    if (req.file) {
+      const { path, originalname, mimetype } = req.file;
+      // const parts = originalname.split(".");
+      // const ext = parts[parts.length - 1];
+      // newPath = path + "." + ext;
+      // fs.renameSync(path, newPath);
+      var url = await uploadToS3(path, originalname, mimetype);
+    }
+    const { token } = req.cookies;
+    jwt.verify(token, secret, {}, async (err, info) => {
+      if (err) throw err;
+      const { id, title, summary, content } = req.body;
+      const postDoc = await Post.findById(id);
+      const isAuthor =
+        JSON.stringify(postDoc.author) === JSON.stringify(info.id);
+      if (!isAuthor) {
+        return res.status(400).json("you are not the author");
+      }
+      await postDoc.update({
+        title,
+        summary,
+        content,
+        cover: url ? url : postDoc.cover,
+      });
+
+      res.json(postDoc);
+    });
+  }
+);
+
+app.get("/api/post/exihibition", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  const currentUrlArray = req.url.split("/");
+  const section_name = currentUrlArray[currentUrlArray.length - 1];
+  // res.send(section_name);
+  res.json(
+    //find by the post type
+    await Post.find({ section: section_name })
+      .populate("author", ["username"])
+      .sort({ createdAt: -1 })
+      .limit(20)
+  );
+});
+
+app.get("/api/exihibition/post/:id", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  const { id } = req.params;
+  const postDoc = await Post.findById(id).populate("author", ["username"]);
+  res.json(postDoc);
+});
+
+//section computation
+app.post(
+  "/api/post/computation",
+  uploadMiddleware.single("file"),
+  async (req, res) => {
+    mongoose.connect(process.env.MONGO_URL);
+    const { path, originalname, mimetype } = req.file;
+    // const parts = originalname.split(".");
+    // const ext = parts[parts.length - 1];
+    // const newPath = path + "." + ext;
+    // fs.renameSync(path, newPath);
+    const url = await uploadToS3(path, originalname, mimetype);
+
+    const { token } = req.cookies;
+    jwt.verify(token, secret, {}, async (err, info) => {
+      if (err) throw err;
+      const { title, summary, content, section } = req.body;
+      const postDoc = await Post.create({
+        title,
+        summary,
+        content,
+        cover: url,
+        author: info.id,
+        section: section,
+      });
+      res.json(postDoc);
+    });
+  }
+);
+
+app.put(
+  "/api/post/computation",
+  uploadMiddleware.single("file"),
+  async (req, res) => {
+    mongoose.connect(process.env.MONGO_URL);
+    // let newPath = null;
+    if (req.file) {
+      const { path, originalname, mimetype } = req.file;
+      // const parts = originalname.split(".");
+      // const ext = parts[parts.length - 1];
+      // newPath = path + "." + ext;
+      // fs.renameSync(path, newPath);
+      var url = await uploadToS3(path, originalname, mimetype);
+    }
+    const { token } = req.cookies;
+    jwt.verify(token, secret, {}, async (err, info) => {
+      if (err) throw err;
+      const { id, title, summary, content } = req.body;
+      const postDoc = await Post.findById(id);
+      const isAuthor =
+        JSON.stringify(postDoc.author) === JSON.stringify(info.id);
+      if (!isAuthor) {
+        return res.status(400).json("you are not the author");
+      }
+      await postDoc.update({
+        title,
+        summary,
+        content,
+        cover: url ? url : postDoc.cover,
+      });
+
+      res.json(postDoc);
+    });
+  }
+);
+
+app.get("/api/post/computation", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  const currentUrlArray = req.url.split("/");
+  const section_name = currentUrlArray[currentUrlArray.length - 1];
+  // res.send(section_name);
+  res.json(
+    //find by the post type
+    await Post.find({ section: section_name })
+      .populate("author", ["username"])
+      .sort({ createdAt: -1 })
+      .limit(20)
+  );
+});
+
+app.get("/api/computation/post/:id", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  const { id } = req.params;
+  const postDoc = await Post.findById(id).populate("author", ["username"]);
+  res.json(postDoc);
+});
+
+//section art
+app.post("/api/post/art", uploadMiddleware.single("file"), async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  const { path, originalname, mimetype } = req.file;
+  // const parts = originalname.split(".");
+  // const ext = parts[parts.length - 1];
+  // const newPath = path + "." + ext;
+  // fs.renameSync(path, newPath);
+  const url = await uploadToS3(path, originalname, mimetype);
+
+  const { token } = req.cookies;
+  jwt.verify(token, secret, {}, async (err, info) => {
+    if (err) throw err;
+    const { title, summary, content, section } = req.body;
+    const postDoc = await Post.create({
+      title,
+      summary,
+      content,
+      cover: url,
+      author: info.id,
+      section: section,
+    });
+    res.json(postDoc);
+  });
+});
+
+app.put("/api/post/art", uploadMiddleware.single("file"), async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   // let newPath = null;
   if (req.file) {
@@ -188,17 +453,21 @@ app.put("/api/post", uploadMiddleware.single("file"), async (req, res) => {
   });
 });
 
-app.get("/api/post", async (req, res) => {
+app.get("/api/post/art", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
+  const currentUrlArray = req.url.split("/");
+  const section_name = currentUrlArray[currentUrlArray.length - 1];
+  // res.send(section_name);
   res.json(
-    await Post.find()
+    //find by the post type
+    await Post.find({ section: section_name })
       .populate("author", ["username"])
       .sort({ createdAt: -1 })
       .limit(20)
   );
 });
 
-app.get("/api/post/:id", async (req, res) => {
+app.get("/api/art/post/:id", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const { id } = req.params;
   const postDoc = await Post.findById(id).populate("author", ["username"]);
@@ -207,7 +476,7 @@ app.get("/api/post/:id", async (req, res) => {
 
 if (process.env.API_PORT) {
   app.listen(process.env.API_PORT);
+  console.log(`server started at port ${process.env.API_PORT}`);
 }
 
 module.exports = app;
-//

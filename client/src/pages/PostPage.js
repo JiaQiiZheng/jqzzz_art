@@ -46,7 +46,10 @@ export default function PostPage() {
   const { userInfo } = useContext(UserContext);
   const { id } = useParams();
   useEffect(() => {
-    fetch(`${baseUrl}/post/${id}`).then((response) => {
+    //get section name
+    const currentUrlArray = window.location.href.split("/");
+    const sectionName = currentUrlArray[currentUrlArray.length - 3];
+    fetch(`${baseUrl}/${sectionName}/post/${id}`).then((response) => {
       response.json().then((postInfo) => {
         setPostInfo(postInfo);
       });
@@ -65,7 +68,10 @@ export default function PostPage() {
       <div className="author">by @{postInfo.author.username}</div>
       {userInfo.id === postInfo.author._id && (
         <div className="edit-row">
-          <Link className="edit-btn" to={`/edit/${postInfo._id}`}>
+          <Link
+            className="edit-btn"
+            to={`/${postInfo.section}/edit/${postInfo._id}`}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

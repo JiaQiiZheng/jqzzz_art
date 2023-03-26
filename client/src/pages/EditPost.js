@@ -11,14 +11,20 @@ export default function EditPost() {
   const [files, setFiles] = useState("");
   const [redirect, setRedirect] = useState(false);
 
+  //get section name
+  const currentUrlArray = window.location.href.split("/");
+  const sectionName = currentUrlArray[currentUrlArray.length - 3];
+
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/post/` + id).then((response) => {
-      response.json().then((postInfo) => {
-        setTitle(postInfo.title);
-        setContent(postInfo.content);
-        setSummary(postInfo.summary);
-      });
-    });
+    fetch(`${process.env.REACT_APP_API_URL}/${sectionName}/post/` + id).then(
+      (response) => {
+        response.json().then((postInfo) => {
+          setTitle(postInfo.title);
+          setContent(postInfo.content);
+          setSummary(postInfo.summary);
+        });
+      }
+    );
   }, []);
 
   async function updatePost(ev) {
@@ -31,18 +37,21 @@ export default function EditPost() {
     if (files?.[0]) {
       data.set("file", files?.[0]);
     }
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/post`, {
-      method: "PUT",
-      body: data,
-      credentials: "include",
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/post/${sectionName}`,
+      {
+        method: "PUT",
+        body: data,
+        credentials: "include",
+      }
+    );
     if (response.ok) {
       setRedirect(true);
     }
   }
 
   if (redirect) {
-    return <Navigate to={"/post/" + id} />;
+    return <Navigate to={`/${sectionName}/post/` + id} />;
   }
 
   return (

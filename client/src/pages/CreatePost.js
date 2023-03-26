@@ -6,10 +6,15 @@ import Editor from "../Editor";
 import { Link } from "react-router-dom";
 
 export default function CreatePost() {
+  //get section name
+  const currentUrlArray = window.location.href.split("/");
+  const sectionName = currentUrlArray[currentUrlArray.length - 2];
+
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
   const [content, setContent] = useState("");
   const [files, setFiles] = useState("");
+  const [section, SetSection] = useState("");
   const [redirect, setRedirect] = useState(false);
   async function createNewPost(ev) {
     const data = new FormData();
@@ -17,19 +22,23 @@ export default function CreatePost() {
     data.set("summary", summary);
     data.set("content", content);
     data.set("file", files[0]);
+    data.set("section", sectionName);
     ev.preventDefault();
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/post`, {
-      method: "POST",
-      body: data,
-      credentials: "include",
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/post/${sectionName}`,
+      {
+        method: "POST",
+        body: data,
+        credentials: "include",
+      }
+    );
     if (response.ok) {
       setRedirect(true);
     }
   }
 
   if (redirect) {
-    return <Navigate to={"/"} />;
+    return <Navigate to={`/${sectionName}`} />;
   }
   return (
     <form className="edit_form" onSubmit={createNewPost}>
