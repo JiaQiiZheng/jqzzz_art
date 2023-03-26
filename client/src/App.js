@@ -3,6 +3,7 @@ import Post from "./Post";
 import Header from "./Header";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./Layout";
+import Layout_HomePage from "./Layout_HomePage";
 import IndexPage from "./pages/IndexPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -20,7 +21,7 @@ function App() {
   return (
     <UserContextProvider>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={<Layout_HomePage />}>
           <Route index element={<HomePage />} />
           <Route path="/login/" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />

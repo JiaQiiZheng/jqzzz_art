@@ -1,11 +1,12 @@
 import React from "react";
+import Zmage from "react-zmage";
 
 export default function HomePage() {
   return (
     <div className="home_page">
-      <img
+      <Zmage
         className="profile"
-        src="https://cvws.icloud-content.com/B/AUve0VjAlnaC42UaW1BjBvC5jQhGAZWsS6XwKC5-B0Z_tyKR1GWHM-1W/postcard_title_1st+Morning+in+New+Orleans_compressed.jpg?o=At7XSGMj9qYUjTAkXs4idFANxvkLbMfyprRctfeJy9Sg&v=1&x=3&a=CAogSH8CwWBz7Ye22U7UceDgfRNJLeCnndV4-CioOemRDwISbRCTts3o8TAYk5Op6vEwIgEAUgS5jQhGWgSHM-1Waib80kuUES9XzeLiTTFFHBY0ZniCtw9g9hd3NPe-wB5VoQzzAozhi3ImrT_PeRZBanbaodKh59od2c1R-VrSCNr93eXR8OdkUOet5i5UunU&e=1679823620&fl=&r=32dccbb1-7a5f-4363-8ef9-047f4365d7f9-1&k=xBhZqr13KddydloAC0RCaQ&ckc=com.apple.clouddocs&ckz=com.apple.CloudDocs&p=26&s=we4kqSRkdUfDHNpT3zH6N9Tl1Bg&cd=i"
+        src="https://cvws.icloud-content.com/B/ARX09HUmIKSQLZkbEEahq1p7rB7XAf7Ls-ZigT0EbXGEkXMEdXaJ4qn-/selected_skeches.gif?o=Ahzvw5jaSMCtD0x06vqS1jGylPxj3_cpCKhQx2s5iyS0&v=1&x=3&a=CAoggobSoHDtE3HpSR_5JsJGuVCGjIbc6zueEmQ0QKt5o-cSbRCog7T18TAYqOCP9_EwIgEAUgR7rB7XWgSJ4qn-aibUpZ_6S7C7jnEx94WTwy750GiCPEdm39LzPg8s1g25v9Uu_ADGWnImSJfCe4kv_pdjFtzwL1hllnaKmLi2zysJs7R-U6ZSM7Abk5_okZ0&e=1679850467&fl=&r=ffb7567c-db70-49a2-8918-e623c44e28bc-1&k=Adxl-ulnX6y40wo6B-mX8Q&ckc=com.apple.clouddocs&ckz=com.apple.CloudDocs&p=26&s=H-I1k3nrj25dMnjQ0-T9CFrf5-U&cd=i"
         alt="HomePage"
       />
     </div>
