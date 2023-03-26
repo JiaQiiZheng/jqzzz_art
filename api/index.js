@@ -11,7 +11,11 @@ const fs = require("fs");
 const dotenv = require("dotenv");
 dotenv.config();
 const multer = require("multer");
-const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
+const {
+  S3Client,
+  PutObjectCommand,
+  DeleteObjectCommand,
+} = require("@aws-sdk/client-s3");
 
 const salt = bcrypt.genSaltSync(10);
 const secret = "asdfe45we45w345wegw345werjktjwertkj";
@@ -51,6 +55,21 @@ async function uploadToS3(path, originalFileName, mimetype) {
   const data = await client.send(command);
   // console.log({ data });
   return `https://${bucket}.s3.amazonaws.com/${newFileName}`;
+}
+
+async function DeleteFromS3(s3_fileName) {
+  const client = new S3Client({
+    region: "us-east-1",
+    credentials: {
+      accessKeyId: process.env.S3_ACCESS_KEY,
+      secretAccessKey: process.env.S3_SECERT_ACCESS_KEY,
+    },
+  });
+  const command = new DeleteObjectCommand({
+    Bucket: bucket,
+    Key: s3_fileName,
+  });
+  await client.send(command);
 }
 
 app.post("/api/register", async (req, res) => {
@@ -318,7 +337,13 @@ app.get("/api/exihibition/post/:id", async (req, res) => {
 app.delete("/api/exihibition/post/:id", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const { id } = req.params;
+  const deletePost = await Post.findById(id);
   await Post.deleteOne({ _id: id });
+  //delete profile from s3
+  const deteleObjectArray = deletePost.cover.split("/");
+  const deteleObjectName = deteleObjectArray[deteleObjectArray.length - 1];
+  res.send(deteleObjectName);
+  await DeleteFromS3(deteleObjectName);
 });
 
 //section computation

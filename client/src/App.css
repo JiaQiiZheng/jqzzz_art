@@ -3,6 +3,7 @@
   --themeColor: #222;
   --mainFontColor: var(--themeColor);
   --lightFontColor: lightgray;
+  --warningColor: #bc4749;
   --backgroundColor: rgba(255, 255, 255, 0.7);
   --backgroundColorDark: var(--themeColor);
   --secondFontColor: gray;
@@ -42,8 +43,8 @@ main {
 header {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
-  margin-bottom: 50px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   align-items: center;
 }
 
@@ -325,18 +326,42 @@ div.content li {
   margin-bottom: 10px;
 }
 div.edit-row {
-  text-align: center;
+  display: flex;
+  justify-content: center;
   margin-bottom: 20px;
 }
-div.post-page a.edit-btn {
+div.post-page .edit-btn {
   display: inline-flex;
-  align-items: center;
+  font-size: 1rem;
   gap: 5px;
   margin: 3rem;
   color: black;
-  border: 1px solid black;
   padding: 15px 30px;
   text-decoration: none;
+}
+div.post-page .edit-btn:hover {
+  background-color: var(--themeColor);
+  color: white;
+  transition: 0.3s;
+}
+
+div.post-page .delete-btn {
+  display: inline-flex;
+  font-size: 1rem;
+  gap: 5px;
+  margin: 3rem;
+  color: black;
+  padding: 15px 30px;
+  text-decoration: none;
+
+  padding: 15px 30px;
+  text-decoration: none;
+}
+
+div.post-page .delete-btn:hover {
+  text-decoration: underline;
+  color: var(--warningColor);
+  transition: 0.3s;
 }
 
 a svg {
