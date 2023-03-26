@@ -6,7 +6,7 @@ export default function HomePage() {
     <div className="home_page">
       <Zmage
         className="profile"
-        src="https://jqzzz.s3.amazonaws.com/1679858816538.gif"
+        src="https://jqzzz.s3.amazonaws.com/1679871066757.jpg"
         alt="HomePage"
       />
     </div>
