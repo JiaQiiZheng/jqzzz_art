@@ -158,10 +158,10 @@ export const QuillToolbar = () => (
         <option value="lucida">Lucida</option>
       </select>
       <select className="ql-size" defaultValue="medium">
-        <option value="extra-small">Size 1</option>
-        <option value="small">Size 2</option>
-        <option value="medium">Size 3</option>
-        <option value="large">Size 4</option>
+        <option value="extra-small">12px</option>
+        <option value="small">14px</option>
+        <option value="medium">16px</option>
+        <option value="large">20px</option>
       </select>
       <select className="ql-header" defaultValue="3">
         <option value="1">Heading</option>

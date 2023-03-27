@@ -19,8 +19,8 @@
   --imgSize_A: 20rem;
   --textFrame_width: 30rem;
   --transitionTime: 0.4s;
-  --mediaMaxWidth: 1280px;
-  --mediaMaxHeight: 1280px;
+  --mediaMaxWidth: 60vw;
+  --mediaMaxHeight: 60vw;
 }
 
 * {
@@ -368,12 +368,21 @@ a svg {
   height: 20px;
 }
 
-#toolbar .ql-formats {
-  margin-right: 20px;
-}
 #toolbar .ql-formats button {
   margin-top: auto;
   margin-bottom: auto;
+}
+.ql-size-extra-small {
+  font-size: 12px;
+}
+.ql-size-small {
+  font-size: 14px;
+}
+.ql-size-medium {
+  font-size: 20px;
+}
+.ql-size-large {
+  font-size: 22px;
 }
 .content .ql-video {
   width: var(--mediaMaxWidth);
@@ -402,6 +411,9 @@ a svg {
 }
 .ql-align-left {
   text-align: left;
+}
+.ql-align-justify {
+  text-align: justify;
 }
 
 .ql-editor {
