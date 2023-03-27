@@ -189,7 +189,7 @@ div.post {
   flex-direction: column;
   height: 80vh;
   max-width: 400px;
-  justify-content: space-between;
+  align-items: center;
 }
 @media screen and (min-width: 600px) {
   div.post {
