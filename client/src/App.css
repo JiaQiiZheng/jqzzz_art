@@ -171,9 +171,17 @@ div.posts {
 
 div.home_page .profile {
   display: flex;
-  max-height: 70vh;
+  max-height: 60vh;
   margin-left: auto;
   margin-right: auto;
+}
+
+div.home_page .Brief {
+  padding: 50px;
+  display: flex;
+  color: var(--themeColor);
+  text-decoration: none;
+  justify-content: center;
 }
 
 div.post .image {
@@ -428,4 +436,42 @@ figcaption {
   font-size: 1rem;
   font-style: italic;
   color: #aaa;
+}
+
+.home_page .detail {
+  display: flex;
+  justify-content: center;
+}
+
+.arrow {
+  background-image: url("https://static-cdn.wdh.gg/assets/arrow_down_dark.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.link {
+  cursor: pointer;
+  height: 5rem;
+  width: 5rem;
+  margin: 0px 0 0 -40px;
+  position: absolute;
+  left: 50%;
+  text-align: center;
+  font-size: 70px;
+  z-index: 100;
+  text-decoration: none;
+  animation: move_down 3s ease-in-out infinite;
+  scale: 0.5;
+}
+
+@keyframes move_down {
+  0% {
+    transform: translate(0, -20px);
+  }
+  50% {
+    transform: translate(0, 0px);
+  }
+  100% {
+    transform: translate(0, -20px);
+  }
 }

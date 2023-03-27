@@ -11,8 +11,8 @@ export default function Menu() {
         </Link>
       </li>
       <li>
-        <Link to="/exihibition" className="menu_text">
-          exihibition
+        <Link to="/exhibition" className="menu_text">
+          exhibition
         </Link>
       </li>
       <li>

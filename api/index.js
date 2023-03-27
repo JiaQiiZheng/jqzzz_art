@@ -247,9 +247,9 @@ app.delete("/api/design/post/:id", async (req, res) => {
   await Post.deleteOne({ _id: id });
 });
 
-//section exihibition
+//section exhibition
 app.post(
-  "/api/post/exihibition",
+  "/api/post/exhibition",
   uploadMiddleware.single("file"),
   async (req, res) => {
     mongoose.connect(process.env.MONGO_URL);
@@ -278,7 +278,7 @@ app.post(
 );
 
 app.put(
-  "/api/post/exihibition",
+  "/api/post/exhibition",
   uploadMiddleware.single("file"),
   async (req, res) => {
     mongoose.connect(process.env.MONGO_URL);
@@ -313,7 +313,7 @@ app.put(
   }
 );
 
-app.get("/api/post/exihibition", async (req, res) => {
+app.get("/api/post/exhibition", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const currentUrlArray = req.url.split("/");
   const section_name = currentUrlArray[currentUrlArray.length - 1];
@@ -327,14 +327,14 @@ app.get("/api/post/exihibition", async (req, res) => {
   );
 });
 
-app.get("/api/exihibition/post/:id", async (req, res) => {
+app.get("/api/exhibition/post/:id", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const { id } = req.params;
   const postDoc = await Post.findById(id).populate("author", ["username"]);
   res.json(postDoc);
 });
 
-app.delete("/api/exihibition/post/:id", async (req, res) => {
+app.delete("/api/exhibition/post/:id", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const { id } = req.params;
   const deletePost = await Post.findById(id);

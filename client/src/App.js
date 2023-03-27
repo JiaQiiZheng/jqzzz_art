@@ -32,11 +32,11 @@ function App() {
           <Route path="/design/post/:id" element={<PostPage />} />
           <Route path="/design/edit/:id" element={<EditPost />} />
         </Route>
-        <Route path="/exihibition" element={<Layout />}>
+        <Route path="/exhibition" element={<Layout />}>
           <Route index element={<IndexPage />} />
-          <Route path="/exihibition/create" element={<CreatePost />} />
-          <Route path="/exihibition/post/:id" element={<PostPage />} />
-          <Route path="/exihibition/edit/:id" element={<EditPost />} />
+          <Route path="/exhibition/create" element={<CreatePost />} />
+          <Route path="/exhibition/post/:id" element={<PostPage />} />
+          <Route path="/exhibition/edit/:id" element={<EditPost />} />
         </Route>
         <Route path="/computation" element={<Layout />}>
           <Route index element={<IndexPage />} />
