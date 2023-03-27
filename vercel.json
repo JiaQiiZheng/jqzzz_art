@@ -1,5 +1,8 @@
 {
     "buildCommand":"cd client && yarn install && yarn run build",
     "outputDirectory": "client/build",
-    "rewrites": [{ "source": "/api/(.*)", "destination": "/index.html" }]
+    "rewrites": [
+        { "source": "/api/(.*)", "destination": "/api" },
+        { "source": "/(.*)", "destination": "/index.html" }
+      ]
 }
