@@ -32,6 +32,12 @@ function App() {
           <Route path="/design/post/:id" element={<PostPage />} />
           <Route path="/design/edit/:id" element={<EditPost />} />
         </Route>
+        <Route path="/programming" element={<Layout />}>
+          <Route index element={<IndexPage />} />
+          <Route path="/programming/create" element={<CreatePost />} />
+          <Route path="/programming/post/:id" element={<PostPage />} />
+          <Route path="/programming/edit/:id" element={<EditPost />} />
+        </Route>
         <Route path="/exhibition" element={<Layout />}>
           <Route index element={<IndexPage />} />
           <Route path="/exhibition/create" element={<CreatePost />} />

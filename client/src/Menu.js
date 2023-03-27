@@ -7,7 +7,12 @@ export default function Menu() {
       <i className="menu_icon"></i>
       <li>
         <Link to="/design" className="menu_text">
-          design
+          design & research
+        </Link>
+      </li>
+      <li>
+        <Link to="/programming" className="menu_text">
+          programming
         </Link>
       </li>
       <li>
@@ -17,7 +22,7 @@ export default function Menu() {
       </li>
       <li>
         <Link to="/computation" className="menu_text">
-          computation
+          computation community
         </Link>
       </li>
       <li>
