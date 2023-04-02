@@ -7,7 +7,7 @@ export default function Post({
   title,
   summary,
   cover,
-  // content,
+  content,
   createdAt,
   author,
   section,
@@ -16,7 +16,7 @@ export default function Post({
     <div className="post">
       <div className="image">
         <Link to={`/${section}/post/${_id}`}>
-          <Image src={cover} alt="" />
+          {/* <Image src={cover} alt="" /> */}
         </Link>
       </div>
       <div className="texts">
