@@ -7,7 +7,7 @@ export default function Post({
   title,
   summary,
   cover,
-  content,
+  // content,
   createdAt,
   author,
   section,
