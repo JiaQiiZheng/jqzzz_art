@@ -20,7 +20,7 @@ const {
 const salt = bcrypt.genSaltSync(10);
 const secret = "asdfe45we45w345wegw345werjktjwertkj";
 const bucket = "jqzzz";
-const showNumber = 9;
+const showNumber = 4;
 
 app.use(
   cors({ credentials: true, origin: `${process.env.REACT_APP_API_URL}` })
