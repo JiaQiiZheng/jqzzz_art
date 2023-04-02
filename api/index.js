@@ -20,6 +20,7 @@ const {
 const salt = bcrypt.genSaltSync(10);
 const secret = "asdfe45we45w345wegw345werjktjwertkj";
 const bucket = "jqzzz";
+const showNumber = 9;
 
 app.use(
   cors({ credentials: true, origin: `${process.env.REACT_APP_API_URL}` })
@@ -30,8 +31,8 @@ app.use("/uploads", express.static(__dirname + "/uploads"));
 
 var bodyParser = require("body-parser"); // Body Parser Middleware
 bodyParser = {
-  json: { limit: "50mb", extended: true },
-  urlencoded: { limit: "50mb", extended: true },
+  json: { limit: "100mb", extended: true },
+  urlencoded: { limit: "100mb", extended: true },
 };
 
 async function uploadToS3(path, originalFileName, mimetype) {
@@ -230,7 +231,7 @@ app.get("/api/post/design", async (req, res) => {
     await Post.find({ section: section_name })
       .populate("author", ["username"])
       .sort({ createdAt: -1 })
-      .limit(20)
+      .limit(showNumber)
   );
 });
 
@@ -323,7 +324,7 @@ app.get("/api/post/programming", async (req, res) => {
     await Post.find({ section: section_name })
       .populate("author", ["username"])
       .sort({ createdAt: -1 })
-      .limit(20)
+      .limit(showNumber)
   );
 });
 
@@ -422,7 +423,7 @@ app.get("/api/post/exhibition", async (req, res) => {
     await Post.find({ section: section_name })
       .populate("author", ["username"])
       .sort({ createdAt: -1 })
-      .limit(20)
+      .limit(showNumber)
   );
 });
 
@@ -521,7 +522,7 @@ app.get("/api/post/computation", async (req, res) => {
     await Post.find({ section: section_name })
       .populate("author", ["username"])
       .sort({ createdAt: -1 })
-      .limit(20)
+      .limit(showNumber)
   );
 });
 
@@ -605,7 +606,7 @@ app.get("/api/post/art", async (req, res) => {
     await Post.find({ section: section_name })
       .populate("author", ["username"])
       .sort({ createdAt: -1 })
-      .limit(20)
+      .limit(showNumber)
   );
 });
 

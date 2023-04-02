@@ -4,6 +4,7 @@ import Header from "./Header";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./Layout";
 import Layout_HomePage from "./Layout_HomePage";
+import Layout_ComputationalCommunity from "./Layout_ComputationalCommunity";
 import IndexPage from "./pages/IndexPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -44,7 +45,7 @@ function App() {
           <Route path="/exhibition/post/:id" element={<PostPage />} />
           <Route path="/exhibition/edit/:id" element={<EditPost />} />
         </Route>
-        <Route path="/computation" element={<Layout />}>
+        <Route path="/computation" element={<Layout_ComputationalCommunity />}>
           <Route index element={<IndexPage />} />
           <Route path="/computation/create" element={<CreatePost />} />
           <Route path="/computation/post/:id" element={<PostPage />} />

@@ -2,8 +2,6 @@ import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "./UserContext";
 
-const manager = "jqzzz";
-
 export default function Header() {
   //get section name
   const currentUrlArray = window.location.href.split("/");
@@ -45,16 +43,9 @@ export default function Header() {
       <nav>
         {username && (
           <>
-            {username === `${manager}` && (
-              <Link className="header_button" to={sectionName_create}>
-                New Publish
-              </Link>
-            )}
-            {username != `${manager}` && (
-              <Link className="header_button">
-                working hard organizing projects
-              </Link>
-            )}
+            <Link className="header_button" to={sectionName_create}>
+              New Publish
+            </Link>
             <a className="header_button" onClick={logout}>
               Logout ({username})
             </a>
