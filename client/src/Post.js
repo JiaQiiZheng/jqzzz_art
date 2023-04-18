@@ -23,12 +23,14 @@ export default function Post({
         <Link to={`/${section}/post/${_id}`}>
           <h2>{title}</h2>
         </Link>
-        <p className="info">
-          <Link to={`/${section}/post/${_id}`} className="author">
-            {author.username}
-          </Link>
-          <time>{formatISO9075(new Date(createdAt)).split(" ")[0]}</time>
-        </p>
+        {section === "computation" && (
+          <p className="info">
+            <Link to={`/${section}/post/${_id}`} className="author">
+              {author.username}
+            </Link>
+            <time>{formatISO9075(new Date(createdAt)).split(" ")[0]}</time>
+          </p>
+        )}
         <p className="summary">{summary}</p>
       </div>
     </div>

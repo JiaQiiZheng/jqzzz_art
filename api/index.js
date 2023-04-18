@@ -20,7 +20,7 @@ const {
 const salt = bcrypt.genSaltSync(10);
 const secret = "asdfe45we45w345wegw345werjktjwertkj";
 const bucket = "jqzzz";
-const showNumber = 20;
+const perPage = 9;
 
 app.use(
   cors({ credentials: true, origin: `${process.env.REACT_APP_API_URL}` })
@@ -224,16 +224,34 @@ app.put(
 app.get("/api/post/design", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const currentUrlArray = req.url.split("/");
-  const section_name = currentUrlArray[currentUrlArray.length - 1];
+  const section_name =
+    currentUrlArray[currentUrlArray.length - 1].split("?")[0];
+  const page = req.query.page;
   // res.send(section_name);
   res.json(
     //find by the post type
     await Post.find({ section: section_name })
       .populate("author", ["username"])
       .sort({ createdAt: -1 })
-      .limit(showNumber)
+      .limit(perPage)
+      .skip(perPage * (page - 1))
   );
 });
+
+// app.get("/api/post/design", async (req, res) => {
+//   mongoose.connect(process.env.MONGO_URL);
+//   const currentUrlArray = req.url.split("/");
+//   const section_name = currentUrlArray[currentUrlArray.length - 1];
+//   // res.send(section_name);
+//   res.json(
+//     //find by the post type
+//     await Post.find({ section: section_name })
+//       .populate("author", ["username"])
+//       .sort({ createdAt: -1 })
+//       .skip(2)
+//       .limit(perPage)
+//   );
+// });
 
 app.get("/api/design/post/:id", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
@@ -317,14 +335,17 @@ app.put(
 app.get("/api/post/programming", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const currentUrlArray = req.url.split("/");
-  const section_name = currentUrlArray[currentUrlArray.length - 1];
+  const section_name =
+    currentUrlArray[currentUrlArray.length - 1].split("?")[0];
+  const page = req.query.page;
   // res.send(section_name);
   res.json(
     //find by the post type
     await Post.find({ section: section_name })
       .populate("author", ["username"])
       .sort({ createdAt: -1 })
-      .limit(showNumber)
+      .limit(perPage)
+      .skip(perPage * (page - 1))
   );
 });
 
@@ -416,14 +437,17 @@ app.put(
 app.get("/api/post/exhibition", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const currentUrlArray = req.url.split("/");
-  const section_name = currentUrlArray[currentUrlArray.length - 1];
+  const section_name =
+    currentUrlArray[currentUrlArray.length - 1].split("?")[0];
+  const page = req.query.page;
   // res.send(section_name);
   res.json(
     //find by the post type
     await Post.find({ section: section_name })
       .populate("author", ["username"])
       .sort({ createdAt: -1 })
-      .limit(showNumber)
+      .limit(perPage)
+      .skip(perPage * (page - 1))
   );
 });
 
@@ -515,14 +539,17 @@ app.put(
 app.get("/api/post/computation", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const currentUrlArray = req.url.split("/");
-  const section_name = currentUrlArray[currentUrlArray.length - 1];
+  const section_name =
+    currentUrlArray[currentUrlArray.length - 1].split("?")[0];
+  const page = req.query.page;
   // res.send(section_name);
   res.json(
     //find by the post type
     await Post.find({ section: section_name })
       .populate("author", ["username"])
       .sort({ createdAt: -1 })
-      .limit(showNumber)
+      .limit(perPage)
+      .skip(perPage * (page - 1))
   );
 });
 
@@ -599,14 +626,17 @@ app.put("/api/post/art", uploadMiddleware.single("file"), async (req, res) => {
 app.get("/api/post/art", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const currentUrlArray = req.url.split("/");
-  const section_name = currentUrlArray[currentUrlArray.length - 1];
+  const section_name =
+    currentUrlArray[currentUrlArray.length - 1].split("?")[0];
+  const page = req.query.page;
   // res.send(section_name);
   res.json(
     //find by the post type
     await Post.find({ section: section_name })
       .populate("author", ["username"])
       .sort({ createdAt: -1 })
-      .limit(showNumber)
+      .limit(perPage)
+      .skip(perPage * (page - 1))
   );
 });
 
