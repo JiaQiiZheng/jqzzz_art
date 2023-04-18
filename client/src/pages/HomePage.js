@@ -13,7 +13,7 @@ export default function HomePage() {
         alt="HomePage"
       />
       <Link
-        class="link arrow"
+        className="link arrow"
         to="exhibition/post/6420cc5b020a31ca53a37fb0"
       ></Link>
       <a href="exhibition/post/6420cc5b020a31ca53a37fb0" className="Brief">
