@@ -11,10 +11,10 @@ export default function IndexPage() {
   function nextPage() {
     setPageNum((prev) => prev + 1);
   }
-  function resetPage() {
-    setPageNum(1);
-    console.log("reset____" + pageNum);
-  }
+  // function resetPage() {
+  //   setPageNum(1);
+  //   console.log("reset____" + pageNum);
+  // }
 
   //windowScrollListener
   const handleScroll = (e) => {
@@ -38,7 +38,7 @@ export default function IndexPage() {
   }, [pageNum]);
 
   function loadFirst() {
-    resetPage();
+    setPageNum(1);
     setPosts([]);
     fetch(
       `${process.env.REACT_APP_API_URL}/post/${sectionName}?page=${pageNum}`
@@ -50,7 +50,7 @@ export default function IndexPage() {
   }
 
   useEffect(() => {
-    resetPage();
+    setPageNum(1);
     console.log(pageNum);
     setPosts([]);
     loadFirst();
