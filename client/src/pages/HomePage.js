@@ -2,6 +2,9 @@ import React from "react";
 import Zmage from "react-zmage";
 import { Link } from "react-router-dom";
 
+//adobePdfViewer
+import AdobePdfViewer from "../PdfViewer/App";
+
 const baseUrl = process.env.REACT_APP_API_URL;
 
 export default function HomePage() {
@@ -19,6 +22,7 @@ export default function HomePage() {
       <a href="exhibition/post/6420cc5b020a31ca53a37fb0" className="Brief">
         Howland Exhibition
       </a>
+      <AdobePdfViewer />
     </div>
   );
 }

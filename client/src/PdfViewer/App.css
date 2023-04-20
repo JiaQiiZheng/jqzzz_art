@@ -1,0 +1,26 @@
+.pdfViewer {
+  display: flex;
+  justify-content: center;
+}
+
+#pdf-div {
+  position: static;
+  z-index: initial;
+  background-color: inherit;
+  color: inherit;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  font-style: inherit;
+  line-height: inherit;
+  margin: 0px !important;
+  padding: inherit;
+  align-self: center;
+  align-items: inherit;
+  align-content: inherit;
+  max-width: inherit;
+  min-width: inherit;
+  max-height: 600px !important;
+  width: 100%;
+  height: 600px;
+}

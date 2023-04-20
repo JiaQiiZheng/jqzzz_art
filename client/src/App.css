@@ -38,13 +38,12 @@ img {
   max-width: 100%;
 }
 main {
-  margin: 20px 20px;
+  margin: 0px 0px;
 }
 header {
   display: flex;
   justify-content: space-between;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin: 1rem;
   align-items: center;
 }
 
@@ -124,7 +123,7 @@ header nav .header_button:hover {
 
 .menu {
   list-style-type: none;
-  margin-bottom: 2rem;
+  margin: 1rem;
 }
 
 .menu .menu_text {
@@ -361,7 +360,6 @@ div.post-page .delete-btn {
   color: black;
   padding: 15px 30px;
   text-decoration: none;
-
   padding: 15px 30px;
   text-decoration: none;
 }
@@ -392,6 +390,7 @@ a svg {
 .ql-size-large {
   font-size: 22px;
 }
+
 .content .ql-video {
   width: var(--mediaMaxWidth);
   height: calc(var(--mediaMaxWidth) * 1080 / 1920);
