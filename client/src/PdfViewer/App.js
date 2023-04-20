@@ -1,12 +1,16 @@
 import ReactViewAdobe, { AdobeReactView } from "react-adobe-embed";
 import "./App.css";
 const baseUrl = process.env.REACT_APP_API_URL;
+const envBoolean = baseUrl.includes("localhost");
+const clientId = envBoolean
+  ? "c1ec9fc28533449db43c043fbe978014"
+  : "1e680a2462f046418ad046eb11b2bfe8";
 
 export default function App() {
   //switch between environment
-  const clientId = baseUrl.includes("localhost")
-    ? "c1ec9fc28533449db43c043fbe978014"
-    : "1e680a2462f046418ad046eb11b2bfe8";
+
+  console.log(envBoolean);
+  console.log(clientId);
 
   return (
     <div className="pdfViewer">
