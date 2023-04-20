@@ -1,9 +1,9 @@
 .pdfViewer {
-  display: flex;
-  justify-content: center;
+  clip-path: inset(0px);
 }
 
 #pdf-div {
+  justify-content: center !important;
   position: static;
   z-index: initial;
   background-color: inherit;
