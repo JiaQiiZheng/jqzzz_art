@@ -9,8 +9,8 @@ import "./App.css";
 export default function App() {
   //switch between environment
 
-  console.log(envBoolean);
-  console.log(clientId);
+  // console.log(envBoolean);
+  // console.log(clientId);
 
   return (
     <div className="pdfViewer">
