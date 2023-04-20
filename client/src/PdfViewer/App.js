@@ -26,8 +26,8 @@ export default function App() {
           so I don't care if you use it. It won't work for http://localhost:3000, 
           it needs to be http://localhost:80 or https://localhost:443.
           */
-          // clientId: "1e680a2462f046418ad046eb11b2bfe8",//jqzzz.com
-          clientId: "c1ec9fc28533449db43c043fbe978014", //localhost
+          clientId: "1e680a2462f046418ad046eb11b2bfe8", //jqzzz.com
+          // clientId: "c1ec9fc28533449db43c043fbe978014", //localhost
           divId: "pdf-div",
           /**
            * You can use this URL too, it only will work for localhost as well.
