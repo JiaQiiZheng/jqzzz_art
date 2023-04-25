@@ -203,7 +203,11 @@ div.post {
     grid-template-columns: 1fr;
   }
 }
-
+div.post div.texts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 div.post div.texts h2 {
   margin: 0;
   font-size: 1.5rem;
@@ -224,8 +228,9 @@ div.post p.info a.author {
   color: var(--themeColor);
 }
 div.post p.summary {
-  margin: 10px 0;
+  margin: 10px 0px;
   line-height: 1.8rem;
+  text-align: justify;
 }
 
 form.login,
