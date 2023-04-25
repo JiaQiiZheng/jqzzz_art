@@ -12,6 +12,7 @@ class Counter {
     // const char = text.replace(/\s/g, "");
     text = text.trim();
     const word = text.length > 0 ? text.split(/\s+/).length : 0;
+    this.container.innerHTML = "";
     this.container.innerHTML = `word counts：${word}`;
   };
 }

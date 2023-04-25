@@ -2,6 +2,7 @@ import ReactQuill from "react-quill";
 import React from "react";
 import EditorToolBar, { modules, formats } from "./EditorToolbar";
 import "./App.css";
+import PollEditor from "./CustomizeQuill/PollEditor";
 
 export default function Editor({ value, onChange }) {
   return (

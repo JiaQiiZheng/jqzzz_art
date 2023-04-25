@@ -1,9 +1,15 @@
-import React from "react";
-import { Quill } from "react-quill";
+import React, { Component } from "react";
+import ReactQuill, { Quill } from "react-quill";
 import ImageCompress from "quill-image-compress";
 import ImageUploader from "quill-image-uploader";
-import Counter from "./Counter";
-import { ImageBlot, CardEditableModule } from "./Caption";
+import Counter from "./CustomizeQuill/Counter";
+import { ImageBlot, CardEditableModule } from "./CustomizeQuill/Caption";
+import VideoBlot, { EmbedVideoBlot } from "./CustomizeQuill/VideoBlot";
+import { Poll } from "./CustomizeQuill/Poll";
+
+//pollExample
+import defer from "lodash/defer";
+import map from "lodash/map";
 
 Quill.register("modules/imageCompress", ImageCompress);
 
@@ -22,6 +28,108 @@ Quill.register(
 
 //customize imageUploader
 Quill.register("modules/imageUploader", ImageUploader);
+
+//customize blot
+Quill.register(VideoBlot);
+function TestFunction() {
+  // EmbedVideoBlot(this.quill);
+  console.log(this.editorContainer);
+}
+//customize poll
+Quill.register(
+  {
+    "formats/poll": Poll,
+  },
+  true
+);
+
+class PollEditor extends Component {
+  constructor(quill, options) {
+    super(quill);
+    this.editor = null;
+    this.editorContainer = React.createRef();
+    this.state = {
+      embedBlots: [],
+    };
+  }
+
+  componentDidMount() {
+    this.editor = new Quill(this.editorContainer.current, {
+      placeholder: "Start typing",
+      readOnly: false,
+      formats: ["header", "poll"],
+    });
+
+    let blots = [];
+    /** Listener to listen for custom format */
+    this.editor.scroll.emitter.on("blot-mount", (blot) => {
+      blots.push(blot);
+      defer(() => {
+        if (blots.length > 0) {
+          this.onMount(...blots);
+          blots = [];
+        }
+      });
+    });
+    this.editor.scroll.emitter.on("blot-unmount", this.onUnmount);
+
+    const delta = {
+      ops: [
+        /** Bold Formatting */
+        {
+          insert: "Header 1",
+        },
+        {
+          insert: "\n",
+          attributes: {
+            header: 1,
+          },
+        },
+      ],
+    };
+    this.editor.setContents(delta);
+  }
+
+  onMount = (...blots) => {
+    const embeds = blots.reduce(
+      (memo, blot) => {
+        memo[blot.id] = blot;
+        return memo;
+      },
+      { ...this.state.embedBlots }
+    );
+    this.setState({ embedBlots: embeds });
+  };
+
+  onUnmount = (unmountedBlot) => {
+    const { [unmountedBlot.id]: blot, ...embedBlots } = this.state.embedBlots;
+    this.setState({ embedBlots });
+  };
+
+  renderPoll() {
+    const range = this.editor.getSelection(true);
+    const type = "poll";
+    const data = {};
+    /** Call pollFormat */
+    this.editor.insertEmbed(range.index, type, data);
+    console.log(this.editor.getContents());
+  }
+
+  render() {
+    return (
+      <>
+        <div spellCheck={false} ref={this.editorContainer}>
+          {map(this.state.embedBlots, (blot) => blot.renderPortal(blot.id))}
+        </div>
+        <button onClick={() => this.renderPoll()}>Poll</button>
+      </>
+    );
+  }
+}
+
+Quill.register("modules/pollEditor", PollEditor);
+
+const Test = () => <div>Test</div>;
 
 // Redo button icon component for Quill editor
 const CustomUndo = () => (
@@ -77,6 +185,7 @@ export const modules = {
     handlers: {
       undo: undoChange,
       redo: redoChange,
+      test: TestFunction,
     },
   },
   history: {
@@ -96,6 +205,8 @@ export const modules = {
   },
   counter: true,
   cardEditable: true,
+  pollEditor: true,
+
   // imageUploader: {
   //   upload: (file) => {
   //     return new Promise((resolve, reject) => {
@@ -209,6 +320,9 @@ export const QuillToolbar = () => (
       <button className="ql-redo">
         <CustomRedo />
       </button>
+      {/* <button className="ql-test">
+        <Test />
+      </button> */}
     </span>
   </div>
 );

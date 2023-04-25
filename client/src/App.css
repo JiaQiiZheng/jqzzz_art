@@ -233,6 +233,10 @@ form.register {
   max-width: 400px;
   margin: 0 auto;
 }
+.edit_form {
+  margin: 1rem 1rem;
+}
+
 .edit_form .form_button {
   display: grid;
   grid-template-columns: 0.5fr 0.5fr;

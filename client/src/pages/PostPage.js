@@ -5,6 +5,7 @@ import { UserContext } from "../UserContext";
 import { Link } from "react-router-dom";
 import Image from "../image";
 import Zmage from "react-zmage";
+import AdobePdfViewer from "../PdfViewer/App";
 
 const baseUrl = process.env.REACT_APP_API_URL;
 

@@ -13,6 +13,8 @@ import UseMemoLearn from "./ReactHook/UseMemo/App";
 import UseRefLearn from "./ReactHook/UseRef/App";
 import UseContextLearn from "./ReactHook/UseContext/App";
 import UseCallbackLearn from "./ReactHook/UseCallback/App";
+import TextEditor from "./GoogleDoc/TextEditor";
+import MyComponent from "./GoogleDoc/QuickStart";
 
 // import { QueryClient, QueryClientProvider } from "react-query";
 // const queryClient = new QueryClient();
@@ -31,6 +33,7 @@ root.render(
     {/* {<UseRefLearn />} */}
     {/* {<UseContextLearn />} */}
     {/* <UseCallbackLearn /> */}
+    {/* <TextEditor /> */}
   </BrowserRouter>
 );
 
