@@ -207,29 +207,30 @@ export const modules = {
   cardEditable: true,
   pollEditor: true,
 
-  // imageUploader: {
-  //   upload: (file) => {
-  //     return new Promise((resolve, reject) => {
-  //       const data = new FormData();
-  //       data.append("image", file);
-  //       console.log(data);
-  //       fetch(`${process.env.REACT_APP_API_URL}/ql/image`, {
-  //         method: "POST",
-  //         body: data,
-  //         credentials: "include",
-  //       })
-  //         .then((response) => response.json())
-  //         .then((result) => {
-  //           console.log(result);
-  //           resolve(result.cover);
-  //         })
-  //         .catch((error) => {
-  //           reject("Upload failed");
-  //           console.error("Error:", error);
-  //         });
-  //     });
-  //   },
-  // },
+  //imageUploadToServer:
+  imageUploader: {
+    upload: (file) => {
+      return new Promise((resolve, reject) => {
+        const data = new FormData();
+        data.append("image", file);
+        console.log(data);
+        fetch(`${process.env.REACT_APP_API_URL}/ql/image`, {
+          method: "POST",
+          body: data,
+          credentials: "include",
+        })
+          .then((response) => response.json())
+          .then((result) => {
+            console.log(result);
+            resolve(result.cover);
+          })
+          .catch((error) => {
+            reject("Upload failed");
+            console.error("Error:", error);
+          });
+      });
+    },
+  },
 };
 
 // Formats objects for setting up the Quill editor

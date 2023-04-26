@@ -5,6 +5,9 @@ import { Navigate } from "react-router-dom";
 import Editor from "../Editor";
 import { Link } from "react-router-dom";
 
+//testEditor
+// import Editor_test from "../Editor_test";
+
 export default function CreatePost() {
   //get section name
   const currentUrlArray = window.location.href.split("/");
@@ -56,6 +59,7 @@ export default function CreatePost() {
       />
       <input type="file" onChange={(ev) => setFiles(ev.target.files)} />
       <Editor value={content} onChange={setContent} />
+      {/* <Editor_test value={content} onChange={setContent} /> */}
       <nav className="form_button">
         <button className="positive_button">Create</button>
         <Link className="negative_button" to="/">

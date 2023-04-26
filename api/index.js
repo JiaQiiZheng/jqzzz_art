@@ -25,6 +25,7 @@ const perPage = 9;
 app.use(
   cors({ credentials: true, origin: `${process.env.REACT_APP_API_URL}` })
 );
+
 app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static(__dirname + "/uploads"));
@@ -364,7 +365,23 @@ app.delete("/api/programming/post/:id", async (req, res) => {
   //delete profile from s3
   const deteleObjectArray = deletePost.cover.split("/");
   const deteleObjectName = deteleObjectArray[deteleObjectArray.length - 1];
-  res.send(deteleObjectName);
+  // res.send(deteleObjectName);
+
+  //delete ql-image
+  var m,
+    urls = [],
+    str = deletePost.content,
+    rex = /<img[^>]+src="?([^"\s]+)">/g;
+  while ((m = rex.exec(str))) {
+    urls.push(m[1]);
+  }
+  for (var i = 0; i < urls.length; i++) {
+    var ql_img_arr = urls[i].split("/");
+    var delete_img_name = ql_img_arr[ql_img_arr.length - 1];
+    await DeleteFromS3(delete_img_name);
+  }
+
+  //delete cover img
   await DeleteFromS3(deteleObjectName);
 });
 
