@@ -19,8 +19,7 @@
   --imgSize_A: 20rem;
   --textFrame_width: 30rem;
   --transitionTime: 0.4s;
-  --mediaMaxWidth: 60vw;
-  --mediaMaxHeight: 60vh;
+  --mediaMaxWidth: 50vw;
 }
 
 * {
@@ -297,6 +296,9 @@ div.post-page div.image {
 }
 
 div.post-page div.image img {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
   object-fit: cover;
   object-position: center center;
   width: calc(var(--mediaMaxWidth) * 0.5);
@@ -344,6 +346,7 @@ div.content li {
 
 div.edit-row {
   display: flex;
+  width: 100%;
   justify-content: center;
   margin-bottom: 20px;
 }
@@ -402,6 +405,7 @@ a svg {
 }
 
 .content .ql-video {
+  display: flex;
   width: var(--mediaMaxWidth);
   height: calc(var(--mediaMaxWidth) * 1080 / 1920);
   margin-left: auto;
@@ -412,26 +416,41 @@ a svg {
   display: flex;
   margin-left: auto;
   margin-right: auto;
-  height: 70vh;
+  max-height: 80vh;
 }
-@media screen and (max-width: 1024px) and (min-width: 500px) {
+@media screen and (max-width: 1024px) and (min-width: 300px) {
   .content img {
     display: flex;
     margin-left: auto;
     margin-right: auto;
-    width: 70vw;
-    height: auto;
+    max-width: 100%;
   }
+}
+.content .ql-video {
+  display: flex;
+  width: calc(var(--mediaMaxWidth) * 1.7);
+  height: calc(var(--mediaMaxWidth) * 1.7 * 1080 / 1920);
+  margin-left: auto;
+  margin-right: auto;
 }
 .content img:hover {
   cursor: zoom-in;
 }
 .content iframe {
   display: flex;
-  margin-left: auto;
-  margin-right: auto;
   width: var(--mediaMaxWidth);
   height: calc(var(--mediaMaxWidth) * 1080 / 1920);
+  margin-left: auto;
+  margin-right: auto;
+}
+@media screen and (max-width: 1024px) and (min-width: 300px) {
+  .content iframe {
+    display: flex;
+    width: calc(var(--mediaMaxWidth) * 1.7);
+    height: calc(var(--mediaMaxWidth) * 1.7 * 1080 / 1920);
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 .ql-align-right {
   text-align: right;
