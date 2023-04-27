@@ -33,9 +33,7 @@ body {
   margin-left: auto;
   margin-right: auto;
 }
-img {
-  max-height: 100%;
-}
+
 main {
   margin: 0px 0px;
 }
@@ -146,6 +144,7 @@ div.posts {
 @media screen and (max-width: 600px) {
   div.posts {
     grid-template-columns: 1fr;
+    margin: 0px 2rem;
   }
   header nav {
     display: flex;
@@ -235,7 +234,9 @@ div.post p.summary {
 form.login,
 form.register {
   max-width: 400px;
-  margin: 0 auto;
+  padding: 20px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .edit_form {
   margin: 1rem 1rem;
@@ -304,6 +305,11 @@ div.post-page div.image img {
   width: calc(var(--mediaMaxWidth) * 0.5);
   margin-bottom: 3rem;
 }
+@media screen and (max-width: 1024px) and (min-width: 300px) {
+  div.post-page div.image img {
+    width: calc(var(--mediaMaxWidth) * 1);
+  }
+}
 div.post-page a {
   color: #333;
   text-decoration: underline;
@@ -350,6 +356,13 @@ div.edit-row {
   justify-content: center;
   margin-bottom: 20px;
 }
+@media screen and (max-width: 1024px) and (min-width: 300px) {
+  div.edit-row {
+    width: 100vw;
+    display: flex;
+  }
+}
+
 div.post-page .edit-btn {
   display: inline-flex;
   font-size: 1rem;
@@ -371,8 +384,6 @@ div.post-page .delete-btn {
   gap: 5px;
   margin: 3rem;
   color: black;
-  padding: 15px 30px;
-  text-decoration: none;
   padding: 15px 30px;
   text-decoration: none;
 }
@@ -474,6 +485,8 @@ a svg {
 }
 
 figcaption {
+  display: flex;
+  justify-content: center;
   font-size: 1rem;
   font-style: italic;
   color: #aaa;

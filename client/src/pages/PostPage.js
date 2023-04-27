@@ -102,7 +102,6 @@ export default function PostPage() {
             className="delete-btn"
             to={`/${postInfo.section}`}
           >
-            <svg></svg>
             Delete
           </Link>
         </div>

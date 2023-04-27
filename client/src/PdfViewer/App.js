@@ -1,4 +1,4 @@
-import ReactViewAdobe, { AdobeReactView } from "react-adobe-embed";
+import ReactViewAdobe, { AdobeReactView } from "./react-adobe-embed";
 import "./App.css";
 const baseUrl = process.env.REACT_APP_API_URL;
 const envBoolean = baseUrl.includes("localhost");
