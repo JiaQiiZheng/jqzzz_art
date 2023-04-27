@@ -197,7 +197,7 @@ export const modules = {
     quality: 0.7,
     maxWidth: 2560,
     maxHeight: 2560,
-    imageType: "image/jpeg",
+    imageType: ["image/jpeg", "image/png"],
     ignoreImageTypes: ["image/gif"],
     debug: true,
     suppressErrorLogging: false,
