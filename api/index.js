@@ -264,7 +264,28 @@ app.get("/api/design/post/:id", async (req, res) => {
 app.delete("/api/design/post/:id", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const { id } = req.params;
+
+  //delete profile from s3
+  const deletePost = await Post.findById(id);
   await Post.deleteOne({ _id: id });
+  const deteleObjectArray = deletePost.cover.split("/");
+  const deteleObjectName = deteleObjectArray[deteleObjectArray.length - 1];
+  await DeleteFromS3(deteleObjectName);
+  // res.send(deteleObjectName);
+
+  //delete ql-image
+  var m,
+    urls = [],
+    str = deletePost.content,
+    rex = /<img[^>]+src="?([^"\s]+)">/g;
+  while ((m = rex.exec(str))) {
+    urls.push(m[1]);
+  }
+  for (var i = 0; i < urls.length; i++) {
+    var ql_img_arr = urls[i].split("/");
+    var delete_img_name = ql_img_arr[ql_img_arr.length - 1];
+    await DeleteFromS3(delete_img_name);
+  }
 });
 
 //section programming
@@ -360,11 +381,13 @@ app.get("/api/programming/post/:id", async (req, res) => {
 app.delete("/api/programming/post/:id", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const { id } = req.params;
+
+  //delete profile from s3
   const deletePost = await Post.findById(id);
   await Post.deleteOne({ _id: id });
-  //delete profile from s3
   const deteleObjectArray = deletePost.cover.split("/");
   const deteleObjectName = deteleObjectArray[deteleObjectArray.length - 1];
+  await DeleteFromS3(deteleObjectName);
   // res.send(deteleObjectName);
 
   //delete ql-image
@@ -380,9 +403,6 @@ app.delete("/api/programming/post/:id", async (req, res) => {
     var delete_img_name = ql_img_arr[ql_img_arr.length - 1];
     await DeleteFromS3(delete_img_name);
   }
-
-  //delete cover img
-  await DeleteFromS3(deteleObjectName);
 });
 
 //section exhibition
@@ -478,13 +498,28 @@ app.get("/api/exhibition/post/:id", async (req, res) => {
 app.delete("/api/exhibition/post/:id", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const { id } = req.params;
+
+  //delete profile from s3
   const deletePost = await Post.findById(id);
   await Post.deleteOne({ _id: id });
-  //delete profile from s3
   const deteleObjectArray = deletePost.cover.split("/");
   const deteleObjectName = deteleObjectArray[deteleObjectArray.length - 1];
-  res.send(deteleObjectName);
   await DeleteFromS3(deteleObjectName);
+  // res.send(deteleObjectName);
+
+  //delete ql-image
+  var m,
+    urls = [],
+    str = deletePost.content,
+    rex = /<img[^>]+src="?([^"\s]+)">/g;
+  while ((m = rex.exec(str))) {
+    urls.push(m[1]);
+  }
+  for (var i = 0; i < urls.length; i++) {
+    var ql_img_arr = urls[i].split("/");
+    var delete_img_name = ql_img_arr[ql_img_arr.length - 1];
+    await DeleteFromS3(delete_img_name);
+  }
 });
 
 //section computation
@@ -580,7 +615,28 @@ app.get("/api/computation/post/:id", async (req, res) => {
 app.delete("/api/computation/post/:id", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const { id } = req.params;
+
+  //delete profile from s3
+  const deletePost = await Post.findById(id);
   await Post.deleteOne({ _id: id });
+  const deteleObjectArray = deletePost.cover.split("/");
+  const deteleObjectName = deteleObjectArray[deteleObjectArray.length - 1];
+  await DeleteFromS3(deteleObjectName);
+  // res.send(deteleObjectName);
+
+  //delete ql-image
+  var m,
+    urls = [],
+    str = deletePost.content,
+    rex = /<img[^>]+src="?([^"\s]+)">/g;
+  while ((m = rex.exec(str))) {
+    urls.push(m[1]);
+  }
+  for (var i = 0; i < urls.length; i++) {
+    var ql_img_arr = urls[i].split("/");
+    var delete_img_name = ql_img_arr[ql_img_arr.length - 1];
+    await DeleteFromS3(delete_img_name);
+  }
 });
 
 //section art
@@ -667,7 +723,28 @@ app.get("/api/art/post/:id", async (req, res) => {
 app.delete("/api/art/post/:id", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const { id } = req.params;
+
+  //delete profile from s3
+  const deletePost = await Post.findById(id);
   await Post.deleteOne({ _id: id });
+  const deteleObjectArray = deletePost.cover.split("/");
+  const deteleObjectName = deteleObjectArray[deteleObjectArray.length - 1];
+  await DeleteFromS3(deteleObjectName);
+  // res.send(deteleObjectName);
+
+  //delete ql-image
+  var m,
+    urls = [],
+    str = deletePost.content,
+    rex = /<img[^>]+src="?([^"\s]+)">/g;
+  while ((m = rex.exec(str))) {
+    urls.push(m[1]);
+  }
+  for (var i = 0; i < urls.length; i++) {
+    var ql_img_arr = urls[i].split("/");
+    var delete_img_name = ql_img_arr[ql_img_arr.length - 1];
+    await DeleteFromS3(delete_img_name);
+  }
 });
 
 if (process.env.API_PORT) {

@@ -20,7 +20,7 @@
   --textFrame_width: 30rem;
   --transitionTime: 0.4s;
   --mediaMaxWidth: 60vw;
-  --mediaMaxHeight: 60vw;
+  --mediaMaxHeight: 60vh;
 }
 
 * {
@@ -35,7 +35,7 @@ body {
   margin-right: auto;
 }
 img {
-  max-width: 100%;
+  max-height: 100%;
 }
 main {
   margin: 0px 0px;
@@ -341,6 +341,7 @@ div.content p {
 div.content li {
   margin-bottom: 10px;
 }
+
 div.edit-row {
   display: flex;
   justify-content: center;
@@ -408,17 +409,30 @@ a svg {
 }
 
 .content img {
-  width: calc(var(--mediaMaxWidth) * 1);
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  height: 70vh;
+}
+@media screen and (max-width: 1024px) and (min-width: 500px) {
+  .content img {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70vw;
+    height: auto;
+  }
 }
 .content img:hover {
   cursor: zoom-in;
 }
-@media screen and (min-width: 600px) {
-  .content img {
-    width: calc(var(--mediaMaxWidth) * 0.5);
-  }
+.content iframe {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  width: var(--mediaMaxWidth);
+  height: calc(var(--mediaMaxWidth) * 1080 / 1920);
 }
-
 .ql-align-right {
   text-align: right;
 }
