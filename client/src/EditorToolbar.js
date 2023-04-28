@@ -1,17 +1,15 @@
 import React, { Component } from "react";
 import ReactQuill, { Quill } from "react-quill";
-import ImageCompress from "quill-image-compress";
+// import ImageCompress from "quill-image-compress";
 import ImageUploader from "quill-image-uploader";
 import Counter from "./CustomizeQuill/Counter";
 import { ImageBlot, CardEditableModule } from "./CustomizeQuill/Caption";
-import VideoBlot, { EmbedVideoBlot } from "./CustomizeQuill/VideoBlot";
-import { Poll } from "./CustomizeQuill/Poll";
+import AudioBlot, {
+  EmbedAudioBlot,
+  insertStar,
+} from "./CustomizeQuill/AudioBlot";
 
-//pollExample
-import defer from "lodash/defer";
-import map from "lodash/map";
-
-Quill.register("modules/imageCompress", ImageCompress);
+// Quill.register("modules/imageCompress", ImageCompress);
 
 //customize counter
 Quill.register("modules/counter", Counter);
@@ -30,106 +28,13 @@ Quill.register(
 Quill.register("modules/imageUploader", ImageUploader);
 
 //customize blot
-Quill.register(VideoBlot);
+Quill.register(AudioBlot);
 function TestFunction() {
-  // EmbedVideoBlot(this.quill);
-  console.log(this.editorContainer);
+  EmbedAudioBlot(this.quill);
+  // insertStar(this.quill);
 }
-//customize poll
-Quill.register(
-  {
-    "formats/poll": Poll,
-  },
-  true
-);
-
-class PollEditor extends Component {
-  constructor(quill, options) {
-    super(quill);
-    this.editor = null;
-    this.editorContainer = React.createRef();
-    this.state = {
-      embedBlots: [],
-    };
-  }
-
-  componentDidMount() {
-    this.editor = new Quill(this.editorContainer.current, {
-      placeholder: "Start typing",
-      readOnly: false,
-      formats: ["header", "poll"],
-    });
-
-    let blots = [];
-    /** Listener to listen for custom format */
-    this.editor.scroll.emitter.on("blot-mount", (blot) => {
-      blots.push(blot);
-      defer(() => {
-        if (blots.length > 0) {
-          this.onMount(...blots);
-          blots = [];
-        }
-      });
-    });
-    this.editor.scroll.emitter.on("blot-unmount", this.onUnmount);
-
-    const delta = {
-      ops: [
-        /** Bold Formatting */
-        {
-          insert: "Header 1",
-        },
-        {
-          insert: "\n",
-          attributes: {
-            header: 1,
-          },
-        },
-      ],
-    };
-    this.editor.setContents(delta);
-  }
-
-  onMount = (...blots) => {
-    const embeds = blots.reduce(
-      (memo, blot) => {
-        memo[blot.id] = blot;
-        return memo;
-      },
-      { ...this.state.embedBlots }
-    );
-    this.setState({ embedBlots: embeds });
-  };
-
-  onUnmount = (unmountedBlot) => {
-    const { [unmountedBlot.id]: blot, ...embedBlots } = this.state.embedBlots;
-    this.setState({ embedBlots });
-  };
-
-  renderPoll() {
-    const range = this.editor.getSelection(true);
-    const type = "poll";
-    const data = {};
-    /** Call pollFormat */
-    this.editor.insertEmbed(range.index, type, data);
-    console.log(this.editor.getContents());
-  }
-
-  render() {
-    return (
-      <>
-        <div spellCheck={false} ref={this.editorContainer}>
-          {map(this.state.embedBlots, (blot) => blot.renderPortal(blot.id))}
-        </div>
-        <button onClick={() => this.renderPoll()}>Poll</button>
-      </>
-    );
-  }
-}
-
-Quill.register("modules/pollEditor", PollEditor);
-
-const Test = () => <div>Test</div>;
+//test
+const Test = () => <div>TestTest</div>;
 
 // Redo button icon component for Quill editor
 const CustomUndo = () => (
@@ -193,19 +98,18 @@ export const modules = {
     maxStack: 500,
     userOnly: true,
   },
-  imageCompress: {
-    quality: 0.7,
-    maxWidth: 2560,
-    maxHeight: 2560,
-    imageType: ["image/jpeg", "image/png"],
-    ignoreImageTypes: ["image/gif"],
-    debug: true,
-    suppressErrorLogging: false,
-    insertIntoEditor: undefined,
-  },
+  // imageCompress: {
+  //   quality: 0.7,
+  //   maxWidth: 2560,
+  //   maxHeight: 2560,
+  //   imageType: ["image/jpeg", "image/png"],
+  //   ignoreImageTypes: ["image/gif"],
+  //   debug: true,
+  //   suppressErrorLogging: false,
+  //   insertIntoEditor: undefined,
+  // },
   counter: true,
   cardEditable: true,
-  pollEditor: true,
 
   //imageUploadToServer:
   imageUploader: {
@@ -213,7 +117,7 @@ export const modules = {
       return new Promise((resolve, reject) => {
         const data = new FormData();
         data.append("image", file);
-        console.log(data);
+        // console.log(data);
         fetch(`${process.env.REACT_APP_API_URL}/ql/image`, {
           method: "POST",
           body: data,
@@ -221,7 +125,7 @@ export const modules = {
         })
           .then((response) => response.json())
           .then((result) => {
-            console.log(result);
+            // console.log(result);
             resolve(result.cover);
           })
           .catch((error) => {
@@ -255,6 +159,7 @@ export const formats = [
   "color",
   "code-block",
   "imageBlot",
+  "audio",
 ];
 
 // Quill Toolbar component
@@ -321,9 +226,9 @@ export const QuillToolbar = () => (
       <button className="ql-redo">
         <CustomRedo />
       </button>
-      {/* <button className="ql-test">
+      <button className="ql-test">
         <Test />
-      </button> */}
+      </button>
     </span>
   </div>
 );

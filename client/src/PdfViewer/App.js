@@ -6,12 +6,7 @@ const clientId = envBoolean
   ? "c1ec9fc28533449db43c043fbe978014"
   : "1e680a2462f046418ad046eb11b2bfe8";
 
-export default function App() {
-  //switch between environment
-
-  // console.log(envBoolean);
-  // console.log(clientId);
-
+export default function App({ url }) {
   return (
     <div className="pdfViewer">
       <ReactViewAdobe
@@ -24,6 +19,7 @@ export default function App() {
           enableFormFilling: false,
           showLeftHandPanel: false,
           enableLinearization: false,
+          enableSearchAPIs: true,
           showFullScreen: true,
           showDownloadPDF: false,
           showBookmarks: false,
@@ -43,7 +39,7 @@ export default function App() {
           /**
            * You can use this URL too, it only will work for localhost as well.
            */
-          url: "https://jqzzz.s3.amazonaws.com/1681940740260.pdf",
+          url: url,
           fileMeta: {
             fileName: "WaterAsLandbuilder.pdf",
             title: "TBD",

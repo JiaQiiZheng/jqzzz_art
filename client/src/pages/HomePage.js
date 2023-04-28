@@ -22,7 +22,9 @@ export default function HomePage() {
       <a href="exhibition/post/6420cc5b020a31ca53a37fb0" className="Brief">
         Howland Exhibition
       </a>
-      <AdobePdfViewer />
+      <AdobePdfViewer
+        url={"https://jqzzz.s3.amazonaws.com/1681940740260.pdf"}
+      />
     </div>
   );
 }
