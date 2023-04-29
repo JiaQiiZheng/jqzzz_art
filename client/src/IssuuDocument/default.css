@@ -1,0 +1,6 @@
+div {
+  position: relative;
+  padding-top: max(60%, 326px);
+  height: 0;
+  width: 100%;
+}
