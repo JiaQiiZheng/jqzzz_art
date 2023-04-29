@@ -1,5 +1,4 @@
 import { Quill } from "react-quill";
-import AdobePdfViewer from "../PdfViewer/App";
 
 let BlockEmbed = Quill.import("blots/block/embed");
 
@@ -38,18 +37,14 @@ export default class AudioBlot extends BlockEmbed {
   //   }
   // }
 }
+
 AudioBlot.blotName = "audio";
 AudioBlot.tagName = "audio";
 
 export function EmbedAudioBlot(quill) {
+  let url = prompt("Please Enter Audio Url:");
   const cursorPosition = quill.getSelection().index;
-  let url = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
+  console.log(`cursor: ${cursorPosition}`);
   quill.insertEmbed(cursorPosition, "audio", url);
-  quill.setSelection(cursorPosition + 1);
-}
-
-export function insertStar(quill) {
-  const cursorPosition = quill.getSelection().index;
-  quill.insertText(cursorPosition, "★");
   quill.setSelection(cursorPosition + 1);
 }
