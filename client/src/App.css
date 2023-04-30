@@ -1,5 +1,5 @@
 :root {
-  --mainColor: #222;
+  --mainColor: #000099;
   --themeColor: #222;
   --mainFontColor: var(--themeColor);
   --lightFontColor: lightgray;
@@ -188,6 +188,11 @@ div.post .image {
   margin-top: auto;
   margin-bottom: auto;
 }
+div.post .image:hover {
+  transition: 0.3s;
+  transform: scale(1.05);
+  overflow: hidden;
+}
 
 div.post {
   display: flex;
@@ -209,11 +214,31 @@ div.post div.texts {
 div.post div.texts h2 {
   margin: 0;
   font-size: 1.5rem;
+  display: inline-block;
+  position: relative;
+  color: var(--themeColor);
+}
+div.post div.texts h2::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--mainColor);
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+div.post div.texts h2:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
 }
 div.post div.texts a {
   text-decoration: none;
   color: inherit;
 }
+
 div.post p.info {
   margin: 24px 0;
   color: var(--lightFontColor);
@@ -348,6 +373,33 @@ div.content p {
 }
 div.content li {
   margin-bottom: 10px;
+}
+div.content a:hover {
+  transition: 0.3s;
+  color: var(--mainColor);
+}
+div.post div.texts h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  display: inline-block;
+  position: relative;
+  color: var(--themeColor);
+}
+div.post div.texts h2::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--mainColor);
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+div.post div.texts h2:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
 }
 
 div.edit-row {

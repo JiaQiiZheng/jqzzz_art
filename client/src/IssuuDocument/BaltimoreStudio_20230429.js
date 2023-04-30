@@ -1,5 +1,6 @@
 import React from "react";
 import $ from "jquery";
+import "./style.css";
 
 const width = "100%";
 const height = "100%;";
@@ -11,5 +12,10 @@ const issuuEmbedCode = `<div style="position:relative;padding-top:max(60%,326px)
 export default function BaltimoreStudio_20230429() {
   var $html = $(`${issuuEmbedCode}`);
   var value = $html.prop("outerHTML");
-  return <div dangerouslySetInnerHTML={{ __html: value }}></div>;
+  return (
+    <div
+      id="BaltimoreStudio_20230429"
+      dangerouslySetInnerHTML={{ __html: value }}
+    ></div>
+  );
 }
