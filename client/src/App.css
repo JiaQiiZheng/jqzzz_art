@@ -140,6 +140,7 @@ div.posts {
   display: grid;
   gap: 5rem;
   grid-template-columns: 0.33fr 0.33fr 0.33fr;
+  margin: 2rem;
 }
 @media screen and (max-width: 600px) {
   div.posts {
@@ -187,6 +188,7 @@ div.post .image {
   width: 300px;
   margin-top: auto;
   margin-bottom: auto;
+  transition: 0.3s;
 }
 div.post .image:hover {
   transition: 0.3s;
@@ -213,10 +215,11 @@ div.post div.texts {
 }
 div.post div.texts h2 {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.2rem !important;
   display: inline-block;
   position: relative;
   color: var(--themeColor);
+  text-align: center;
 }
 div.post div.texts h2::after {
   content: "";
@@ -237,6 +240,10 @@ div.post div.texts h2:hover::after {
 div.post div.texts a {
   text-decoration: none;
   color: inherit;
+}
+div.post div.texts p {
+  text-decoration: underline;
+  font-style: italic;
 }
 
 div.post p.info {
@@ -374,6 +381,9 @@ div.content p {
 div.content li {
   margin-bottom: 10px;
 }
+div.content a {
+  transition: 0.3s;
+}
 div.content a:hover {
   transition: 0.3s;
   color: var(--mainColor);
@@ -396,10 +406,12 @@ div.post div.texts h2::after {
   background-color: var(--mainColor);
   transform-origin: bottom right;
   transition: transform 0.25s ease-out;
+  color: var(--mainColor);
 }
 div.post div.texts h2:hover::after {
   transform: scaleX(1);
   transform-origin: bottom left;
+  color: var(--mainColor);
 }
 
 div.edit-row {
