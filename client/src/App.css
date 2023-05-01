@@ -192,8 +192,9 @@ div.post .image {
 }
 div.post .image:hover {
   transition: 0.3s;
-  transform: scale(1.05);
-  overflow: hidden;
+  filter: brightness(0.9);
+  transform: scale(1.02);
+  /* overflow: hidden; */
 }
 
 div.post {
