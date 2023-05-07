@@ -8,6 +8,7 @@ import AdobePdfViewer from "../PdfViewer/App";
 //insert issuu document
 import BaltimoreStudio_20230429 from "../IssuuDocument/BaltimoreStudio_20230429";
 import Portfolio_2014_2020 from "../IssuuDocument/Portfolio_2014_2020";
+import NewOrleansSketchBook from "../IssuuDocument/NewOrleansSketchBook";
 
 const baseUrl = process.env.REACT_APP_API_URL;
 
@@ -29,7 +30,8 @@ export default function HomePage() {
       {/* <AdobePdfViewer
         url={"https://jqzzz.s3.amazonaws.com/1681940740260.pdf"}
       /> */}
-      <BaltimoreStudio_20230429 />
+      {/* <BaltimoreStudio_20230429 /> */}
+      <NewOrleansSketchBook />
     </div>
   );
 }

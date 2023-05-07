@@ -349,8 +349,14 @@ div.post-page a {
   text-decoration: underline;
 }
 div.post-page h1 {
+  font-size: 1.8rem;
   text-align: center;
   margin: 10px 0 5px;
+}
+@media screen and (max-width: 1024px) and (min-width: 300px) {
+  div.post-page h1 {
+    font-size: 1.2rem;
+  }
 }
 div.post-page time {
   text-align: center;
