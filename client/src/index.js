@@ -15,6 +15,7 @@ import UseContextLearn from "./ReactHook/UseContext/App";
 import UseCallbackLearn from "./ReactHook/UseCallback/App";
 import TextEditor from "./GoogleDoc/TextEditor";
 import MyComponent from "./GoogleDoc/QuickStart";
+import SearchImagePractice from "./Learn/UnsplashApi/SearchImagePractice";
 
 // import { QueryClient, QueryClientProvider } from "react-query";
 // const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ root.render(
     {/* {<UseContextLearn />} */}
     {/* <UseCallbackLearn /> */}
     {/* <TextEditor /> */}
+    {/* <SearchImagePractice /> */}
   </BrowserRouter>
 );
 
