@@ -31,8 +31,6 @@ export default function IndexPage() {
     let isBottom = false;
     isBottom = scrollHeight - scrollTop - 1 <= clientHeight;
 
-    console.log(isBottom);
-
     if (isBottom && scrollHeightTempRef.current == scrollHeight) {
       nextPage();
     }
