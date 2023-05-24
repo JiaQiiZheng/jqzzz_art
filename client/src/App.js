@@ -57,7 +57,7 @@ function App() {
           <Route path="/exhibition/post/:id" element={<PostPage />} />
           <Route path="/exhibition/edit/:id" element={<EditPost />} />
         </Route>
-        <Route path="/computation" element={<Layout_ComputationalCommunity />}>
+        <Route path="/computation" element={<Layout />}>
           <Route index element={<IndexPage />} />
           <Route
             path={`/computation/:projectName`}

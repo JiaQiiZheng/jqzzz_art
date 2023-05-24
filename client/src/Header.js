@@ -45,12 +45,12 @@ export default function Header() {
       <nav>
         {username && (
           <>
-            {username === `${manager}` && (
+            {(username === `${manager}` || sectionName === "computation") && (
               <Link className="header_button" to={sectionName_create}>
                 New Publish
               </Link>
             )}
-            {username != `${manager}` && (
+            {username != `${manager}` && sectionName != "computation" && (
               <Link className="header_button">
                 working hard organizing projects
               </Link>

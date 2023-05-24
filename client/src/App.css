@@ -126,10 +126,21 @@ header nav .header_button:hover {
 .menu .menu_text {
   color: var(--secondFontColor);
   text-decoration: none;
+  transition: 0.5s;
+}
+
+.menu .menu_enlarge {
+  font-weight: bold;
+  color: var(--secondFontColor);
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  font-size: 4rem;
+  transition: 0.5s;
 }
 
 .menu .menu_text:hover {
-  color: var(--mainColor);
+  color: var(--themeColor);
   text-decoration: underline;
   transition: 0.5s;
 }
@@ -323,12 +334,13 @@ form.register h1 {
   text-align: center;
 }
 
+/* Archive title in post page */
 div.post-page div.project_name {
   margin-top: 2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 4rem;
   display: flex;
   justify-content: center;
-  font-size: 3rem;
+  font-size: 2.5rem;
   text-align: center;
 }
 
@@ -339,6 +351,7 @@ div.post-page div.project_name span {
 div.post-page .project_name_link {
   text-decoration: none;
 }
+/* Archive title in post page */
 
 /* projectList hover animation */
 .projectList {
@@ -346,20 +359,31 @@ div.post-page .project_name_link {
   flex-direction: column;
   position: relative;
   color: var(--themeColor);
-  align-items: center;
-  font-size: 3rem;
+  font-size: 1.5rem;
 }
 .projectList .project .project_link {
   text-decoration: none;
   color: var(--themeColor);
 }
+.archiveList {
+  margin-top: 5rem;
+}
 .projectList .project .project_name {
   transition: 0.5s;
+  margin-left: 10rem;
+  margin-right: 10rem;
+  color: var(--secondFontColor);
 }
 .projectList .project .project_name:hover {
   transform: translateY(0.5rem);
   transition: 0.5s;
+  color: var(--themeColor);
 }
+.project_info .project_brief {
+  margin-left: 10rem;
+  margin-right: 10rem;
+}
+
 .projectList .project::after {
   content: "";
   position: absolute;

@@ -20,10 +20,12 @@ const ProjectList = () => {
   return (
     <div>
       {/* {posts.length > 0 && posts.map((post, i) => <Post key={i} {...post} />)} */}
-      {projectName.length > 0 &&
-        projectName.map((project) => (
-          <ProjectOutline key={project} name={project} />
-        ))}
+      <div className="archiveList">
+        {projectName.length > 0 &&
+          projectName.map((project) => (
+            <ProjectOutline key={project} name={project} />
+          ))}
+      </div>
     </div>
   );
 };

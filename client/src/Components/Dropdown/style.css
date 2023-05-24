@@ -57,3 +57,24 @@
 .font-bold {
   font-weight: bolder;
 }
+
+.dropdown-createNew {
+  padding: 10px;
+}
+
+.createNew {
+  display: flex;
+  align-items: center;
+}
+.createNew .createNew_input {
+  margin-left: 0.5rem;
+}
+.createNew .icon_add {
+  margin-left: 1rem;
+  transition: 0.3s;
+}
+.createNew .icon_add:hover {
+  cursor: pointer;
+  scale: 1.1;
+  transition: 0.3s;
+}

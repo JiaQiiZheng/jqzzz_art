@@ -8,6 +8,7 @@ const Dropdown = ({ params }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [items, setItem] = useState(projectNameArray);
+  const [newName, setNewName] = useState("");
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
@@ -15,9 +16,19 @@ const Dropdown = ({ params }) => {
     parentCallback(name);
   };
 
+  const handleCreateNew = () => {
+    projectNameArray.push({
+      id: projectNameArray.length,
+      projectName: newName,
+    });
+    setNewName("");
+    console.log(projectNameArray);
+  };
+
   if (Array.isArray(projectNameArray) && projectNameArray.length != 0) {
     const handleItemClick = (id) => {
       selectedItem == id ? setSelectedItem(null) : setSelectedItem(id);
+      setIsOpen(!isOpen);
     };
 
     return (
@@ -26,7 +37,7 @@ const Dropdown = ({ params }) => {
           <div className="font-bold">ARCHIVE INTO</div>
           {selectedItem
             ? items.find((item) => item.id == selectedItem).projectName
-            : "Select Project"}
+            : "Select Stack"}
           <i className={`fa fa-chevron icon ${isOpen && "open"}`}>{"🡲"}</i>
         </div>
         <div className={`dropdown-body ${isOpen && "open"}`}>
@@ -50,6 +61,27 @@ const Dropdown = ({ params }) => {
               {item.projectName}
             </div>
           ))}
+          {/* create new */}
+          <div className="dropdown-createNew">
+            <div className="createNew">
+              <input
+                className="createNew_input"
+                type="text"
+                value={newName}
+                onChange={(e) => {
+                  setNewName(e.target.value);
+                }}
+                placeholder="Create New Stack"
+              />
+              <div className="icon_add" onClick={handleCreateNew}>
+                <link
+                  rel="stylesheet"
+                  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+                />
+                <span class="material-symbols-outlined">add_circle</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
