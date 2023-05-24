@@ -1,26 +1,56 @@
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import Editor from "../Editor";
 import { Link } from "react-router-dom";
-
-//testEditor
-// import Editor_test from "../Editor_test";
+import Dropdown from "../Components/Dropdown/dropdown";
 
 export default function CreatePost() {
   //get section name
   const currentUrlArray = window.location.href.split("/");
   const sectionName = currentUrlArray[currentUrlArray.length - 2];
 
+  const [projectName, setProjectName] = useState();
+  const [projectNameData, setProjectNameData] = useState();
+  const [selectedProjectName, setSelectedProjectName] = useState();
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
   const [content, setContent] = useState("");
   const [files, setFiles] = useState("");
-  const [section, SetSection] = useState("");
   const [redirect, setRedirect] = useState(false);
+
+  // get projectName list from backend
+  useEffect(() => {
+    fetch(
+      `${process.env.REACT_APP_API_URL}/post/${sectionName}/projectNames`
+    ).then((response) => {
+      response.json().then((projectNameArray) => {
+        setProjectName(projectNameArray);
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    const itemArray = [];
+    if (Array.isArray(projectName)) {
+      for (let i = 0; i < projectName.length; i++) {
+        itemArray.push({ id: i, projectName: projectName[i] });
+      }
+    }
+    setProjectNameData(itemArray);
+  }, [projectName]);
+
+  // get data back from dropdown component
+  const handleProjectNameCallback = (childData) => {
+    setSelectedProjectName(childData);
+  };
+
+  console.log("run: " + projectNameData);
+
   async function createNewPost(ev) {
     const data = new FormData();
+    data.set("projectName", selectedProjectName);
     data.set("title", title);
     data.set("summary", summary);
     data.set("content", content);
@@ -43,8 +73,13 @@ export default function CreatePost() {
   if (redirect) {
     return <Navigate to={`/${sectionName}`} />;
   }
+
   return (
     <form className="edit_form" onSubmit={createNewPost}>
+      {/* dropdown to select project name */}
+      {Array.isArray(projectNameData) && projectNameData.length != 0 && (
+        <Dropdown params={[projectNameData, handleProjectNameCallback]} />
+      )}
       <input
         type="title"
         placeholder={"Title"}

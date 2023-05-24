@@ -233,7 +233,7 @@ div.post div.texts h2::after {
   left: 0;
   background-color: var(--mainColor);
   transform-origin: bottom right;
-  transition: transform 0.25s ease-out;
+  transition: transform 0.5s ease-out;
 }
 div.post div.texts h2:hover::after {
   transform: scaleX(1);
@@ -322,6 +322,89 @@ form.login h1,
 form.register h1 {
   text-align: center;
 }
+
+div.post-page div.project_name {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+  font-size: 3rem;
+  text-align: center;
+}
+
+div.post-page div.project_name span {
+  font-weight: bold;
+}
+
+div.post-page .project_name_link {
+  text-decoration: none;
+}
+
+/* projectList hover animation */
+.projectList {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  color: var(--themeColor);
+  align-items: center;
+  font-size: 3rem;
+}
+.projectList .project .project_link {
+  text-decoration: none;
+  color: var(--themeColor);
+}
+.projectList .project .project_name {
+  transition: 0.5s;
+}
+.projectList .project .project_name:hover {
+  transform: translateY(0.5rem);
+  transition: 0.5s;
+}
+.projectList .project::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--mainColor);
+  transform-origin: bottom right;
+  transition: transform 0.5s ease-out;
+  color: var(--mainColor);
+}
+.projectList .project:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+  color: var(--mainColor);
+}
+/* projectList hover animation */
+
+/* project_name hover animation */
+div.post-page div.project_name {
+  display: flex;
+  position: relative;
+  color: var(--themeColor);
+}
+div.post-page div.project_name::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--mainColor);
+  transform-origin: bottom right;
+  transition: transform 0.5s ease-out;
+  color: var(--mainColor);
+}
+div.post-page div.project_name:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+  color: var(--mainColor);
+}
+/* project_name hover animation */
 
 div.post-page div.image {
   max-height: 100%;
@@ -413,7 +496,7 @@ div.post div.texts h2::after {
   left: 0;
   background-color: var(--mainColor);
   transform-origin: bottom right;
-  transition: transform 0.25s ease-out;
+  transition: transform 0.5s ease-out;
   color: var(--mainColor);
 }
 div.post div.texts h2:hover::after {

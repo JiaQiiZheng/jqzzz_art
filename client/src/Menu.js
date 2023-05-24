@@ -30,6 +30,11 @@ export default function Menu() {
           art
         </Link>
       </li>
+      {/* <li>
+        <Link to="/ai/prompt" className="menu_text">
+          prompt library
+        </Link>
+      </li> */}
     </nav>
   );
 }

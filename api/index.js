@@ -20,7 +20,7 @@ const {
 const salt = bcrypt.genSaltSync(10);
 const secret = "asdfe45we45w345wegw345werjktjwertkj";
 const bucket = "jqzzz";
-const perPage = 9;
+const perPage = 999;
 
 app.use(
   cors({ credentials: true, origin: `${process.env.REACT_APP_API_URL}` })
@@ -172,8 +172,9 @@ app.post(
     const { token } = req.cookies;
     jwt.verify(token, secret, {}, async (err, info) => {
       if (err) throw err;
-      const { title, summary, content, section } = req.body;
+      const { projectName, title, summary, content, section } = req.body;
       const postDoc = await Post.create({
+        projectName,
         title,
         summary,
         content,
@@ -203,7 +204,7 @@ app.put(
     const { token } = req.cookies;
     jwt.verify(token, secret, {}, async (err, info) => {
       if (err) throw err;
-      const { id, title, summary, content } = req.body;
+      const { id, projectName, title, summary, content } = req.body;
       const postDoc = await Post.findById(id);
       const isAuthor =
         JSON.stringify(postDoc.author) === JSON.stringify(info.id);
@@ -211,6 +212,7 @@ app.put(
         return res.status(400).json("you are not the author");
       }
       await postDoc.update({
+        projectName,
         title,
         summary,
         content,
@@ -239,20 +241,13 @@ app.get("/api/post/design", async (req, res) => {
   );
 });
 
-// app.get("/api/post/design", async (req, res) => {
-//   mongoose.connect(process.env.MONGO_URL);
-//   const currentUrlArray = req.url.split("/");
-//   const section_name = currentUrlArray[currentUrlArray.length - 1];
-//   // res.send(section_name);
-//   res.json(
-//     //find by the post type
-//     await Post.find({ section: section_name })
-//       .populate("author", ["username"])
-//       .sort({ createdAt: -1 })
-//       .skip(2)
-//       .limit(perPage)
-//   );
-// });
+// get projectName list data
+app.get("/api/post/design/projectNames", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  const currentUrlArray = req.url.split("/");
+  const section_name = currentUrlArray[currentUrlArray.length - 2];
+  res.json(await Post.find({ section: section_name }).distinct("projectName"));
+});
 
 app.get("/api/design/post/:id", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
@@ -304,8 +299,9 @@ app.post(
     const { token } = req.cookies;
     jwt.verify(token, secret, {}, async (err, info) => {
       if (err) throw err;
-      const { title, summary, content, section } = req.body;
+      const { projectName, title, summary, content, section } = req.body;
       const postDoc = await Post.create({
+        projectName,
         title,
         summary,
         content,
@@ -335,7 +331,7 @@ app.put(
     const { token } = req.cookies;
     jwt.verify(token, secret, {}, async (err, info) => {
       if (err) throw err;
-      const { id, title, summary, content } = req.body;
+      const { id, projectName, title, summary, content } = req.body;
       const postDoc = await Post.findById(id);
       const isAuthor =
         JSON.stringify(postDoc.author) === JSON.stringify(info.id);
@@ -343,6 +339,7 @@ app.put(
         return res.status(400).json("you are not the author");
       }
       await postDoc.update({
+        projectName,
         title,
         summary,
         content,
@@ -421,8 +418,9 @@ app.post(
     const { token } = req.cookies;
     jwt.verify(token, secret, {}, async (err, info) => {
       if (err) throw err;
-      const { title, summary, content, section } = req.body;
+      const { projectName, title, summary, content, section } = req.body;
       const postDoc = await Post.create({
+        projectName,
         title,
         summary,
         content,
@@ -452,7 +450,7 @@ app.put(
     const { token } = req.cookies;
     jwt.verify(token, secret, {}, async (err, info) => {
       if (err) throw err;
-      const { id, title, summary, content } = req.body;
+      const { id, projectName, title, summary, content } = req.body;
       const postDoc = await Post.findById(id);
       const isAuthor =
         JSON.stringify(postDoc.author) === JSON.stringify(info.id);
@@ -460,6 +458,7 @@ app.put(
         return res.status(400).json("you are not the author");
       }
       await postDoc.update({
+        projectName,
         title,
         summary,
         content,
@@ -470,6 +469,14 @@ app.put(
     });
   }
 );
+
+// get projectName list data
+app.get("/api/post/exhibition/projectNames", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  const currentUrlArray = req.url.split("/");
+  const section_name = currentUrlArray[currentUrlArray.length - 2];
+  res.json(await Post.find({ section: section_name }).distinct("projectName"));
+});
 
 app.get("/api/post/exhibition", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
@@ -538,8 +545,9 @@ app.post(
     const { token } = req.cookies;
     jwt.verify(token, secret, {}, async (err, info) => {
       if (err) throw err;
-      const { title, summary, content, section } = req.body;
+      const { projectName, title, summary, content, section } = req.body;
       const postDoc = await Post.create({
+        projectName,
         title,
         summary,
         content,
@@ -559,7 +567,7 @@ app.put(
     mongoose.connect(process.env.MONGO_URL);
     // let newPath = null;
     if (req.file) {
-      const { path, originalname, mimetype } = req.file;
+      const { path, projectName, originalname, mimetype } = req.file;
       // const parts = originalname.split(".");
       // const ext = parts[parts.length - 1];
       // newPath = path + "." + ext;
@@ -569,7 +577,7 @@ app.put(
     const { token } = req.cookies;
     jwt.verify(token, secret, {}, async (err, info) => {
       if (err) throw err;
-      const { id, title, summary, content } = req.body;
+      const { id, projectName, title, summary, content } = req.body;
       const postDoc = await Post.findById(id);
       const isAuthor =
         JSON.stringify(postDoc.author) === JSON.stringify(info.id);
@@ -577,6 +585,7 @@ app.put(
         return res.status(400).json("you are not the author");
       }
       await postDoc.update({
+        projectName,
         title,
         summary,
         content,
@@ -587,6 +596,14 @@ app.put(
     });
   }
 );
+
+// get projectName list data
+app.get("/api/post/computation/projectNames", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  const currentUrlArray = req.url.split("/");
+  const section_name = currentUrlArray[currentUrlArray.length - 2];
+  res.json(await Post.find({ section: section_name }).distinct("projectName"));
+});
 
 app.get("/api/post/computation", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
@@ -679,13 +696,14 @@ app.put("/api/post/art", uploadMiddleware.single("file"), async (req, res) => {
   const { token } = req.cookies;
   jwt.verify(token, secret, {}, async (err, info) => {
     if (err) throw err;
-    const { id, title, summary, content } = req.body;
+    const { id, projectName, title, summary, content } = req.body;
     const postDoc = await Post.findById(id);
     const isAuthor = JSON.stringify(postDoc.author) === JSON.stringify(info.id);
     if (!isAuthor) {
       return res.status(400).json("you are not the author");
     }
     await postDoc.update({
+      projectName,
       title,
       summary,
       content,
@@ -694,6 +712,14 @@ app.put("/api/post/art", uploadMiddleware.single("file"), async (req, res) => {
 
     res.json(postDoc);
   });
+});
+
+// get projectName list data
+app.get("/api/post/art/projectNames", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  const currentUrlArray = req.url.split("/");
+  const section_name = currentUrlArray[currentUrlArray.length - 2];
+  res.json(await Post.find({ section: section_name }).distinct("projectName"));
 });
 
 app.get("/api/post/art", async (req, res) => {

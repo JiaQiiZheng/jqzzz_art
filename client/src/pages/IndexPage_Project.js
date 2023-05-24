@@ -2,11 +2,14 @@ import { useLocation } from "react-router-dom";
 import Post from "../Post";
 import { useEffect, useRef, useState } from "react";
 
-export default function IndexPage() {
+export default function IndexPage_Project() {
   //get section name
   const currentUrlArray = window.location.href.split("/");
-
-  const sectionName = currentUrlArray[currentUrlArray.length - 1];
+  const projectName = currentUrlArray[currentUrlArray.length - 1].replaceAll(
+    "%20",
+    " "
+  );
+  const sectionName = currentUrlArray[currentUrlArray.length - 2];
   const [posts, setPosts] = useState([]);
   const [pageNum, setPageNum] = useState(1);
   const scrollHeightTempRef = useRef();
@@ -43,7 +46,10 @@ export default function IndexPage() {
     ).then((response) => {
       const currentPosts = posts;
       response.json().then((posts) => {
-        setPosts([...currentPosts, ...posts]);
+        setPosts([
+          ...currentPosts,
+          ...posts.filter((item) => item.projectName === projectName),
+        ]);
       });
     });
   }, [pageNum]);
@@ -55,7 +61,7 @@ export default function IndexPage() {
       `${process.env.REACT_APP_API_URL}/post/${sectionName}?page=${pageNum}`
     ).then((response) => {
       response.json().then((posts) => {
-        setPosts([...posts]);
+        setPosts([...posts].filter((item) => item.projectName === projectName));
       });
     });
   }

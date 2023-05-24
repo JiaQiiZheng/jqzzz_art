@@ -69,6 +69,17 @@ export default function PostPage() {
 
   return (
     <div className="post-page">
+      {postInfo.projectName && (
+        <div className="project_name">
+          <Link
+            to={`/${postInfo.section}/${postInfo.projectName}`}
+            className="project_name_link"
+          >
+            {"ARCHIVE: "}
+            <span>{postInfo.projectName.toUpperCase()}</span>
+          </Link>
+        </div>
+      )}
       <div className="image">
         <Image src={postInfo.cover} alt="" />
       </div>
