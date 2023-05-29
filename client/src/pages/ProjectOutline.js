@@ -15,8 +15,7 @@ const ProjectOutline = ({ name }) => {
           </Link>
         </div>
       </div>
-      <p className="project_brief">intro</p>
-      <div className="lazy-images-container">
+      <div className="lazy-images-container" id="lazy-images-container">
         <LoadProjectData props={name} />
       </div>
     </div>

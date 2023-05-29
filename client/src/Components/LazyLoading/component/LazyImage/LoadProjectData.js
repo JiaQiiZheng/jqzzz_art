@@ -2,6 +2,17 @@ import React, { useEffect, useState } from "react";
 import LazyImage from "./LazyImage";
 
 const LoadProjectData = ({ props }) => {
+  // horizontally scroll
+  const scrollableElement = document.querySelectorAll("#lazy-images");
+  scrollableElement.forEach(
+    (item) =>
+      item &&
+      item.addEventListener("wheel", (ev) => {
+        ev.preventDefault();
+        item.scrollLeft += ev.deltaY + ev.deltaX;
+      })
+  );
+
   // get section name
   const currentUrlArray = window.location.href.split("/");
   const sectionName = currentUrlArray[currentUrlArray.length - 1];
@@ -32,7 +43,7 @@ const LoadProjectData = ({ props }) => {
   }, []);
 
   return (
-    <div className="lazy-images">
+    <div className="lazy-images" id="lazy-images">
       {imageUrls.map((item, index) => (
         <LazyImage src={item.src} key={index} alt={index} />
       ))}

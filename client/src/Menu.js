@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Route, Routes } from "react-router-dom";
 
 export default function Menu() {
@@ -8,8 +8,7 @@ export default function Menu() {
     for (var i = 0; i < allTags.length; i++) {
       allTags[i].classList.remove("menu_enlarge");
     }
-    currentTag.classList.add("menu_enlarge");
-    console.log(currentTag);
+    currentTag.classList.toggle("menu_enlarge");
   };
 
   return (

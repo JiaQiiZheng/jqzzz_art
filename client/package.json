@@ -11,7 +11,7 @@
     "date-fns": "^2.29.3",
     "dotenv": "^16.0.3",
     "eslint-config": "^0.3.0",
-    "jquery": "^3.6.4",
+    "jquery": "^3.7.0",
     "lodash": "^4.17.21",
     "quill-image-compress": "^1.2.29",
     "quill-image-resize-module-react": "^3.0.0",

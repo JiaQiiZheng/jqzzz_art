@@ -29,6 +29,7 @@ const LazyImage = ({ src, alt }) => {
       }
     }
   }, [isIntersecting]);
+
   return (
     <img
       className="lazy-image"

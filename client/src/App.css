@@ -28,6 +28,9 @@
 a {
   cursor: pointer;
 }
+/* html {
+  scroll-behavior: smooth;
+} */
 body {
   color: var(--themeColor);
   margin-left: auto;
@@ -135,7 +138,7 @@ header nav .header_button:hover {
   text-transform: uppercase;
   display: flex;
   justify-content: center;
-  font-size: 4rem;
+  font-size: 2rem;
   transition: 0.5s;
 }
 
@@ -354,12 +357,14 @@ div.post-page .project_name_link {
 /* Archive title in post page */
 
 /* projectList hover animation */
+.project_info {
+  margin-bottom: 10rem;
+}
 .projectList {
   display: flex;
   flex-direction: column;
   position: relative;
   color: var(--themeColor);
-  font-size: 1.5rem;
 }
 .projectList .project .project_link {
   text-decoration: none;
@@ -369,9 +374,11 @@ div.post-page .project_name_link {
   margin-top: 5rem;
 }
 .projectList .project .project_name {
+  font-size: 1.5rem;
+  font-weight: 100;
   transition: 0.5s;
-  margin-left: 10rem;
-  margin-right: 10rem;
+  margin-left: 10%;
+  margin-right: 10%;
   color: var(--secondFontColor);
 }
 .projectList .project .project_name:hover {
