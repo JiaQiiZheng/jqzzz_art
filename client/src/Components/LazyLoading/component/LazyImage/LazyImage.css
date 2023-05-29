@@ -1,0 +1,30 @@
+.lazy-images-container {
+  overflow-x: auto;
+}
+
+.lazy-images {
+  display: flex;
+  overflow-x: scroll;
+}
+
+.lazy-images::-webkit-scrollbar {
+  display: none;
+}
+
+.lazy-image {
+  border-radius: 8px;
+  width: auto;
+  height: 30vh;
+  margin: 2px;
+  opacity: 0;
+  transition: 0.5s;
+}
+
+.lazy-image.show {
+  opacity: 1;
+  transition: 0.5s;
+}
+
+.lazy-image:hover {
+  cursor: pointer;
+}

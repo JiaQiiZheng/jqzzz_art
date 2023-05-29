@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
+import LazyImage from "../Components/LazyLoading/component/LazyImage/LazyImage";
+import { data } from "../Components/LazyLoading/constant/data";
+import Card from "../Learn/IntersectionObserver/card";
+import LoadProjectData from "../Components/LazyLoading/component/LazyImage/LoadProjectData";
 
 const ProjectOutline = ({ name }) => {
   return (
@@ -11,7 +15,10 @@ const ProjectOutline = ({ name }) => {
           </Link>
         </div>
       </div>
-      <p className="project_brief">gallery</p>
+      <p className="project_brief">intro</p>
+      <div className="lazy-images-container">
+        <LoadProjectData props={name} />
+      </div>
     </div>
   );
 };
