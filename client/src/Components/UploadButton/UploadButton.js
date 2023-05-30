@@ -1,15 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 import * as $ from "jquery";
 
-const UploadButton = () => {
+const UploadButton = ({ props }) => {
+  // send file info to parent
+  const sentFileExtToParent = props;
+
   useEffect(() => {
     var btnUpload = $("#upload_file"),
       btnOuter = $(".button_outer");
     btnUpload.on("change", function (e) {
       var ext = btnUpload.val().split(".").pop().toLowerCase();
+      // send file info to parent
+      sentFileExtToParent(ext);
+      // send file info to parent
+
       if ($.inArray(ext, ["gif", "png", "jpg", "jpeg"]) == -1) {
-        $(".error_msg").text("Not an Image...");
+        $(".error_msg").text("Profile's format needs to be gif/png/jpg/jpeg");
       } else {
         $(".error_msg").text("");
         btnOuter.addClass("file_uploading");

@@ -13,6 +13,14 @@ export default function EditPost() {
   const { id } = useParams();
   const [projectName, setProjectName] = useState("");
   const [projectNameData, setProjectNameData] = useState();
+  const [isGif, setIsGif] = useState();
+  const isGifRef = useRef();
+
+  // get isGif info back from UploadButton component
+  const handleFileExtCallback = (childData) => {
+    setIsGif(childData === "gif");
+    isGifRef.current = childData === "gif";
+  };
 
   //compress upload profile
   useEffect(() => {
@@ -36,38 +44,46 @@ export default function EditPost() {
 
     input &&
       input.addEventListener("change", (event) => {
-        let image_file = event.target.files[0];
-        let reader = new FileReader();
-        reader.readAsDataURL(image_file);
-        reader.onload = (event) => {
-          let image_url = event.target.result;
-          let image = document.createElement("img");
-          image.src = image_url;
-          image.onload = (e) => {
-            let canvas = document.createElement("canvas");
-            let ratio = WIDTH / e.target.width;
-            canvas.width = WIDTH;
-            canvas.height = e.target.height * ratio;
+        // remove all previous previews
+        while (profile_preview.firstChild) {
+          profile_preview.removeChild(profile_preview.lastElementChild);
+          // profile_preview.innerHTML = "";
+        }
+        if (!isGifRef.current) {
+          let image_file = event.target.files[0];
+          let reader = new FileReader();
+          reader.readAsDataURL(image_file);
+          reader.onload = (event) => {
+            let image_url = event.target.result;
+            let image = document.createElement("img");
+            image.src = image_url;
+            image.onload = (e) => {
+              let canvas = document.createElement("canvas");
+              let ratio = WIDTH / e.target.width;
+              canvas.width = WIDTH;
+              canvas.height = e.target.height * ratio;
 
-            // remove all previous previews
-            while (profile_preview.firstChild) {
-              profile_preview.removeChild(profile_preview.lastElementChild);
-              // profile_preview.innerHTML = "";
-            }
+              //draw
+              const context = canvas.getContext("2d");
+              context.drawImage(image, 0, 0, canvas.width, canvas.height);
+              let new_image_url = context.canvas.toDataURL("image/jpeg", 90);
+              let new_image = document.createElement("img");
 
-            //draw
-            const context = canvas.getContext("2d");
-            context.drawImage(image, 0, 0, canvas.width, canvas.height);
-            let new_image_url = context.canvas.toDataURL("image/jpeg", 90);
-            let new_image = document.createElement("img");
+              document.getElementById("profile_preview").appendChild(new_image);
+              new_image.src = new_image_url;
 
-            document.getElementById("profile_preview").appendChild(new_image);
-            new_image.src = new_image_url;
-
-            //submit to the form
-            setFiles(urlToFile(new_image_url));
+              //submit to the form
+              setFiles(urlToFile(new_image_url));
+            };
           };
-        };
+        } else {
+          let new_image = document.createElement("img");
+          document.getElementById("profile_preview").appendChild(new_image);
+          new_image.src = URL.createObjectURL(event.target.files[0]);
+
+          //submit to the form
+          setFiles(event.target.files[0]);
+        }
       });
   }, []);
 
@@ -194,15 +210,23 @@ export default function EditPost() {
         value={summary}
         onChange={(ev) => setSummary(ev.target.value)}
       />
-      {/* <input type="file" onChange={(ev) => setFiles(ev.target.files)} /> */}
+      {/* <input
+        type="file"
+        onChange={(ev) => {
+          console.log(ev.target.files);
+          ev.target.files[0].name.split(".").pop() === "gif"
+            ? setFiles(ev.target.files)
+            : setIsGif(false);
+        }}
+      /> */}
       {/* <input type="file" id="file" /> */}
-      <UploadButton />
+      <UploadButton props={handleFileExtCallback} />
       <div id="profile_preview"></div>
       <Editor onChange={setContent} value={content} />
       <nav className="form_button">
         {/* <button style={{ marginTop: "2rem" }}>Update</button> */}
         <button>Update</button>
-        <Link className="negative_button" to="/">
+        <Link className="negative_button" to={`/${sectionName}/post/` + id}>
           <button>Back</button>
         </Link>
       </nav>

@@ -1,6 +1,6 @@
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Navigate } from "react-router-dom";
 import Editor from "../Editor";
 import { Link } from "react-router-dom";
@@ -20,9 +20,18 @@ export default function CreatePost() {
   const [content, setContent] = useState("");
   const [files, setFiles] = useState("");
   const [redirect, setRedirect] = useState(false);
+  const [isGif, setIsGif] = useState();
+  const isGifRef = useRef();
+
+  // get isGif info back from UploadButton component
+  const handleFileExtCallback = (childData) => {
+    setIsGif(childData === "gif");
+    isGifRef.current = childData === "gif";
+  };
 
   //compress upload profile
   useEffect(() => {
+    console.log("run!");
     const WIDTH = 2000;
     let input = document.getElementById("upload_file");
     let profile_preview = document.getElementById("profile_preview");
@@ -43,38 +52,46 @@ export default function CreatePost() {
 
     input &&
       input.addEventListener("change", (event) => {
-        let image_file = event.target.files[0];
-        let reader = new FileReader();
-        reader.readAsDataURL(image_file);
-        reader.onload = (event) => {
-          let image_url = event.target.result;
-          let image = document.createElement("img");
-          image.src = image_url;
-          image.onload = (e) => {
-            let canvas = document.createElement("canvas");
-            let ratio = WIDTH / e.target.width;
-            canvas.width = WIDTH;
-            canvas.height = e.target.height * ratio;
+        // remove all previous previews
+        while (profile_preview.firstChild) {
+          profile_preview.removeChild(profile_preview.lastElementChild);
+          // profile_preview.innerHTML = "";
+        }
+        if (!isGifRef.current) {
+          let image_file = event.target.files[0];
+          let reader = new FileReader();
+          reader.readAsDataURL(image_file);
+          reader.onload = (event) => {
+            let image_url = event.target.result;
+            let image = document.createElement("img");
+            image.src = image_url;
+            image.onload = (e) => {
+              let canvas = document.createElement("canvas");
+              let ratio = WIDTH / e.target.width;
+              canvas.width = WIDTH;
+              canvas.height = e.target.height * ratio;
 
-            // remove all previous previews
-            while (profile_preview.firstChild) {
-              profile_preview.removeChild(profile_preview.lastElementChild);
-              // wrapper.innerHTML = "";
-            }
+              //draw
+              const context = canvas.getContext("2d");
+              context.drawImage(image, 0, 0, canvas.width, canvas.height);
+              let new_image_url = context.canvas.toDataURL("image/jpeg", 90);
+              let new_image = document.createElement("img");
 
-            //draw
-            const context = canvas.getContext("2d");
-            context.drawImage(image, 0, 0, canvas.width, canvas.height);
-            let new_image_url = context.canvas.toDataURL("image/jpeg", 90);
-            let new_image = document.createElement("img");
+              document.getElementById("profile_preview").appendChild(new_image);
+              new_image.src = new_image_url;
 
-            document.getElementById("profile_preview").appendChild(new_image);
-            new_image.src = new_image_url;
-
-            //submit to the form
-            setFiles(urlToFile(new_image_url));
+              //submit to the form
+              setFiles(urlToFile(new_image_url));
+            };
           };
-        };
+        } else {
+          let new_image = document.createElement("img");
+          document.getElementById("profile_preview").appendChild(new_image);
+          new_image.src = URL.createObjectURL(event.target.files[0]);
+
+          //submit to the form
+          setFiles(event.target.files[0]);
+        }
       });
   }, []);
 
@@ -150,7 +167,7 @@ export default function CreatePost() {
       />
       {/*restyle default file upload button*/}
       {/* <input type="file" id="file" className="hidden" /> */}
-      <UploadButton />
+      <UploadButton props={handleFileExtCallback} />
       {/*restyle default file upload button*/}
 
       <div id="profile_preview"></div>

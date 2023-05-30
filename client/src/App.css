@@ -44,6 +44,20 @@ body {
 main {
   margin: 0px 0px;
 }
+img {
+  animation: fadeIn 1s;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.imageLayer__1NyU2 {
+  animation: none !important;
+}
 header {
   display: flex;
   justify-content: space-between;
@@ -126,8 +140,10 @@ header nav .header_button:hover {
 }
 
 .menu {
-  list-style-type: none;
   margin: 1rem;
+}
+.menu ul {
+  list-style-type: "+  ";
 }
 
 .menu .menu_text {
@@ -141,7 +157,8 @@ header nav .header_button:hover {
   color: var(--secondFontColor);
   text-transform: uppercase;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+  padding-right: 1rem;
   font-size: 2rem;
   transition: 0.5s;
 }
