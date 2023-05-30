@@ -4,6 +4,10 @@
   margin-right: 10%;
 }
 
+.lazy-images-container a {
+  cursor: all-scroll;
+}
+
 .lazy-images {
   display: flex;
   overflow-y: scroll;

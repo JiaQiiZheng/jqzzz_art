@@ -45,7 +45,7 @@ const LoadProjectData = ({ props }) => {
   return (
     <div className="lazy-images" id="lazy-images">
       {imageUrls.map((item, index) => (
-        <LazyImage src={item.src} key={index} alt={index} />
+        <LazyImage src={item.src} key={index} alt={index} props={props} />
       ))}
     </div>
   );

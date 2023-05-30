@@ -22,6 +22,10 @@
   --mediaMaxWidth: 50vw;
 }
 
+.hidden {
+  display: none;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -290,6 +294,15 @@ form.register {
   margin: 1rem 1rem;
 }
 
+#profile_preview {
+  display: flex;
+  justify-content: center;
+}
+
+#profile_preview img {
+  max-height: 60vh;
+}
+
 .edit_form .form_button {
   display: grid;
   grid-template-columns: 0.5fr 0.5fr;
@@ -410,6 +423,38 @@ div.post-page .project_name_link {
   color: var(--mainColor);
 }
 /* projectList hover animation */
+
+/* project indexpage */
+.indexpage_project_name {
+  margin: 2rem 0px 0px 0px;
+  padding: 0px 2rem 0px 2rem;
+  display: flex;
+  text-transform: uppercase;
+  font-weight: 100;
+  justify-content: flex-end;
+  font-size: 2rem;
+  position: relative;
+  color: var(--themeColor);
+}
+.indexpage_project_name::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--mainColor);
+  transform-origin: bottom right;
+  transition: transform 0.5s ease-out;
+  color: var(--mainColor);
+}
+.indexpage_project_name:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+  color: var(--mainColor);
+}
+/* project indexpage */
 
 /* project_name hover animation */
 div.post-page div.project_name {

@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import "./LazyImage.css";
 
-const LazyImage = ({ src, alt }) => {
+const LazyImage = ({ src, alt, props }) => {
   const imageRef = useRef("null");
   const [isIntersecting, setIsIntersecting] = React.useState(false);
 
@@ -31,13 +32,17 @@ const LazyImage = ({ src, alt }) => {
   }, [isIntersecting]);
 
   return (
-    <img
-      className="lazy-image"
-      src={src}
-      alt={alt}
-      ref={imageRef}
-      data-src={src}
-    />
+    <Link to={props}>
+      <img
+        className="lazy-image"
+        src={src}
+        width={100}
+        height={100}
+        alt={alt}
+        ref={imageRef}
+        data-src={src}
+      />
+    </Link>
   );
 };
 

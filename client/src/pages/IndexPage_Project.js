@@ -78,8 +78,11 @@ export default function IndexPage_Project() {
   }, [sectionName]);
 
   return (
-    <div className="posts">
-      {posts.length > 0 && posts.map((post, i) => <Post key={i} {...post} />)}
+    <div>
+      <div className="indexpage_project_name">{projectName}</div>
+      <div className="posts">
+        {posts.length > 0 && posts.map((post, i) => <Post key={i} {...post} />)}
+      </div>
     </div>
   );
 }

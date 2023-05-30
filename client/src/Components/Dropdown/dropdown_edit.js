@@ -7,7 +7,6 @@ const Dropdown = ({ params }) => {
   const [items, setItem] = useState(projectNameArray);
   const [newName, setNewName] = useState("");
 
-  console.log(selectedProjectName);
   var currentProjectNameId = null;
   if (selectedProjectName) {
     currentProjectNameId = projectNameArray.find(
@@ -30,7 +29,7 @@ const Dropdown = ({ params }) => {
       projectName: newName,
     });
     setNewName("");
-    console.log(projectNameArray);
+    // console.log(projectNameArray);
   };
 
   if (Array.isArray(projectNameArray) && projectNameArray.length != 0) {

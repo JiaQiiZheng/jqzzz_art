@@ -5,6 +5,7 @@ import { Navigate } from "react-router-dom";
 import Editor from "../Editor";
 import { Link } from "react-router-dom";
 import Dropdown from "../Components/Dropdown/dropdown";
+import UploadButton from "../Components/UploadButton/UploadButton";
 
 export default function CreatePost() {
   //get section name
@@ -19,6 +20,63 @@ export default function CreatePost() {
   const [content, setContent] = useState("");
   const [files, setFiles] = useState("");
   const [redirect, setRedirect] = useState(false);
+
+  //compress upload profile
+  useEffect(() => {
+    const WIDTH = 2000;
+    let input = document.getElementById("upload_file");
+    let profile_preview = document.getElementById("profile_preview");
+    let urlToFile = (url) => {
+      let arr = url.split(",");
+      let mime = arr[0].match(/:(.*?);/)[1];
+      let data = arr[1];
+      // decrypt data
+      let dataStr = atob(data);
+      let n = dataStr.length;
+      let dataArr = new Uint8Array(n);
+      while (n--) {
+        dataArr[n] = dataStr.charCodeAt(n);
+      }
+      let file = new File([dataArr], "CompressedFile.jpg", { type: mime });
+      return file;
+    };
+
+    input &&
+      input.addEventListener("change", (event) => {
+        let image_file = event.target.files[0];
+        let reader = new FileReader();
+        reader.readAsDataURL(image_file);
+        reader.onload = (event) => {
+          let image_url = event.target.result;
+          let image = document.createElement("img");
+          image.src = image_url;
+          image.onload = (e) => {
+            let canvas = document.createElement("canvas");
+            let ratio = WIDTH / e.target.width;
+            canvas.width = WIDTH;
+            canvas.height = e.target.height * ratio;
+
+            // remove all previous previews
+            while (profile_preview.firstChild) {
+              profile_preview.removeChild(profile_preview.lastElementChild);
+              // wrapper.innerHTML = "";
+            }
+
+            //draw
+            const context = canvas.getContext("2d");
+            context.drawImage(image, 0, 0, canvas.width, canvas.height);
+            let new_image_url = context.canvas.toDataURL("image/jpeg", 90);
+            let new_image = document.createElement("img");
+
+            document.getElementById("profile_preview").appendChild(new_image);
+            new_image.src = new_image_url;
+
+            //submit to the form
+            setFiles(urlToFile(new_image_url));
+          };
+        };
+      });
+  }, []);
 
   // get projectName list from backend
   useEffect(() => {
@@ -46,15 +104,13 @@ export default function CreatePost() {
     setSelectedProjectName(childData);
   };
 
-  console.log("run: " + projectNameData);
-
   async function createNewPost(ev) {
     const data = new FormData();
     data.set("projectName", selectedProjectName);
     data.set("title", title);
     data.set("summary", summary);
     data.set("content", content);
-    data.set("file", files[0]);
+    data.set("file", files);
     data.set("section", sectionName);
     ev.preventDefault();
     const response = await fetch(
@@ -92,7 +148,12 @@ export default function CreatePost() {
         value={summary}
         onChange={(ev) => setSummary(ev.target.value)}
       />
-      <input type="file" onChange={(ev) => setFiles(ev.target.files)} />
+      {/*restyle default file upload button*/}
+      {/* <input type="file" id="file" className="hidden" /> */}
+      <UploadButton />
+      {/*restyle default file upload button*/}
+
+      <div id="profile_preview"></div>
       <Editor value={content} onChange={setContent} />
       {/* <Editor_test value={content} onChange={setContent} /> */}
       <nav className="form_button">
