@@ -96,6 +96,7 @@ Quill.register(Font, true);
 
 // Modules object for setting up the Quill editor
 export const modules = {
+  clipboard: { matchVisual: false },
   toolbar: {
     container: "#toolbar",
     handlers: {
@@ -122,7 +123,6 @@ export const modules = {
   // },
   counter: true,
   cardEditable: true,
-
   //imageUploadToServer:
   imageUploader: {
     upload: (file) => {
