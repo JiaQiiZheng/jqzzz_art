@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./style.css";
-import * as $ from "jquery";
+import $ from "jquery";
 
 const UploadButton = ({ props }) => {
   // send file info to parent

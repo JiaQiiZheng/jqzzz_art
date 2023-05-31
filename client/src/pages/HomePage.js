@@ -10,11 +10,15 @@ import BaltimoreStudio_20230429 from "../IssuuDocument/BaltimoreStudio_20230429"
 import Portfolio_2014_2020 from "../IssuuDocument/Portfolio_2014_2020";
 import NewOrleansSketchBook from "../IssuuDocument/NewOrleansSketchBook";
 
+// turn.js convertor
+import TurnToBook from "../Components/TurnToBook/TurnToBook";
+
 const baseUrl = process.env.REACT_APP_API_URL;
 
 export default function HomePage() {
   return (
     <div className="home_page">
+      <TurnToBook />
       <Zmage
         className="profile"
         src="https://jqzzz.s3.amazonaws.com/1679927376239.jpg"
