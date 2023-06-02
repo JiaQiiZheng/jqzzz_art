@@ -19,7 +19,6 @@ import HomePage from "./pages/HomePage";
 import Redirect from "./pages/Redirect";
 import ProjectList from "./pages/ProjectList";
 import Turnjs5_Iframe from "./Components/TurnToBook/Turnjs5_Iframe";
-import TurnToBook from "./Components/TurnToBook/TurnToBook";
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
