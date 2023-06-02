@@ -22,7 +22,7 @@ const ProjectList = () => {
     <div>
       <iframe
         className="turnjs_book_iframe"
-        src="http://localhost:3000/test"
+        src={window.location.origin + "/test"}
         frameBorder="0"
       ></iframe>
       {/* {posts.length > 0 && posts.map((post, i) => <Post key={i} {...post} />)} */}

@@ -20,7 +20,7 @@ export default function HomePage() {
     <div className="home_page">
       <iframe
         className="turnjs_book_iframe"
-        src="http://localhost:3000/test"
+        src={window.location.origin + "/test"}
         frameBorder="0"
       ></iframe>
       <Zmage
