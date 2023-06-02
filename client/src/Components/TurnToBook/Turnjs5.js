@@ -1,11 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import $ from "jquery";
 import { Helmet } from "react-helmet";
-import "./css/style.css";
 
-const pageNumber = 20;
-const page_width = 800;
-const page_height = 800;
+const pageNumber = 100;
+const page_width = 400;
+const page_height = 400;
 const randomPages = (pageNumber) => {
   var page_src = [];
   while (pageNumber--) {
@@ -17,6 +16,8 @@ const randomPages = (pageNumber) => {
 };
 
 export default function Turnjs5() {
+  const [pages, setPages] = useState([]);
+
   useEffect(() => {
     const scriptTag_1 = document.createElement("script");
     scriptTag_1.src = "./assets/js/script.js";
@@ -44,6 +45,8 @@ export default function Turnjs5() {
     scriptTag_4.async = true;
     document.body.appendChild(scriptTag_4);
 
+    setPages(randomPages(pageNumber));
+
     return () => {
       document.body.removeChild(scriptTag_1);
       document.body.removeChild(scriptTag_2);
@@ -51,6 +54,7 @@ export default function Turnjs5() {
       document.body.removeChild(scriptTag_4);
     };
   }, []);
+
   return (
     <div className="turnjs_container">
       <Helmet name="turnjs_helmet">
@@ -71,7 +75,7 @@ export default function Turnjs5() {
           <div id="flipbook" className="ui-flipbook">
             {/* <!-- Do not place the content here --> */}
             <a ignore="1" className="ui-arrow-control ui-arrow-next-page"></a>
-            {randomPages(pageNumber).map((page, index) => (
+            {pages.map((page, index) => (
               <img key={index} className="randomPage" src={page} alt="" />
             ))}
             <a

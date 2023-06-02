@@ -167,11 +167,7 @@
   margin: 4px;
   background-color: white;
 }
-.ui-miniatures-slider .miniatures_test {
-  width: 10px;
-  height: 10px;
-  border: 2px solid red;
-}
+
 .ui-miniatures-slider .left-page .page-img {
   width: calc(96%);
   margin-right: 0;
@@ -324,7 +320,6 @@
   opacity: 1;
 }
 .turnjs_container {
-  border: 10px solid red;
   margin: 0;
   width: 100%;
   overflow: hidden;
