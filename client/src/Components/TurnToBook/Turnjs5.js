@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import $ from "jquery";
 import { Helmet } from "react-helmet";
 
-const pageNumber = 100;
+const pageNumber = 30;
 const page_width = 400;
 const page_height = 400;
 const randomPages = (pageNumber) => {
@@ -22,28 +22,36 @@ export default function Turnjs5() {
     const scriptTag_1 = document.createElement("script");
     scriptTag_1.src = "./assets/js/script.js";
     scriptTag_1.type = "text/javascript";
-    scriptTag_1.async = true;
     document.body.appendChild(scriptTag_1);
 
     const scriptTag_2 = document.createElement("script");
     scriptTag_2.src = "https://code.jquery.com/jquery-2.0.3.min.js";
     scriptTag_2.type = "text/javascript";
-    scriptTag_2.async = true;
     document.body.appendChild(scriptTag_2);
 
     const scriptTag_3 = document.createElement("script");
     scriptTag_3.src =
       "https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js";
     scriptTag_3.type = "text/javascript";
-    scriptTag_3.async = true;
     document.body.appendChild(scriptTag_3);
 
     const scriptTag_4 = document.createElement("script");
     scriptTag_4.src =
       "https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.4.0/backbone-min.js";
     scriptTag_4.type = "text/javascript";
-    scriptTag_4.async = true;
     document.body.appendChild(scriptTag_4);
+
+    // const scriptTag_5 = document.createElement("script");
+    // scriptTag_5.src = "./assets/js/turn.min.js";
+    // scriptTag_5.type = "text/javascript";
+    // scriptTag_5.async = true;
+    // document.body.appendChild(scriptTag_5);
+
+    // const scriptTag_6 = document.createElement("script");
+    // scriptTag_6.src = "./assets/js/app.js";
+    // scriptTag_6.type = "text/javascript";
+    // scriptTag_6.async = true;
+    // document.body.appendChild(scriptTag_6);
 
     setPages(randomPages(pageNumber));
 
@@ -52,23 +60,13 @@ export default function Turnjs5() {
       document.body.removeChild(scriptTag_2);
       document.body.removeChild(scriptTag_3);
       document.body.removeChild(scriptTag_4);
+      // document.body.removeChild(scriptTag_5);
+      // document.body.removeChild(scriptTag_6);
     };
   }, []);
 
   return (
     <div className="turnjs_container">
-      <Helmet name="turnjs_helmet">
-        {/* // <!-- Turn.js UI Kit --> */}
-        {/* <script type="text/javascript" src="./assets/js/turn.min.js"></script> */}
-        {/* // <!-- App dependencies --> */}
-        {/* <script type="text/javascript" src="./assets/js/app.js"></script> */}
-        {/* <script type="text/javascript" src="./assets/js/script.js"></script>; */}
-        {/* <script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.4.0/backbone-min.js"></script> */}
-        {/* <!-- turnjs css dependencies --> */}
-      </Helmet>
-
       {/* <!-- partial:index.partial.html --> */}
       <div className="catalog-app">
         <div id="viewer">
