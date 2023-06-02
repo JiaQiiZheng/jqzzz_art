@@ -1,12 +1,53 @@
 import React from "react";
 import $ from "jquery";
-import "turn.js";
-import Turn from "./Turn";
+import "./turn.js";
 import "./style.css";
 
-const page_width = 600;
-const page_height = 600;
+class Turn extends React.Component {
+  static defaultProps = {
+    style: {},
+    className: "",
+    options: {},
+  };
 
+  componentDidMount() {
+    if (this.el) {
+      $(this.el).turn(Object.assign({}, this.props.options));
+    }
+    document.addEventListener("keydown", this.handleKeyDown, false);
+  }
+
+  componentWillUnmount() {
+    if (this.el) {
+      $(this.el).turn("destroy").remove();
+    }
+    document.removeEventListener("keydown", this.handleKeyDown, false);
+  }
+
+  handleKeyDown = (event) => {
+    if (event.keyCode === 37) {
+      $(this.el).turn("previous");
+    }
+    if (event.keyCode === 39) {
+      $(this.el).turn("next");
+    }
+  };
+
+  render() {
+    return (
+      <div
+        className={this.props.className}
+        style={Object.assign({}, this.props.style)}
+        ref={(el) => (this.el = el)}
+      >
+        {this.props.children}
+      </div>
+    );
+  }
+}
+
+const page_width = 400;
+const page_height = 400;
 const options = {
   width: page_width * 2,
   height: page_height,
@@ -14,32 +55,42 @@ const options = {
   display: "double",
   acceleration: true,
   elevation: 50,
+  gradients: !$.isTouch,
   when: {
-    turned: function (e, page) {
-      console.log("Current view: ", $(this).turn("view"));
-    },
+    // turned: function (e, page) {
+    //   console.log("Current view: ", $(this).turn("view"));
+    // },
+    // missing: function (e, pages) {
+    //   for (var i = 0; i < pages.length; i++) {
+    //     $(".magazine").turn("addPage", page[pages[i]], pages[i]);
+    //   }
+    // },
   },
 };
 
-function randomPages(page_number) {
-  var pages = [];
-  while (page_number--) {
-    pages.push(
-      `https://picsum.photos/${page_width}/${page_height}?grayscale&random=${page_number}`
+const randomPages = (pageNumber) => {
+  var page_src = [];
+  while (pageNumber--) {
+    page_src.push(
+      `https://picsum.photos/${page_width}/${page_height}?grayscale&random=${pageNumber}`
     );
   }
-  return pages;
-}
+  return page_src;
+};
 
 const TurnToBook = () => {
   return (
-    <Turn options={options} className="flipbook">
-      {randomPages(20).map((page, index) => (
-        <div key={index} className="page">
-          <img src={page} alt="" />
-        </div>
-      ))}
-    </Turn>
+    <div className="magzine-viewport">
+      <div className="container">
+        <Turn options={options} className="magazine">
+          {randomPages(20).map((page, index) => (
+            <div key={index} className="page">
+              <img src={page} alt="" />
+            </div>
+          ))}
+        </Turn>
+      </div>
+    </div>
   );
 };
 

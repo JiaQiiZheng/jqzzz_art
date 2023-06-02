@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 import Post from "../Post";
 import { useEffect, useRef, useState } from "react";
+import Turnjs5 from "../Components/TurnToBook/Turnjs5";
 
 export default function IndexPage_Project() {
   //get section name
@@ -79,6 +80,7 @@ export default function IndexPage_Project() {
 
   return (
     <div>
+      <Turnjs5 />
       <div className="indexpage_project_name">{projectName}</div>
       <div className="posts">
         {posts.length > 0 && posts.map((post, i) => <Post key={i} {...post} />)}
