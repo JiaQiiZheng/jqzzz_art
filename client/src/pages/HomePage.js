@@ -11,14 +11,18 @@ import Portfolio_2014_2020 from "../IssuuDocument/Portfolio_2014_2020";
 import NewOrleansSketchBook from "../IssuuDocument/NewOrleansSketchBook";
 
 // turn.js convertor
-import Turnjs5 from "../Components/TurnToBook/Turnjs5";
+import Turnjs5_Iframe from "../Components/TurnToBook/Turnjs5_Iframe";
 
 const baseUrl = process.env.REACT_APP_API_URL;
 
 export default function HomePage() {
   return (
     <div className="home_page">
-      <Turnjs5 />
+      <iframe
+        className="turnjs_book_iframe"
+        src="http://localhost:3000/test"
+        frameBorder="0"
+      ></iframe>
       <Zmage
         className="profile"
         src="https://jqzzz.s3.amazonaws.com/1679927376239.jpg"

@@ -83,7 +83,6 @@ export default function IndexPage_Project() {
       <iframe
         className="turnjs_book_iframe"
         src="http://localhost:3000/test"
-        scrolling="no"
         frameBorder="0"
       ></iframe>
       <div className="indexpage_project_name">{projectName}</div>

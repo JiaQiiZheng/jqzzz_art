@@ -43,7 +43,6 @@ function App() {
           <Route path="/design/post/:id" element={<PostPage />} />
           <Route path="/design/edit/:id" element={<EditPost />} />
         </Route>
-        <Route path="/:bookId" element={<Turnjs5_Iframe />}></Route>
         <Route path="/programming" element={<Layout />}>
           <Route index element={<IndexPage />} />
           <Route path="/programming/create" element={<CreatePost />} />
@@ -77,6 +76,7 @@ function App() {
           <Route path="/art/post/:id" element={<PostPage />} />
           <Route path="/art/edit/:id" element={<EditPost />} />
         </Route>
+        <Route path="/:bookId" element={<Turnjs5_Iframe />}></Route>
       </Routes>
     </UserContextProvider>
   );

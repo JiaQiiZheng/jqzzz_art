@@ -20,7 +20,11 @@ const ProjectList = () => {
 
   return (
     <div>
-      <Turnjs5 />
+      <iframe
+        className="turnjs_book_iframe"
+        src="http://localhost:3000/test"
+        frameBorder="0"
+      ></iframe>
       {/* {posts.length > 0 && posts.map((post, i) => <Post key={i} {...post} />)} */}
       <div className="archiveList">
         {projectName.length > 0 &&

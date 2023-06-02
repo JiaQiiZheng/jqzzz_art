@@ -69,9 +69,11 @@ export default function PostPage() {
 
   return (
     <div>
-      <div>
-        <Turnjs5 />
-      </div>
+      <iframe
+        className="turnjs_book_iframe"
+        src="http://localhost:3000/test"
+        frameBorder="0"
+      ></iframe>
       <div className="post-page">
         {postInfo.projectName && (
           <div className="project_name">
