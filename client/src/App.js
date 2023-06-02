@@ -18,6 +18,8 @@ import axios from "axios";
 import HomePage from "./pages/HomePage";
 import Redirect from "./pages/Redirect";
 import ProjectList from "./pages/ProjectList";
+import Turnjs5_Iframe from "./Components/TurnToBook/Turnjs5_Iframe";
+import TurnToBook from "./Components/TurnToBook/TurnToBook";
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
@@ -41,6 +43,7 @@ function App() {
           <Route path="/design/post/:id" element={<PostPage />} />
           <Route path="/design/edit/:id" element={<EditPost />} />
         </Route>
+        <Route path="/:bookId" element={<Turnjs5_Iframe />}></Route>
         <Route path="/programming" element={<Layout />}>
           <Route index element={<IndexPage />} />
           <Route path="/programming/create" element={<CreatePost />} />

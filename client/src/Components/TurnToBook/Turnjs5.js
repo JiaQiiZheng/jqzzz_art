@@ -3,8 +3,8 @@ import $ from "jquery";
 import { Helmet } from "react-helmet";
 
 const pageNumber = 30;
-const page_width = 400;
-const page_height = 400;
+const page_width = 2000;
+const page_height = 2000;
 const randomPages = (pageNumber) => {
   var page_src = [];
   while (pageNumber--) {
@@ -19,6 +19,19 @@ export default function Turnjs5() {
   const [pages, setPages] = useState([]);
 
   useEffect(() => {
+    const settings_script = document.createElement("script");
+    settings_script.innerHTML = `
+    FlipbookSettings = {
+      options: {
+        pageWidth: ${page_width},
+        pageHeight: ${page_height},
+      },
+      shareMessage: "developping flip book",
+      // pageFolder: "content/magazine/",
+      loadRegions: true,
+    }`;
+    document.body.appendChild(settings_script);
+
     const scriptTag_1 = document.createElement("script");
     scriptTag_1.src = "./assets/js/script.js";
     scriptTag_1.type = "text/javascript";

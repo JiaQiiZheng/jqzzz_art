@@ -5777,34 +5777,34 @@
     },
   });
 
-  var AppRouter = Backbone.Router.extend(
-    {
-      routes: {
-        "page/:page": "_page",
-      },
-      _page: function (page) {
-        if (FlipbookView.instance) {
-          $("#flipbook").turn("page", page);
-        } else {
-          window.FlipbookSettings.options.page = parseInt(page, 10);
-        }
-      },
-    },
-    {
-      getInstance: function (context) {
-        context = context || this;
-        if (!context.instance) {
-          context.instance = new this();
-        }
-        return context.instance;
-      },
-    }
-  );
+  // var AppRouter = Backbone.Router.extend(
+  //   {
+  //     routes: {
+  //       "page/:page": "_page",
+  //     },
+  //     _page: function (page) {
+  //       if (FlipbookView.instance) {
+  //         $("#flipbook").turn("page", page);
+  //       } else {
+  //         window.FlipbookSettings.options.page = parseInt(page, 10);
+  //       }
+  //     },
+  //   },
+  //   {
+  //     getInstance: function (context) {
+  //       context = context || this;
+  //       if (!context.instance) {
+  //         context.instance = new this();
+  //       }
+  //       return context.instance;
+  //     },
+  //   }
+  // );
 
   /* *  * */
   function bootstrap() {
     // Initialize routes
-    AppRouter.getInstance();
+    // AppRouter.getInstance();
     Backbone.history.start();
 
     // Initialize views
