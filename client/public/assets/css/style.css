@@ -1,7 +1,10 @@
 :root {
   --control_background_color: none;
-  --ui_menu_background_color: #f2f2f2;
+  --icon_color: rgba(0, 0, 0, 1);
+  --icon_color_hover: rgba(0, 0, 0, 0.5);
+  --ui_menu_background_color: rgba(255, 255, 255, 0.5);
   --mimiatures_backgroud_color: rgba(255, 255, 255, 0.5);
+  --theme_color: rgba(0, 0, 0, 0.5);
 }
 /* Catalog sample */
 /* Turn.js Stylesheet */
@@ -177,7 +180,7 @@
   margin-left: 0;
 }
 .ui-miniatures-slider .focused-page {
-  background-color: #b30000;
+  background-color: var(--theme_color);
 }
 .ui-miniatures-slider .animated-page {
   -webkit-transition: -webkit-transform ease-in-out 200ms;
@@ -199,10 +202,10 @@
   opacity: 1;
 }
 .show-miniatures .show-miniatures #controls .ui-icon {
-  color: #ccc;
+  color: var(--icon_color);
 }
 .show-miniatures .show-miniatures #controls .ui-icon:hover {
-  color: #eee;
+  color: var(--icon_color_hover);
 }
 .ui-tooltip {
   position: absolute;
@@ -289,10 +292,10 @@
   -o-transition: opacity 0.2s;
   -ms-transition: opacity 0.2s;
   transition: opacity 0.2s;
-  border-radius: 5px;
+  border-radius: 0;
 }
 .ui-menu .ui-menu-item {
-  height: 34px;
+  height: 24px;
   border-bottom: 1px solid #bbb;
   cursor: pointer;
 }
@@ -300,18 +303,18 @@
   border-bottom: none;
 }
 .ui-menu .ui-menu-item-hover {
-  background-color: #c0c0c0;
+  background-color: var(--icon_color_hover);
 }
 .ui-menu .ui-menu-item-hover:first-child {
-  border-radius: 5px 5px 0 0;
+  border-radius: 0;
 }
 .ui-menu .ui-menu-item-hover:last-child {
-  border-radius: 0 0 5px 5px;
+  border-radius: 0;
 }
 .ui-menu .ui-menu-item-desc {
-  font: lighter 14px arial;
+  font: lighter 10px arial;
   padding: 0 20px;
-  line-height: 34px;
+  line-height: 24px;
 }
 .ui-menu .ui-selected-item .ui-menu-item-desc {
   font-weight: bold;
@@ -320,17 +323,19 @@
   opacity: 1;
 }
 .turnjs_container {
-  margin-left: auto;
-  margin-right: auto;
   display: flex;
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: auto;
   width: 95vw;
-  height: 95vh;
-  overflow: hidden;
+  height: 80vh;
+  /* overflow: hidden; */
 }
 .catalog-app {
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  /* overflow: hidden; */
   position: relative;
 }
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
@@ -341,7 +346,7 @@
 #viewer {
   width: 100%;
   height: calc(100%);
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 #miniatures {
   position: absolute;
@@ -473,7 +478,7 @@
 }
 #controls {
   position: absolute;
-  bottom: 0;
+  bottom: -54px;
   left: 0;
   width: 100%;
   height: 54px;
@@ -502,7 +507,8 @@
   width: 44px;
   height: 44px;
   display: inline-block;
-  color: #555;
+  color: var(--icon_color);
+  background-color: var(--ui_menu_background_color);
   cursor: pointer;
   -webkit-transition: color 0.1s;
   -moz-transition: color 0.1s;
@@ -537,8 +543,8 @@
   top: 5px;
   right: 5px;
   font-size: 24px;
-  background-color: rgba(220, 220, 220, 0.9);
-  border-radius: 5px;
+  background-color: var(--ui_menu_background_color);
+  border-radius: 0px;
   width: 44px;
   height: 44px;
   opacity: 0;
@@ -619,7 +625,7 @@
     opacity: 1;
   }
   #controls.extend-ui-options #ui-icon-toggle {
-    color: #999;
+    color: var(--icon_color);
     -webkit-transform: rotateZ(90deg);
     -moz-transform: rotateZ(90deg);
     -o-transform: rotateZ(90deg);
@@ -649,7 +655,7 @@ html:full-screen #controls #ui-icon-full-screen .fa:before {
   position: absolute;
   z-index: 100;
   width: 44px;
-  height: 150px;
+  height: 194px;
   opacity: 0;
   -webkit-transform: translateY(100%);
   -webkit-transition: -webkit-transform 0.1s, opacity 0.2s;
@@ -667,7 +673,7 @@ html:full-screen #controls #ui-icon-full-screen .fa:before {
 }
 .zoom-slider .ui-slider {
   width: 44px;
-  height: 90px;
+  height: 150px;
   cursor: default;
   display: inline-block;
   vertical-align: center;
@@ -677,14 +683,14 @@ html:full-screen #controls #ui-icon-full-screen .fa:before {
 .zoom-slider .bg {
   width: 44px;
   height: 150px;
-  border-radius: 10px;
-  background-color: #ccc;
+  border-radius: 0;
+  background-color: var(--ui_menu_background_color);
 }
 .zoom-slider .ui-slider .bar {
   width: 6px;
   height: 90px;
   background-color: rgba(0, 0, 0, 0.5);
-  margin-top: 19px;
+  margin-top: 30px;
   margin-left: 19px;
   float: left;
   overflow: hidden;

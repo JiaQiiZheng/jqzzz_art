@@ -19,7 +19,7 @@ export default function HomePage() {
   return (
     <div className="home_page">
       <iframe
-        className="turnjs_book_iframe"
+        className="turnjs_iframe_inserted"
         src={window.location.origin + "/test"}
         frameBorder="0"
       ></iframe>

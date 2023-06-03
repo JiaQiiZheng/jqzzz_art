@@ -5016,13 +5016,13 @@
       return $el;
     },
 
-    _loadRegions: function (pageNumber) {
-      var pageData = $("#flipbook").turn("pageData", pageNumber);
-      if (!pageData.regions) {
-        pageData.regions = new Regions([], { pageNumber: pageNumber });
-        pageData.regions.fetch();
-      }
-    },
+    // _loadRegions: function (pageNumber) {
+    //   var pageData = $("#flipbook").turn("pageData", pageNumber);
+    //   if (!pageData.regions) {
+    //     pageData.regions = new Regions([], { pageNumber: pageNumber });
+    //     pageData.regions.fetch();
+    //   }
+    // },
     _mouseoverRegion: function (event) {
       $(event.currentTarget).addClass("ui-region-hover");
     },
@@ -5092,22 +5092,22 @@
     },
   });
 
-  var Regions = Backbone.Collection.extend({
-    model: RegionModel,
-    initialize: function (models, options) {
-      this.pageNumber = options.pageNumber;
-      this.on("add", this._add, this);
-    },
-    url: function () {
-      return FlipbookSettings.pageFolder + this.pageNumber + "/regions.json";
-    },
+  // var Regions = Backbone.Collection.extend({
+  //   model: RegionModel,
+  //   initialize: function (models, options) {
+  //     this.pageNumber = options.pageNumber;
+  //     this.on("add", this._add, this);
+  //   },
+  //   url: function () {
+  //     return FlipbookSettings.pageFolder + this.pageNumber + "/regions.json";
+  //   },
 
-    _add: function (regionModel) {
-      // Add the view
-      regionModel.pageNumber = this.pageNumber;
-      new RegionView({ model: regionModel });
-    },
-  });
+  //   _add: function (regionModel) {
+  //     // Add the view
+  //     regionModel.pageNumber = this.pageNumber;
+  //     new RegionView({ model: regionModel });
+  //   },
+  // });
 
   /* * Page Slider View * */
 

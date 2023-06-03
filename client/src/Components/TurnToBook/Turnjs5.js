@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import $ from "jquery";
-import { Helmet } from "react-helmet";
+import Zmage from "react-zmage";
 
 const pageNumber = 30;
-const page_width = 2000;
-const page_height = 2000;
+const page_width = 1000;
+const page_height = 1000;
 const randomPages = (pageNumber) => {
   var page_src = [];
   while (pageNumber--) {
@@ -28,7 +27,7 @@ export default function Turnjs5() {
       },
       shareMessage: "developping flip book",
       // pageFolder: "content/magazine/",
-      loadRegions: true,
+      loadRegions: false,
     }`;
     document.body.appendChild(settings_script);
 

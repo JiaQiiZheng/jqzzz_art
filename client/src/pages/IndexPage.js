@@ -1,7 +1,6 @@
 import { useLocation } from "react-router-dom";
 import Post from "../Post";
 import { useEffect, useRef, useState } from "react";
-import Turnjs5_Iframe from "../Components/TurnToBook/Turnjs5_Iframe";
 
 export default function IndexPage() {
   //get section name
@@ -74,11 +73,6 @@ export default function IndexPage() {
 
   return (
     <div className="posts">
-      <iframe
-        className="turnjs_book_iframe"
-        src={window.location.origin + "/test"}
-        frameBorder="0"
-      ></iframe>
       {posts.length > 0 && posts.map((post, i) => <Post key={i} {...post} />)}
     </div>
   );

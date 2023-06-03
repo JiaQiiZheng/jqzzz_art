@@ -81,8 +81,8 @@ export default function IndexPage_Project() {
   return (
     <div>
       <iframe
-        className="turnjs_book_iframe"
-        src="http://localhost:3000/test"
+        className="turnjs_iframe_inserted"
+        src={window.location.origin + "/test"}
         frameBorder="0"
       ></iframe>
       <div className="indexpage_project_name">{projectName}</div>
