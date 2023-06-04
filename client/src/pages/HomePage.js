@@ -6,8 +6,6 @@ import { Link } from "react-router-dom";
 import AdobePdfViewer from "../PdfViewer/App";
 
 //insert issuu document
-import BaltimoreStudio_20230429 from "../IssuuDocument/BaltimoreStudio_20230429";
-import Portfolio_2014_2020 from "../IssuuDocument/Portfolio_2014_2020";
 import NewOrleansSketchBook from "../IssuuDocument/NewOrleansSketchBook";
 
 // turn.js convertor

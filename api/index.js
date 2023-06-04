@@ -181,7 +181,7 @@ app.post(
   }
 );
 
-// global upload attachment
+// global upload filepond attachment upload
 app.post(
   "/api/filepond/upload",
   uploadMiddleware.single("file"),

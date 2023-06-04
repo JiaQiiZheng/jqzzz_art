@@ -6,6 +6,7 @@ import Counter from "./CustomizeQuill/Counter";
 import { ImageBlot, CardEditableModule } from "./CustomizeQuill/Caption";
 import AudioBlot, { EmbedAudioBlot } from "./CustomizeQuill/AudioBlot";
 import { InsertIframe } from "./CustomizeQuill/InsertIframe";
+import AttachmentHandler from "./CustomizeQuill/attachment-uploader/handlers/AttachmentHandler";
 
 // import ui
 import {
@@ -17,6 +18,7 @@ import {
 
 // Quill registration:
 // Quill.register("modules/imageCompress", ImageCompress);
+Quill.register("modules/attachmentHandler", AttachmentHandler);
 
 //customize counter
 Quill.register("modules/counter", Counter);
@@ -126,6 +128,35 @@ export const modules = {
       });
     },
   },
+  attachmentHandler: {
+    upload: (file) => {
+      // return a Promise that resolves in a link to the uploaded image
+      return new Promise((resolve, reject) => {
+        const _onAttachment = async function (fd, resolve) {
+          await fetch(`${process.env.REACT_APP_API_URL}/filepond/upload`, {
+            method: "POST",
+            body: fd,
+            credentials: "include",
+          })
+            .then((response) => {
+              return response.json();
+            })
+            .then((key) => {
+              resolve(console.log("upload: " + key));
+            })
+            .catch((err) => {
+              console.warn(err);
+            });
+        };
+        const fd = new FormData();
+
+        fd.append("file", file);
+        fd.append("name", file.name);
+
+        _onAttachment(fd, resolve);
+      });
+    },
+  },
 };
 
 // Formats objects for setting up the Quill editor
@@ -153,6 +184,8 @@ export const formats = [
   "imageBlot",
   "audio",
 ];
+
+console.log(Quill.imports);
 
 // Quill Toolbar component
 export const QuillToolbar = () => (

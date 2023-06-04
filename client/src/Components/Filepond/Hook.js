@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
+import "./style.css";
 
 // Import React FilePond
 import { FilePond, registerPlugin } from "react-filepond";
 
 // Import FilePond styles
-import "filepond/dist/filepond.min.css";
+// import "filepond/dist/filepond.min.css";
 
 // Import the Image EXIF Orientation and Image Preview plugins
 // Note: These need to be installed separately
@@ -83,7 +84,7 @@ function App() {
         files={files}
         onupdatefiles={setFiles}
         allowMultiple={true}
-        maxFiles={10}
+        maxFiles={100}
         // server={`${process.env.REACT_APP_API_URL}/attachment`}
         name="filepond" /* sets the file input name, it's filepond by default */
         labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'

@@ -4,10 +4,7 @@ import Editor from "../Editor";
 import { Link } from "react-router-dom";
 import Dropdown from "../Components/Dropdown/dropdown_edit";
 import UploadButton from "../Components/UploadButton/UploadButton";
-import { default as FilePond_Component } from "../Components/Filepond/Component";
 import { default as FilePond_Hook } from "../Components/Filepond/Hook";
-
-import "filepond/dist/filepond.min.css";
 
 export default function EditPost() {
   //get section name
