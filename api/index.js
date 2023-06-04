@@ -59,6 +59,31 @@ async function uploadToS3(path, originalFileName, mimetype) {
   return `https://${bucket}.s3.amazonaws.com/${newFileName}`;
 }
 
+// upload to a specific folder in s3
+async function uploadToS3_prefix(path, originalFileName, mimetype, prefix) {
+  const client = new S3Client({
+    region: "us-east-1",
+    credentials: {
+      accessKeyId: process.env.S3_ACCESS_KEY,
+      secretAccessKey: process.env.S3_SECERT_ACCESS_KEY,
+    },
+  });
+
+  const parts = originalFileName.split(".");
+  const ext = parts[parts.length - 1];
+  const newFileName = prefix + Date.now() + "." + ext;
+  const command = new PutObjectCommand({
+    Bucket: bucket,
+    Body: fs.readFileSync(path),
+    Key: newFileName,
+    ContentType: mimetype,
+    ACL: "public-read",
+  });
+  const data = await client.send(command);
+  // console.log({ data });
+  return [newFileName, `https://${bucket}.s3.amazonaws.com/${newFileName}`];
+}
+
 async function DeleteFromS3(s3_fileName) {
   const client = new S3Client({
     region: "us-east-1",
@@ -153,6 +178,24 @@ app.post(
       });
       res.json(postDoc);
     });
+  }
+);
+
+// global upload attachment
+app.post(
+  "/api/filepond/upload",
+  uploadMiddleware.single("file"),
+  async (req, res) => {
+    mongoose.connect(process.env.MONGO_URL);
+    const { path, originalname, mimetype } = req.file;
+    const prefix = "attachment/";
+    const [key, url] = await uploadToS3_prefix(
+      path,
+      originalname,
+      mimetype,
+      prefix
+    );
+    res.json(key);
   }
 );
 
@@ -281,6 +324,15 @@ app.delete("/api/design/post/:id", async (req, res) => {
     var delete_img_name = ql_img_arr[ql_img_arr.length - 1];
     await DeleteFromS3(delete_img_name);
   }
+});
+
+// delete files in filepond
+app.delete("/api/filepond/delete/:id", async (req, res) => {
+  const { id } = req.params;
+  const key = `attachment/${id}`;
+  console.log("delete: " + key);
+  await DeleteFromS3(key);
+  res.json("deleted!");
 });
 
 //section programming
