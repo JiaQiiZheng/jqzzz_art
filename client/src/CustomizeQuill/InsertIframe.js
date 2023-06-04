@@ -1,15 +1,15 @@
 import { Quill } from "react-quill";
 import $ from "jquery";
 
-export function InsertIssuu(quill) {
+export function InsertIframe(quill) {
   const cursorPosition = quill.getSelection().index;
   console.log(cursorPosition);
   // const insertContent = "what" + " ";
   // quill.insertText(cursorPosition, insertContent);
   // console.log(insertContent.length);
   // quill.setSelection(cursorPosition + insertContent.length);
-  let issuuEmbedCode = prompt("Please Enter Issuu Embed Code:");
-  var $html = $(`${issuuEmbedCode}`);
+  let iframeEmbedCode = prompt("Please Enter Iframe Embed Code:");
+  var $html = $(`${iframeEmbedCode}`);
   var value = $html.prop("outerHTML");
   // const delta = quill.clipboard.convert(value);
   // quill.setContents(delta, "silent");

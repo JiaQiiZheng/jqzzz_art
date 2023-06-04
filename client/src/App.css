@@ -731,6 +731,9 @@ a svg {
 .ql-editor {
   min-height: 40vh;
 }
+.ql-editor img {
+  height: 30vh;
+}
 
 .ql-counter {
   margin: 1rem;
@@ -793,4 +796,21 @@ figcaption {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+}
+
+.image-uploading::before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 30px;
+  height: 30px;
+  margin-top: -15px;
+  margin-left: -15px;
+  border-radius: 50%;
+  border: 3px solid #ccc;
+  border-top-color: var(--themeColor) !important;
+  z-index: 1;
+  animation: spinner 0.6s linear infinite;
 }
