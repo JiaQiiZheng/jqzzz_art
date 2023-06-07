@@ -550,13 +550,17 @@ div.post-page div.author {
 div.post-page .content {
   margin-top: 3rem;
   margin-bottom: 3rem;
-  display: flex;
-  flex-direction: column;
+  /* display: flex; */
+  /* flex-direction: column; */
 }
 
 div.content {
   width: auto;
   margin: 5vw 5vw;
+}
+
+div.content img {
+  display: flex;
 }
 
 div.content p {
@@ -675,8 +679,8 @@ a svg {
   display: flex;
   margin-left: auto;
   margin-right: auto;
-  max-height: 80vh;
-  max-width: 100%;
+  max-height: 50vh;
+  max-width: 80vw;
 }
 @media screen and (max-width: 1024px) and (min-width: 300px) {
   .content img {
@@ -732,7 +736,8 @@ a svg {
   min-height: 40vh;
 }
 .ql-editor img {
-  height: 30vh;
+  max-width: 50vw;
+  max-height: 50vh;
 }
 
 .ql-counter {
@@ -814,3 +819,41 @@ figcaption {
   z-index: 1;
   animation: spinner 0.6s linear infinite;
 }
+
+/* ql-attachmentUploading */
+/* .ql-attachment-blot {
+  display: inline-block;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+  cursor: pointer;
+  border: 1px dashed black;
+  opacity: 0.8;
+  transition: 0.3s;
+}
+
+.ql-attachment-blot:hover {
+  opacity: 1;
+  transition: 0.3s;
+}
+
+.ql-attachment-blot a {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none !important;
+  align-items: center;
+}
+.ql-attachment-blot svg {
+  display: flex;
+  height: 80px;
+}
+
+.ql-attachment-blot span {
+  display: block;
+  margin-top: 10px;
+  max-width: 400px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+} */
+/* ql-attachmentUploading */

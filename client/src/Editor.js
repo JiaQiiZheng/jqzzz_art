@@ -11,7 +11,7 @@ export default function Editor({ value, onChange }) {
         value={value}
         theme={"snow"}
         onChange={onChange}
-        placeholder={"Edit your ideas..."}
+        placeholder={"How's going?"}
         modules={modules}
         formats={formats}
       />

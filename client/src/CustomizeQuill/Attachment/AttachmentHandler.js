@@ -1,32 +1,33 @@
-import { Constants } from "../../utils";
-import BaseHandler from "../BaseHandler";
-import Quill from "quill";
-import { default as AttachmentBlot } from "../../blots/AttachmentBlot";
+import { Quill } from "react-quill";
+import AttachmentBlot from "./AttachmentBlot";
+import BaseHandler from "./BaseHandler";
 
 Quill.register("blots/attachment", AttachmentBlot);
+
 class AttachmentHandler extends BaseHandler {
   constructor(quill, options) {
     super(quill, options);
-
-    this.handler = Constants.blots.attachment;
+    this.handler = "attachment";
     this.applyForToolbar();
   }
 
   insertFileToEditor(url) {
     const el = document.getElementById(this.handlerId);
+    console.log(el);
     if (el) {
-      el.removeAttribute("id");
-      el.classList.remove(Constants.QUILL_UPLOAD_HOLDER_CLASS_NAME);
+      // el.removeAttribute("id");
 
       if (url) {
-        const _filename = url?.split("/").pop();
+        const _filename = this.fileHolder.files[0].name;
 
         if (_filename && el.firstElementChild) {
-          el.firstElementChild.setAttribute("href", url);
-          el.firstElementChild.textContent = _filename;
+          var fileNameSpan = document.createElement("span");
+          fileNameSpan.textContent = _filename;
+          el.appendChild(fileNameSpan);
         }
       }
     }
+    return;
   }
 
   fileChanged() {

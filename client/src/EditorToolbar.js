@@ -4,9 +4,9 @@ import ReactQuill, { Quill } from "react-quill";
 import ImageUploader from "./CustomizeQuill/quill-image-uploader";
 import Counter from "./CustomizeQuill/Counter";
 import { ImageBlot, CardEditableModule } from "./CustomizeQuill/Caption";
-import AudioBlot, { EmbedAudioBlot } from "./CustomizeQuill/AudioBlot";
+import { AudioBlot, EmbedAudioBlot } from "./CustomizeQuill/AudioBlot";
 import { InsertIframe } from "./CustomizeQuill/InsertIframe";
-import AttachmentHandler from "./CustomizeQuill/attachment-uploader/handlers/AttachmentHandler";
+import { AttachmentHandler } from "./CustomizeQuill/quill-upload/src/handlers";
 
 // import ui
 import {
@@ -15,6 +15,10 @@ import {
   CustomRedo,
   CustomUndo,
 } from "./assets/ui/UI_library";
+
+var Block = Quill.import("blots/block");
+Block.tagName = "DIV";
+Quill.register(Block, true);
 
 // Quill registration:
 // Quill.register("modules/imageCompress", ImageCompress);
@@ -107,17 +111,18 @@ export const modules = {
       return new Promise((resolve, reject) => {
         const data = new FormData();
         data.append("image", file);
-        fetch(`${process.env.REACT_APP_API_URL}/ql/image`, {
+        fetch(`${process.env.REACT_APP_API_URL}/ql/content/image`, {
           method: "POST",
           body: data,
           credentials: "include",
         })
           .then((response) => response.json())
           .then((result) => {
-            var format = result.cover.split(".").pop();
+            var format = result.split(".").pop();
             ["pdf"].includes(format) &&
               resolve("https://jqzzz.s3.amazonaws.com/1685780616737.png");
-            ["jpg", "jpeg", "png"].includes(format) && resolve(result.cover);
+            ["jpg", "jpeg", "gif", "png", "svg", "webp"].includes(format) &&
+              resolve(result);
             ["txt", "docx", "doc"].includes(format) &&
               resolve("https://jqzzz.s3.amazonaws.com/1685782627733.png");
           })
@@ -130,30 +135,20 @@ export const modules = {
   },
   attachmentHandler: {
     upload: (file) => {
-      // return a Promise that resolves in a link to the uploaded image
       return new Promise((resolve, reject) => {
-        const _onAttachment = async function (fd, resolve) {
-          await fetch(`${process.env.REACT_APP_API_URL}/filepond/upload`, {
-            method: "POST",
-            body: fd,
-            credentials: "include",
-          })
-            .then((response) => {
-              return response.json();
-            })
-            .then((key) => {
-              resolve(console.log("upload: " + key));
-            })
-            .catch((err) => {
-              console.warn(err);
-            });
-        };
-        const fd = new FormData();
-
-        fd.append("file", file);
-        fd.append("name", file.name);
-
-        _onAttachment(fd, resolve);
+        const data = new FormData();
+        data.append("attachment", file);
+        fetch(`${process.env.REACT_APP_API_URL}/ql/attachment`, {
+          method: "POST",
+          body: data,
+          credentials: "include",
+        })
+          .then((response) => response.json())
+          .then((result) => resolve(result))
+          .catch((error) => {
+            reject("Upload failed");
+            console.error("Error", error);
+          });
       });
     },
   },
@@ -184,8 +179,6 @@ export const formats = [
   "imageBlot",
   "audio",
 ];
-
-console.log(Quill.imports);
 
 // Quill Toolbar component
 export const QuillToolbar = () => (

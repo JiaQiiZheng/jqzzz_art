@@ -181,6 +181,44 @@ app.post(
   }
 );
 
+//quill attachment uploader
+app.post(
+  "/api/ql/content/image",
+  uploadMiddleware.single("image"),
+  async (req, res) => {
+    mongoose.connect(process.env.MONGO_URL);
+    const { path, originalname, mimetype } = req.file;
+    // const parts = originalname.split(".");
+    // const ext = parts[parts.length - 1];
+    // const newPath = path + "." + ext;
+    // fs.renameSync(path, newPath);
+    const url = await uploadToS3(path, originalname, mimetype);
+    res.json(url);
+  }
+);
+
+//quill attachment uploader
+app.post(
+  "/api/ql/attachment",
+  uploadMiddleware.single("attachment"),
+  async (req, res) => {
+    mongoose.connect(process.env.MONGO_URL);
+    const { path, originalname, mimetype } = req.file;
+    // const parts = originalname.split(".");
+    // const ext = parts[parts.length - 1];
+    // const newPath = path + "." + ext;
+    // fs.renameSync(path, newPath);
+    const prefix = "attachment/";
+    const [key, url] = await uploadToS3_prefix(
+      path,
+      originalname,
+      mimetype,
+      prefix
+    );
+    res.json(url);
+  }
+);
+
 // global upload filepond attachment upload
 app.post(
   "/api/filepond/upload",

@@ -32,6 +32,7 @@ class ImageUploader {
     this.fileHolder = document.createElement("input");
     this.fileHolder.setAttribute("type", "file");
     this.fileHolder.setAttribute("accept", "image/*");
+    this.fileHolder.setAttribute("multiple", "");
     this.fileHolder.setAttribute("style", "visibility:hidden");
 
     this.fileHolder.onchange = this.fileChanged.bind(this);
@@ -79,12 +80,14 @@ class ImageUploader {
 
       this.quill.focus();
       this.range = this.quill.getSelection();
-      let file = evt.dataTransfer.files[0];
+      let files = evt.dataTransfer.files;
 
       setTimeout(() => {
         this.quill.focus();
         this.range = this.quill.getSelection();
-        this.readAndUploadFile(file);
+        for (const file of files) {
+          this.readAndUploadFile(file);
+        }
       }, 0);
     }
   }
@@ -149,8 +152,10 @@ class ImageUploader {
   }
 
   fileChanged() {
-    const file = this.fileHolder.files[0];
-    this.readAndUploadFile(file);
+    for (const file of this.fileHolder.files) {
+      this.readAndUploadFile(file);
+      console.log(file);
+    }
   }
 
   insertBase64Image(url) {

@@ -2,7 +2,7 @@ import { Quill } from "react-quill";
 
 let BlockEmbed = Quill.import("blots/block/embed");
 
-export default class AudioBlot extends BlockEmbed {
+export class AudioBlot extends BlockEmbed {
   static create(url) {
     let node = super.create();
     node.setAttribute("src", url);
@@ -44,7 +44,6 @@ AudioBlot.tagName = "audio";
 export function EmbedAudioBlot(quill) {
   let url = prompt("Please Enter Audio Url:");
   const cursorPosition = quill.getSelection().index;
-  console.log(`cursor: ${cursorPosition}`);
   quill.insertEmbed(cursorPosition, "audio", url);
   quill.setSelection(cursorPosition + 1);
 }

@@ -1,6 +1,5 @@
 /*! turn.js 5.0.0  24-01-2014 ~ (c) 2014 Emmanuel Garcia ~ http://turnjs.com*/
 !(function (a) {
-  console.log("script run!");
   var b = {};
   (b.version = "5.0.0"),
     (b.PI = Math.PI),

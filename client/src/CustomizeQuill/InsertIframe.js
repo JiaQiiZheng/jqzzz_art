@@ -3,7 +3,6 @@ import $ from "jquery";
 
 export function InsertIframe(quill) {
   const cursorPosition = quill.getSelection().index;
-  console.log(cursorPosition);
   // const insertContent = "what" + " ";
   // quill.insertText(cursorPosition, insertContent);
   // console.log(insertContent.length);

@@ -39,21 +39,21 @@ const UploadButton = ({ props }) => {
     });
   }, []);
   return (
-    <main class="main_full">
-      <div class="container">
-        <div class="panel">
-          <div class="button_outer">
-            <div class="btn_upload">
+    <main className="main_full">
+      <div className="container">
+        <div className="panel">
+          <div className="button_outer">
+            <div className="btn_upload">
               <input type="file" id="upload_file" name="" />
               Upload New Profile
             </div>
-            <div class="processing_bar"></div>
-            <div class="success_box"></div>
+            <div className="processing_bar"></div>
+            <div className="success_box"></div>
           </div>
         </div>
-        <div class="error_msg"></div>
-        <div class="uploaded_file_view" id="uploaded_view">
-          <span class="file_remove">X</span>
+        <div className="error_msg"></div>
+        <div className="uploaded_file_view" id="uploaded_view">
+          <span className="file_remove">X</span>
         </div>
       </div>
     </main>

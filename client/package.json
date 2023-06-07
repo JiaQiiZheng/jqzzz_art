@@ -23,6 +23,7 @@
     "react": "^18.2.0",
     "react-adobe-embed": "^3.69.666",
     "react-dom": "^18.2.0",
+    "react-file-icon": "^1.3.0",
     "react-filepond": "^7.1.2",
     "react-helmet": "^6.1.0",
     "react-image-file-resizer": "^0.4.8",
