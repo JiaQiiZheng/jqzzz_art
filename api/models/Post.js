@@ -10,6 +10,7 @@ const PostSchema = new Schema(
     cover: String,
     author: { type: Schema.Types.ObjectId, ref: "User" },
     section: String,
+    uploadedFiles: [{ type: String }],
   },
   {
     timestamps: true,

@@ -13,6 +13,7 @@ dotenv.config();
 const multer = require("multer");
 const {
   S3Client,
+  GetObjectCommand,
   PutObjectCommand,
   DeleteObjectCommand,
 } = require("@aws-sdk/client-s3");
@@ -96,7 +97,32 @@ async function DeleteFromS3(s3_fileName) {
     Bucket: bucket,
     Key: s3_fileName,
   });
-  await client.send(command);
+  try {
+    await client.send(command);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function GetFromS3(s3_fileName) {
+  const client = new S3Client({
+    region: "us-east-1",
+    credentials: {
+      accessKeyId: process.env.S3_ACCESS_KEY,
+      secretAccessKey: process.env.S3_SECERT_ACCESS_KEY,
+    },
+  });
+  const command = new GetObjectCommand({
+    Bucket: bucket,
+    Key: s3_fileName,
+  });
+  try {
+    const response = await client.send(command);
+    const str = await response.Body.transformToString();
+    return str;
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 app.post("/api/register", async (req, res) => {
@@ -237,6 +263,26 @@ app.post(
   }
 );
 
+// delete files in filepond
+app.delete("/api/filepond/delete/:id", async (req, res) => {
+  const { id } = req.params;
+  const key = `attachment/${id}`;
+  await DeleteFromS3(key);
+  res.json("deleted!");
+});
+
+// filepond load uploadedFiles from s3
+app.get("/api/filepond/restore/:id", async (req, res) => {
+  const { id } = req.params;
+  const key = `attachment/${id}`;
+  try {
+    var result = await GetFromS3(key);
+    res.json(result);
+  } catch (error) {
+    console.warn(error);
+  }
+});
+
 //section design
 app.post(
   "/api/post/design",
@@ -285,7 +331,8 @@ app.put(
     const { token } = req.cookies;
     jwt.verify(token, secret, {}, async (err, info) => {
       if (err) throw err;
-      const { id, projectName, title, summary, content } = req.body;
+      const { id, projectName, title, summary, content, uploadedFiles } =
+        req.body;
       const postDoc = await Post.findById(id);
       const isAuthor =
         JSON.stringify(postDoc.author) === JSON.stringify(info.id);
@@ -298,6 +345,7 @@ app.put(
         summary,
         content,
         cover: url ? url : postDoc.cover,
+        uploadedFiles,
       });
 
       res.json(postDoc);
@@ -362,15 +410,6 @@ app.delete("/api/design/post/:id", async (req, res) => {
     var delete_img_name = ql_img_arr[ql_img_arr.length - 1];
     await DeleteFromS3(delete_img_name);
   }
-});
-
-// delete files in filepond
-app.delete("/api/filepond/delete/:id", async (req, res) => {
-  const { id } = req.params;
-  const key = `attachment/${id}`;
-  console.log("delete: " + key);
-  await DeleteFromS3(key);
-  res.json("deleted!");
 });
 
 //section programming

@@ -4,7 +4,8 @@ import Editor from "../Editor";
 import { Link } from "react-router-dom";
 import Dropdown from "../Components/Dropdown/dropdown_edit";
 import UploadButton from "../Components/UploadButton/UploadButton";
-import { default as FilePond_Hook } from "../Components/Filepond/Hook";
+// import { default as FilePond_Hook } from "../Components/Filepond/Hook";
+import { default as FilePond_Component } from "../Components/Filepond/Component";
 
 export default function EditPost() {
   //get section name
@@ -16,12 +17,6 @@ export default function EditPost() {
   const [projectNameData, setProjectNameData] = useState();
   const [isGif, setIsGif] = useState();
   const isGifRef = useRef();
-
-  // get isGif info back from UploadButton component
-  const handleFileExtCallback = (childData) => {
-    setIsGif(childData === "gif");
-    isGifRef.current = childData === "gif";
-  };
 
   //compress upload profile
   useEffect(() => {
@@ -108,24 +103,41 @@ export default function EditPost() {
   const [content, setContent] = useState("");
   const [files, setFiles] = useState("");
   const [redirect, setRedirect] = useState(false);
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [initialCompleted, setInitialCompleted] = useState(false);
+
+  // get isGif info back from UploadButton component
+  const handleFileExtCallback = (childData) => {
+    setIsGif(childData === "gif");
+    isGifRef.current = childData === "gif";
+  };
+
+  // get filepond uploaded files change
+  const handleUploadedFiles = (childData) => {
+    setUploadedFiles(childData);
+  };
 
   // get current data info
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/${sectionName}/post/` + id).then(
-      (response) => {
-        response.json().then((postInfo) => {
-          setTitle(postInfo.title);
-          setContent(postInfo.content);
-          setSummary(postInfo.summary);
-          //set current profile preview
-          // const current_profile = createElement("img");
-          let profile_preview = document.getElementById("profile_preview");
-          let current_profile = document.createElement("img");
-          current_profile.src = postInfo.cover;
-          profile_preview.appendChild(current_profile);
-        });
-      }
-    );
+    fetch(`${process.env.REACT_APP_API_URL}/${sectionName}/post/` + id)
+      .then((response) => {
+        return response.json();
+      })
+      .then((postInfo) => {
+        setTitle(postInfo.title);
+        setContent(postInfo.content);
+        setSummary(postInfo.summary);
+        setUploadedFiles(JSON.parse(postInfo.uploadedFiles));
+        //set current profile preview
+        // const current_profile = createElement("img");
+        let profile_preview = document.getElementById("profile_preview");
+        let current_profile = document.createElement("img");
+        current_profile.src = postInfo.cover;
+        profile_preview.appendChild(current_profile);
+      })
+      .then(() => {
+        setInitialCompleted(true);
+      });
   }, []);
 
   // get projectName list from backend
@@ -168,6 +180,8 @@ export default function EditPost() {
     if (files) {
       data.set("file", files);
     }
+    data.set("uploadedFiles", JSON.stringify(uploadedFiles));
+
     const response = await fetch(
       `${process.env.REACT_APP_API_URL}/post/${sectionName}`,
       {
@@ -223,7 +237,17 @@ export default function EditPost() {
       {/* <input type="file" id="file" /> */}
       <UploadButton props={handleFileExtCallback} />
       <div id="profile_preview"></div>
-      <FilePond_Hook />
+
+      {/* filePond */}
+      {/* <FilePond_Hook /> */}
+      {initialCompleted && (
+        <FilePond_Component
+          onUploadedFiles={handleUploadedFiles}
+          initialFiles={uploadedFiles}
+        />
+      )}
+      {/* filePond */}
+
       <Editor onChange={setContent} value={content} />
       <nav className="form_button">
         {/* <button style={{ marginTop: "2rem" }}>Update</button> */}
