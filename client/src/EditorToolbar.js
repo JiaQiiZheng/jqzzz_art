@@ -6,7 +6,7 @@ import Counter from "./CustomizeQuill/Counter";
 import { ImageBlot, CardEditableModule } from "./CustomizeQuill/Caption";
 import { AudioBlot, EmbedAudioBlot } from "./CustomizeQuill/AudioBlot";
 import { InsertIframe } from "./CustomizeQuill/InsertIframe";
-import { default as AttachmentHandler } from "./CustomizeQuill/quill-upload/src/handlers/AttactmentHandler/index";
+import AttachmentHandler from "./CustomizeQuill/Attachment/AttachmentHandler";
 
 // import ui
 import {
