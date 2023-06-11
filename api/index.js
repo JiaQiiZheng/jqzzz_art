@@ -32,6 +32,7 @@ app.use(cookieParser());
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
 var bodyParser = require("body-parser"); // Body Parser Middleware
+const { abort } = require("process");
 bodyParser = {
   json: { limit: "100mb", extended: true },
   urlencoded: { limit: "100mb", extended: true },
@@ -52,11 +53,11 @@ async function uploadToS3(path, originalFileName, mimetype) {
     Bucket: bucket,
     Body: fs.readFileSync(path),
     Key: newFileName,
+    Metadata: { name: originalFileName },
     ContentType: mimetype,
     ACL: "public-read",
   });
   const data = await client.send(command);
-  // console.log({ data });
   return `https://${bucket}.s3.amazonaws.com/${newFileName}`;
 }
 
@@ -77,12 +78,16 @@ async function uploadToS3_prefix(path, originalFileName, mimetype, prefix) {
     Bucket: bucket,
     Body: fs.readFileSync(path),
     Key: newFileName,
+    Metadata: { name: originalFileName },
     ContentType: mimetype,
     ACL: "public-read",
   });
   const data = await client.send(command);
-  // console.log({ data });
-  return [newFileName, `https://${bucket}.s3.amazonaws.com/${newFileName}`];
+  return [
+    newFileName,
+    originalFileName,
+    `https://${bucket}.s3.amazonaws.com/${newFileName}`,
+  ];
 }
 
 async function DeleteFromS3(s3_fileName) {
@@ -104,6 +109,7 @@ async function DeleteFromS3(s3_fileName) {
   }
 }
 
+// solution_1
 async function GetFromS3(s3_fileName) {
   const client = new S3Client({
     region: "us-east-1",
@@ -118,12 +124,42 @@ async function GetFromS3(s3_fileName) {
   });
   try {
     const response = await client.send(command);
-    const str = await response.Body.transformToString();
-    return str;
+    const originalFileName = response.Metadata.name;
+    const getData_promise = response.Body.transformToString("base64");
+    // const getData_promise = response.Body.transformToByteArray();
+    const contentType = response.ContentType;
+    return [getData_promise, contentType, originalFileName];
   } catch (error) {
     console.error(error);
   }
 }
+
+// solution_2
+// async function GetFromS3(s3_fileName) {
+//   const client = new S3Client({
+//     region: "us-east-1",
+//     credentials: {
+//       accessKeyId: process.env.S3_ACCESS_KEY,
+//       secretAccessKey: process.env.S3_SECERT_ACCESS_KEY,
+//     },
+//   });
+
+//   return new Promise(async (resolve, reject) => {
+//     const command = new GetObjectCommand({
+//       Bucket: bucket,
+//       Key: s3_fileName,
+//     });
+//     try {
+//       const response = await client.send(command);
+//       let responseDataChunks = [];
+//       response.Body.once("error", (err) => reject(err));
+//       response.Body.on("data", (chunk) => responseDataChunks.push(chunk));
+//       response.Body.once("end", () => resolve(responseDataChunks.join("")));
+//     } catch (error) {
+//       return reject(error);
+//     }
+//   });
+// }
 
 app.post("/api/register", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
@@ -235,7 +271,7 @@ app.post(
     // const newPath = path + "." + ext;
     // fs.renameSync(path, newPath);
     const prefix = "attachment/";
-    const [key, url] = await uploadToS3_prefix(
+    const [key, name, url] = await uploadToS3_prefix(
       path,
       originalname,
       mimetype,
@@ -253,13 +289,13 @@ app.post(
     mongoose.connect(process.env.MONGO_URL);
     const { path, originalname, mimetype } = req.file;
     const prefix = "attachment/";
-    const [key, url] = await uploadToS3_prefix(
+    const [key, name, url] = await uploadToS3_prefix(
       path,
       originalname,
       mimetype,
       prefix
     );
-    res.json(key);
+    res.json([key, name, url]);
   }
 );
 
@@ -272,16 +308,37 @@ app.delete("/api/filepond/delete/:id", async (req, res) => {
 });
 
 // filepond load uploadedFiles from s3
+
+// solution_1
 app.get("/api/filepond/restore/:id", async (req, res) => {
   const { id } = req.params;
   const key = `attachment/${id}`;
   try {
-    var result = await GetFromS3(key);
-    res.json(result);
+    const [getData_promise, contentType, originalFileName] = await GetFromS3(
+      key
+    );
+    // const data = await GetFromS3(key);
+    getData_promise.then((data) => {
+      res.send([data, contentType, originalFileName]);
+    });
   } catch (error) {
     console.warn(error);
   }
 });
+
+// // solution_2
+// app.get("/api/filepond/restore/:id", async (req, res) => {
+//   const { id } = req.params;
+//   const key = `attachment/${id}`;
+//   try {
+//     const data = await GetFromS3(key);
+//     const blob = new Blob([data], { type: "image/png" });
+//     res.type(blob.type);
+//     blob.arrayBuffer().then((buffer) => res.send(Buffer.from(buffer)));
+//   } catch (error) {
+//     console.warn(error);
+//   }
+// });
 
 //section design
 app.post(

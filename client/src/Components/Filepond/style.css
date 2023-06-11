@@ -137,6 +137,7 @@
 
 /* overlapColor */
 .filepond--image-preview-wrapper {
+  border-radius: 0.5em !important;
   box-shadow: 0px 3px 0px black;
 }
 .filepond--image-preview-overlay-success {

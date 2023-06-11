@@ -14,7 +14,23 @@ import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orien
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import { setOptions, create, getOptions } from "filepond";
-import { ChecksumAlgorithm } from "@aws-sdk/client-s3";
+
+// helper
+const unit8ToBase64 = (arr) =>
+  btoa(
+    Array(arr.length)
+      .fill("")
+      .map((_, i) => String.fromCharCode(arr[i]))
+      .join("")
+  );
+
+const readFileAsDataUrl = (file) => {
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onloadend = () => {
+    console.log(reader.result);
+  };
+};
 
 // Register the plugins
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
@@ -35,17 +51,26 @@ setOptions({
       abort
     ) {
       const data = new FormData();
+
       data.set("file", file);
+      data.set("originalname", file.name);
       return await fetch(`${process.env.REACT_APP_API_URL}/filepond/upload`, {
         method: "POST",
         body: data,
         credentials: "include",
+        headers: { "Content-Disposition": "inline" },
       })
         .then((response) => {
           return response.json();
         })
-        .then((key) => {
+        .then((data) => {
+          const [key, name, url] = data;
           load(key);
+          // return {
+          //   abort: () => {
+          //     abort();
+          //   },
+          // };
         })
         .catch((err) => console.warn(err));
     },
@@ -73,50 +98,64 @@ setOptions({
     },
 
     // handle load
+    load: (source, load, error, progress, abort, headers) => {
+      const id = source;
+      fetch(`${process.env.REACT_APP_API_URL}/filepond/restore/${id}`, {
+        method: "GET",
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          const unit8Array = Object.values(data[0]);
+          const blob = new Blob([unit8Array], { type: data[1] });
+          return blob;
+        })
+        .then((file) => {
+          load(file);
+        });
+    },
 
     // handle restore
     restore: async function (fieldName, load, error, progress, abort, headers) {
       const id = fieldName;
       await fetch(`${process.env.REACT_APP_API_URL}/filepond/restore/${id}`, {
         method: "GET",
+        // headers: { "Content-Disposition": "inline" },
       })
+        // solution_1
         .then((response) => {
-          console.log(response);
-          return response.blob();
+          return response.json();
         })
-        .then((blob) => {
-          progress(true, 0, 1024);
-          load(blob);
+        .then((data) => {
+          // soluton_1: use base 64
+          const encodedBase64 = data[0];
+
+          const byteString = atob(encodedBase64);
+          var arrayBuffer = new ArrayBuffer(byteString.length);
+          var uint8Array = new Uint8Array(arrayBuffer);
+          for (var i = 0; i < byteString.length; i++) {
+            uint8Array[i] = byteString.charCodeAt(i);
+          }
+          const blob = new Blob([arrayBuffer], { type: data[1] });
+
+          // solution_2:use uint8Array
+          // const blob = new Blob([arrayBuffer], { type: data[1] });
+
+          const file = new File([blob], data[2], { type: data[1] });
+
+          return file;
         })
-        .catch(error("something wrong with initial loading"));
+        .then((file) => {
+          load(file);
+        });
+
+      // solution_2
+      // .then((response) => {
+      //   return response.blob();
+      // })
+      // .then((blob) => load(blob));
     },
-    // load: (fieldName, load, error, progress, abort, headers) => {
-    //   const id = fieldName;
-    //   const response = fetch(
-    //     `${process.env.REACT_APP_API_URL}/filepond/load/${id}`,
-    //     {
-    //       method: "GET",
-    //     }
-    //   );
-
-    //   error("something wrong with initial loading");
-
-    //   // headers(headersString);
-
-    //   // progress(true, 0, 1024);
-
-    //   load(response);
-
-    //   // Should expose an abort method so the request can be cancelled
-    //   return {
-    //     abort: () => {
-    //       // User tapped cancel, abort our ongoing actions here
-
-    //       // Let FilePond know the request has been cancelled
-    //       abort();
-    //     },
-    //   };
-    // },
   },
 });
 
