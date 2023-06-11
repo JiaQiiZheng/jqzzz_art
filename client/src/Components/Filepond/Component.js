@@ -14,6 +14,9 @@ import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orien
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import { setOptions, create, getOptions } from "filepond";
+import FilePondPluginImageResize from "filepond-plugin-image-resize";
+import FilePondPluginImageTransform from "filepond-plugin-image-transform";
+// import FilePondPluginImageCrop from "filepond-plugin-image-crop";
 
 // helper
 const unit8ToBase64 = (arr) =>
@@ -33,11 +36,28 @@ const readFileAsDataUrl = (file) => {
 };
 
 // Register the plugins
-registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
+registerPlugin(
+  FilePondPluginImageExifOrientation,
+  FilePondPluginImagePreview,
+  FilePondPluginImageResize,
+  FilePondPluginImageTransform
+  // FilePondPluginImageCrop
+);
 
 setOptions({
+  // image preview setting:
   allowImagePreview: true,
   styleItemPanelAspectRatio: 0.5,
+
+  //image resize setting:
+  imageResizeTargetWidth: 1200,
+  imageTransformAfterCreateBlob: (blob) =>
+    new Promise((resolve) => {
+      // do something with the blob, for instance send it to a custom compression alogrithm
+      // return the blob to the plugin for further processing
+      resolve(blob);
+    }),
+
   // handle upload
   server: {
     url: `${process.env.REACT_APP_API_URL}`,
@@ -51,9 +71,9 @@ setOptions({
       abort
     ) {
       const data = new FormData();
-
       data.set("file", file);
       data.set("originalname", file.name);
+      data.append("mimetype", file.type);
       return await fetch(`${process.env.REACT_APP_API_URL}/filepond/upload`, {
         method: "POST",
         body: data,

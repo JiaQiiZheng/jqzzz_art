@@ -287,7 +287,8 @@ app.post(
   uploadMiddleware.single("file"),
   async (req, res) => {
     mongoose.connect(process.env.MONGO_URL);
-    const { path, originalname, mimetype } = req.file;
+    const { path } = req.file;
+    const { originalname, mimetype } = req.body;
     const prefix = "attachment/";
     const [key, name, url] = await uploadToS3_prefix(
       path,
