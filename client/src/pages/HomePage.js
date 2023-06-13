@@ -1,24 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Zmage from "react-zmage";
 import { Link } from "react-router-dom";
-
-//adobePdfViewer
-import AdobePdfViewer from "../PdfViewer/App";
-
-//insert issuu document
-import NewOrleansSketchBook from "../IssuuDocument/NewOrleansSketchBook";
-
-// turn.js convertor
-import Turnjs5_Iframe from "../Components/TurnToBook/Turnjs5_Iframe";
 
 const baseUrl = process.env.REACT_APP_API_URL;
 
 export default function HomePage() {
+  // focus on iframe when loaded
+  useEffect(() => {
+    const iframe = document.getElementsByClassName("turnjs_iframe_inserted")[0];
+    if (iframe) {
+      iframe.focus();
+    }
+    return;
+  }, []);
+
   return (
     <div className="home_page">
       <iframe
         className="turnjs_iframe_inserted"
-        src={window.location.origin + "/test"}
+        src={window.location.origin + "/645609d7bb856cb2c9fbb505"}
         frameBorder="0"
       ></iframe>
       <Zmage
@@ -37,7 +37,6 @@ export default function HomePage() {
         url={"https://jqzzz.s3.amazonaws.com/1681940740260.pdf"}
       /> */}
       {/* <BaltimoreStudio_20230429 /> */}
-      <NewOrleansSketchBook />
     </div>
   );
 }

@@ -1,36 +1,58 @@
 import React, { useState, useEffect } from "react";
 import Zmage from "react-zmage";
 
-const pageNumber = 30;
-const page_width = 1000;
-const page_height = 1000;
-const randomPages = (pageNumber) => {
-  var page_src = [];
-  while (pageNumber--) {
-    page_src.push(
-      `https://picsum.photos/seed/${pageNumber}/${page_width}/${page_height}?grayscale`
-    );
-  }
-  return page_src;
-};
+// const pageNumber = 30;
+// const page_width = 1200;
+// const page_height = 1200;
+// const randomPages = (pageNumber) => {
+//   var page_src = [];
+//   while (pageNumber--) {
+//     page_src.push(
+//       `https://picsum.photos/seed/${pageNumber}/${page_width}/${page_height}?grayscale`
+//     );
+//   }
+//   return page_src;
+// };
 
-export default function Turnjs5() {
-  const [pages, setPages] = useState([]);
+export default function Turnjs5({ params }) {
+  const [urls, page_width, page_height] = params;
+  const [gotSize, setGotSize] = useState(false);
+  const [pages, setPages] = useState(urls);
 
   useEffect(() => {
     const settings_script = document.createElement("script");
-    settings_script.innerHTML = `
+    if (page_width && page_height) {
+      settings_script.innerHTML = `
     FlipbookSettings = {
       options: {
         pageWidth: ${page_width},
         pageHeight: ${page_height},
+        autoCenter: true
       },
       shareMessage: "developping flip book",
       // pageFolder: "content/magazine/",
       loadRegions: false,
     }`;
+    }
     document.body.appendChild(settings_script);
+    setGotSize(true);
+    return;
+  });
 
+  // // get a set of images
+  // useEffect(() => {
+  //   if (pages) {
+  //     var set = pages.map((page) => {
+  //       return {
+  //         src: page,
+  //         alt: "page",
+  //       };
+  //     });
+  //     console.log(set);
+  //   }
+  // });
+
+  useEffect(() => {
     const scriptTag_1 = document.createElement("script");
     scriptTag_1.src = "./assets/js/script.js";
     scriptTag_1.type = "text/javascript";
@@ -65,7 +87,7 @@ export default function Turnjs5() {
     // scriptTag_6.async = true;
     // document.body.appendChild(scriptTag_6);
 
-    setPages(randomPages(pageNumber));
+    // setPages(randomPages(pageNumber));
 
     return () => {
       document.body.removeChild(scriptTag_1);
@@ -78,20 +100,24 @@ export default function Turnjs5() {
   }, []);
 
   return (
-    <div className="turnjs_container">
+    <div className="turnjs_container" id="turnjs_container">
       {/* <!-- partial:index.partial.html --> */}
       <div className="catalog-app">
         <div id="viewer">
           <div id="flipbook" className="ui-flipbook">
             {/* <!-- Do not place the content here --> */}
             <a ignore="1" className="ui-arrow-control ui-arrow-next-page"></a>
-            {pages.map((page, index) => (
-              <img key={index} className="randomPage" src={page} alt="" />
-            ))}
+            {/* single zoom */}
+            {pages &&
+              pages.map((page, index) => (
+                <Zmage key={index} className="booklet_page" src={page} alt="" />
+              ))}
+            {/* array zoom */}
+            {/* {pages && <Zmage set={set} />}
             <a
               ignore="1"
               className="ui-arrow-control ui-arrow-previous-page"
-            ></a>
+            ></a> */}
           </div>
         </div>
 

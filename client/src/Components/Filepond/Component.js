@@ -13,7 +13,7 @@ import "filepond/dist/filepond.min.css";
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
-import { setOptions, create, getOptions } from "filepond";
+import { setOptions, create, getOptions, FileStatus } from "filepond";
 import FilePondPluginImageResize from "filepond-plugin-image-resize";
 import FilePondPluginImageTransform from "filepond-plugin-image-transform";
 // import FilePondPluginImageCrop from "filepond-plugin-image-crop";
@@ -51,12 +51,16 @@ setOptions({
 
   //image resize setting:
   imageResizeTargetWidth: 1200,
+  imageTransformOutputQualityMode: "optional",
+
   imageTransformAfterCreateBlob: (blob) =>
     new Promise((resolve) => {
       // do something with the blob, for instance send it to a custom compression alogrithm
       // return the blob to the plugin for further processing
       resolve(blob);
     }),
+
+  forceRevert: true,
 
   // handle upload
   server: {
@@ -74,6 +78,7 @@ setOptions({
       data.set("file", file);
       data.set("originalname", file.name);
       data.append("mimetype", file.type);
+      data.append("fileIndex", metadata.fileIndex);
       return await fetch(`${process.env.REACT_APP_API_URL}/filepond/upload`, {
         method: "POST",
         body: data,
@@ -138,7 +143,7 @@ setOptions({
 
     // handle restore
     restore: async function (fieldName, load, error, progress, abort, headers) {
-      const id = fieldName;
+      const id = fieldName.split("/").pop();
       await fetch(`${process.env.REACT_APP_API_URL}/filepond/restore/${id}`, {
         method: "GET",
         // headers: { "Content-Disposition": "inline" },
@@ -162,7 +167,9 @@ setOptions({
           // solution_2:use uint8Array
           // const blob = new Blob([arrayBuffer], { type: data[1] });
 
-          const file = new File([blob], data[2], { type: data[1] });
+          const file = new File([blob], data[2], {
+            type: data[1],
+          });
 
           return file;
         })
@@ -189,26 +196,31 @@ class App extends Component {
       // that has already been uploaded to the server (see docs)
       files: [],
       serverId: [],
+      fileIndex: 0,
+      fileObject: [],
+      processed: false,
     };
   }
 
   // callback methods
   handleInit() {
-    var fileNames = this.props.initialFiles;
+    var fileObjects = this.props.initialFiles;
+    var serverId = [];
+    fileObjects.map((item) => serverId.push(item.serverId));
     var collection = [];
-    fileNames.forEach((name) => {
-      collection.push({ source: name, options: { type: "limbo" } });
+    fileObjects.forEach((item) => {
+      collection.push({ source: item.serverId, options: { type: "limbo" } });
     });
-    this.setState({ files: collection, serverId: fileNames });
+    this.setState({ files: collection, serverId: serverId });
   }
 
   handleUploadedFiles(deleteServerId) {
-    var current = this.state.serverId;
+    var current = this.state.fileObject;
     if (deleteServerId)
-      this.state.serverId = current.filter((id) => {
-        return id !== deleteServerId;
-      });
-    this.props.onUploadedFiles(this.state.serverId);
+      this.state.fileObject = current.filter(
+        (item) => item.serverId !== deleteServerId
+      );
+    this.props.onUploadedFiles(this.state.fileObject);
   }
 
   render() {
@@ -229,17 +241,55 @@ class App extends Component {
               files: fileItems.map((fileItem) => fileItem.file),
             });
           }}
+          onprocessfiles={() => {
+            this.handleUploadedFiles();
+          }}
           onprocessfile={(err, fileItem) => {
             var current = this.state.serverId;
             var addId = fileItem.serverId.split("/").pop();
             !current.includes(addId) &&
               current.push(fileItem.serverId.split("/").pop());
             this.state.serverId = current;
-            this.handleUploadedFiles();
+
+            // handle file order
+            this.state.fileIndex += 1;
+            fileItem.setMetadata("fileIndex", this.state.fileIndex, true);
+            const newFileObject = {
+              serverId: fileItem.serverId,
+              fileIndex: fileItem.getMetadata().fileIndex,
+            };
+            var currentFileObjects = this.state.fileObject;
+            currentFileObjects.push(newFileObject);
+            this.state.fileObject = currentFileObjects;
           }}
           onprocessfilerevert={(fileItem) => {
-            const deleteServerId = fileItem.serverId.split("/").pop();
+            const deleteServerId = fileItem.serverId;
             this.handleUploadedFiles(deleteServerId);
+
+            // handle file order
+            var currentFileObjects = this.state.fileObject;
+            this.state.fileObject = currentFileObjects.filter(
+              (item) => item.fileIndex != fileItem.getMetadata().fileIndex
+            );
+          }}
+          onreorderfiles={(files, origin, target) => {
+            const fileOrder = [];
+            files.map((file) => {
+              fileOrder.push(file.getMetadata().fileIndex);
+            });
+            var oldFileObjects = this.state.fileObject;
+            var newFileObjects = [];
+            for (var i = 1; i <= oldFileObjects.length; i++) {
+              try {
+                newFileObjects[i - 1] = oldFileObjects.find(
+                  (item) => item.fileIndex == fileOrder[i - 1]
+                );
+              } catch (error) {
+                console.warn(error);
+              }
+            }
+            this.state.fileObject = newFileObjects;
+            this.handleUploadedFiles();
           }}
         />
       </div>

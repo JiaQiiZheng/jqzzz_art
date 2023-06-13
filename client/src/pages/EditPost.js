@@ -7,6 +7,15 @@ import UploadButton from "../Components/UploadButton/UploadButton";
 // import { default as FilePond_Hook } from "../Components/Filepond/Hook";
 import { default as FilePond_Component } from "../Components/Filepond/Component";
 
+const baseUrl = window.location.origin;
+
+const buildBooklet = (uploadedFiles) => {
+  var pageUrls = [];
+  uploadedFiles.map((item) =>
+    pageUrls.push(`https://jqzzz.s3.amazonaws.com/${item.serverId}`)
+  );
+};
+
 export default function EditPost() {
   //get section name
   const currentUrlArray = window.location.href.split("/");
@@ -17,6 +26,15 @@ export default function EditPost() {
   const [projectNameData, setProjectNameData] = useState();
   const [isGif, setIsGif] = useState();
   const isGifRef = useRef();
+
+  // focus on iframe when loaded
+  useEffect(() => {
+    const iframe = document.getElementsByClassName("turnjs_iframe_inserted")[0];
+    if (iframe) {
+      iframe.focus();
+    }
+    return;
+  }, []);
 
   //compress upload profile
   useEffect(() => {
@@ -127,8 +145,10 @@ export default function EditPost() {
         setTitle(postInfo.title);
         setContent(postInfo.content);
         setSummary(postInfo.summary);
-        setUploadedFiles(JSON.parse(postInfo.uploadedFiles));
-        //set current profile preview
+        setUploadedFiles(
+          postInfo.uploadedFiles && JSON.parse(postInfo.uploadedFiles)
+        );
+        // set current profile preview
         // const current_profile = createElement("img");
         let profile_preview = document.getElementById("profile_preview");
         let current_profile = document.createElement("img");
@@ -190,6 +210,7 @@ export default function EditPost() {
         credentials: "include",
       }
     );
+    buildBooklet(uploadedFiles);
     if (response.ok) {
       setRedirect(true);
     }
@@ -201,6 +222,8 @@ export default function EditPost() {
 
   return (
     <form className="edit_form" onSubmit={updatePost}>
+      {/* profile */}
+      <div id="profile_preview"></div>
       {/* dropdown to select project name */}
       {Array.isArray(projectNameData) && projectNameData.length != 0 && (
         <Dropdown
@@ -236,10 +259,13 @@ export default function EditPost() {
       /> */}
       {/* <input type="file" id="file" /> */}
       <UploadButton props={handleFileExtCallback} />
-      <div id="profile_preview"></div>
-
       {/* filePond */}
       {/* <FilePond_Hook /> */}
+      <iframe
+        className="turnjs_iframe_inserted"
+        src={`${baseUrl}/${id}`}
+        frameBorder="0"
+      ></iframe>
       {initialCompleted && (
         <FilePond_Component
           onUploadedFiles={handleUploadedFiles}

@@ -65,13 +65,22 @@ export default function PostPage() {
     });
   }, []);
 
+  // focus on iframe when loaded
+  useEffect(() => {
+    const iframe = document.getElementsByClassName("turnjs_iframe_inserted")[0];
+    if (iframe) {
+      iframe.focus();
+    }
+    return;
+  }, []);
+
   if (!postInfo) return "";
 
   return (
     <div>
       <iframe
         className="turnjs_iframe_inserted"
-        src={window.location.origin + "/test"}
+        src={window.location.origin + `/${id}`}
         frameBorder="0"
       ></iframe>
       <div className="post-page">

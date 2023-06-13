@@ -62,7 +62,13 @@ async function uploadToS3(path, originalFileName, mimetype) {
 }
 
 // upload to a specific folder in s3
-async function uploadToS3_prefix(path, originalFileName, mimetype, prefix) {
+async function uploadToS3_prefix(
+  path,
+  originalFileName,
+  mimetype,
+  prefix,
+  fileIndex
+) {
   const client = new S3Client({
     region: "us-east-1",
     credentials: {
@@ -78,7 +84,7 @@ async function uploadToS3_prefix(path, originalFileName, mimetype, prefix) {
     Bucket: bucket,
     Body: fs.readFileSync(path),
     Key: newFileName,
-    Metadata: { name: originalFileName },
+    Metadata: { name: originalFileName, index: fileIndex },
     ContentType: mimetype,
     ACL: "public-read",
   });
@@ -125,10 +131,11 @@ async function GetFromS3(s3_fileName) {
   try {
     const response = await client.send(command);
     const originalFileName = response.Metadata.name;
+    const fileIndex = response.Metadata.index;
     const getData_promise = response.Body.transformToString("base64");
     // const getData_promise = response.Body.transformToByteArray();
     const contentType = response.ContentType;
-    return [getData_promise, contentType, originalFileName];
+    return [getData_promise, contentType, originalFileName, fileIndex];
   } catch (error) {
     console.error(error);
   }
@@ -288,13 +295,14 @@ app.post(
   async (req, res) => {
     mongoose.connect(process.env.MONGO_URL);
     const { path } = req.file;
-    const { originalname, mimetype } = req.body;
+    const { originalname, mimetype, fileIndex } = req.body;
     const prefix = "attachment/";
     const [key, name, url] = await uploadToS3_prefix(
       path,
       originalname,
       mimetype,
-      prefix
+      prefix,
+      fileIndex
     );
     res.json([key, name, url]);
   }
@@ -315,12 +323,11 @@ app.get("/api/filepond/restore/:id", async (req, res) => {
   const { id } = req.params;
   const key = `attachment/${id}`;
   try {
-    const [getData_promise, contentType, originalFileName] = await GetFromS3(
-      key
-    );
+    const [getData_promise, contentType, originalFileName, fileIndex] =
+      await GetFromS3(key);
     // const data = await GetFromS3(key);
     getData_promise.then((data) => {
-      res.send([data, contentType, originalFileName]);
+      res.send([data, contentType, originalFileName, fileIndex]);
     });
   } catch (error) {
     console.warn(error);
@@ -340,6 +347,14 @@ app.get("/api/filepond/restore/:id", async (req, res) => {
 //     console.warn(error);
 //   }
 // });
+
+// section booklet
+app.get("/api/booklet/:id", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  const { id } = req.params;
+  const postDoc = await Post.findById(id);
+  res.send(postDoc);
+});
 
 //section design
 app.post(
@@ -518,7 +533,8 @@ app.put(
     const { token } = req.cookies;
     jwt.verify(token, secret, {}, async (err, info) => {
       if (err) throw err;
-      const { id, projectName, title, summary, content } = req.body;
+      const { id, projectName, title, summary, content, uploadedFiles } =
+        req.body;
       const postDoc = await Post.findById(id);
       const isAuthor =
         JSON.stringify(postDoc.author) === JSON.stringify(info.id);
@@ -531,6 +547,7 @@ app.put(
         summary,
         content,
         cover: url ? url : postDoc.cover,
+        uploadedFiles,
       });
 
       res.json(postDoc);
@@ -637,7 +654,8 @@ app.put(
     const { token } = req.cookies;
     jwt.verify(token, secret, {}, async (err, info) => {
       if (err) throw err;
-      const { id, projectName, title, summary, content } = req.body;
+      const { id, projectName, title, summary, content, uploadedFiles } =
+        req.body;
       const postDoc = await Post.findById(id);
       const isAuthor =
         JSON.stringify(postDoc.author) === JSON.stringify(info.id);
@@ -650,6 +668,7 @@ app.put(
         summary,
         content,
         cover: url ? url : postDoc.cover,
+        uploadedFiles,
       });
 
       res.json(postDoc);
@@ -764,7 +783,8 @@ app.put(
     const { token } = req.cookies;
     jwt.verify(token, secret, {}, async (err, info) => {
       if (err) throw err;
-      const { id, projectName, title, summary, content } = req.body;
+      const { id, projectName, title, summary, content, uploadedFiles } =
+        req.body;
       const postDoc = await Post.findById(id);
       const isAuthor =
         JSON.stringify(postDoc.author) === JSON.stringify(info.id);
@@ -777,6 +797,7 @@ app.put(
         summary,
         content,
         cover: url ? url : postDoc.cover,
+        uploadedFiles,
       });
 
       res.json(postDoc);
@@ -883,7 +904,8 @@ app.put("/api/post/art", uploadMiddleware.single("file"), async (req, res) => {
   const { token } = req.cookies;
   jwt.verify(token, secret, {}, async (err, info) => {
     if (err) throw err;
-    const { id, projectName, title, summary, content } = req.body;
+    const { id, projectName, title, summary, content, uploadedFiles } =
+      req.body;
     const postDoc = await Post.findById(id);
     const isAuthor = JSON.stringify(postDoc.author) === JSON.stringify(info.id);
     if (!isAuthor) {
@@ -895,6 +917,7 @@ app.put("/api/post/art", uploadMiddleware.single("file"), async (req, res) => {
       summary,
       content,
       cover: url ? url : postDoc.cover,
+      uploadedFiles,
     });
 
     res.json(postDoc);

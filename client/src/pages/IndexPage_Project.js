@@ -78,11 +78,20 @@ export default function IndexPage_Project() {
     loadFirst();
   }, [sectionName]);
 
+  // focus on iframe when loaded
+  useEffect(() => {
+    const iframe = document.getElementsByClassName("turnjs_iframe_inserted")[0];
+    if (iframe) {
+      iframe.focus();
+    }
+    return;
+  }, []);
+
   return (
     <div>
       <iframe
         className="turnjs_iframe_inserted"
-        src={window.location.origin + "/test"}
+        src={window.location.origin + "/645609d7bb856cb2c9fbb505"}
         frameBorder="0"
       ></iframe>
       <div className="indexpage_project_name">{projectName}</div>

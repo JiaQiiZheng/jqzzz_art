@@ -4832,7 +4832,7 @@
 
 (function (window, $, Backbone) {
   "use strict";
-  var pageInfo = $(".randomPage");
+  var pageInfo = $(".booklet_page");
   var pageInfoRef = pageInfo;
   /* Singlethon abstract class */
 
