@@ -16,7 +16,7 @@ const LazyImage = ({ src, alt, props }) => {
         }
         imageRef.current.classList.toggle("show");
       },
-      { rootMargin: "100% 0% 100% 0%", threshold: 0.5 }
+      { rootMargin: "100% 0% 100% 0%", threshold: 0.3 }
     );
     observer.observe(imageRef.current);
     return () => observer.disconnect();

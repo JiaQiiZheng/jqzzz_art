@@ -5,7 +5,6 @@ import { UserContext } from "../UserContext";
 import { Link } from "react-router-dom";
 import Image from "../image";
 import Zmage from "react-zmage";
-import Turnjs5 from "../Components/TurnToBook/Turnjs5";
 
 const baseUrl = process.env.REACT_APP_API_URL;
 
@@ -42,17 +41,29 @@ function richTextClick(event) {
   }
 }
 
-function deletePublish() {
-  const currentUrlArray = window.location.href.split("/");
-  const id = currentUrlArray[currentUrlArray.length - 1];
-  const sectionName = currentUrlArray[currentUrlArray.length - 3];
-  fetch(`${baseUrl}/${sectionName}/post/${id}`, { method: "DELETE" });
-}
-
 export default function PostPage() {
   const [postInfo, setPostInfo] = useState(null);
   const { userInfo } = useContext(UserContext);
   const { id } = useParams();
+
+  function deletePublish() {
+    const currentUrlArray = window.location.href.split("/");
+    const id = currentUrlArray[currentUrlArray.length - 1];
+    const sectionName = currentUrlArray[3];
+    fetch(`${baseUrl}/${sectionName}/post/${id}`, { method: "DELETE" });
+    var deleteFileKeys = JSON.parse(postInfo.uploadedFiles[0]).map((item) =>
+      item.serverId.split("/").pop()
+    );
+    deleteFileKeys.forEach((key) => {
+      fetch(`${process.env.REACT_APP_API_URL}/filepond/delete/${key}`, {
+        method: "DELETE",
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .catch((err) => console.warn(err));
+    });
+  }
 
   useEffect(() => {
     //get section name
@@ -72,7 +83,7 @@ export default function PostPage() {
       iframe.focus();
     }
     return;
-  }, []);
+  });
 
   if (!postInfo) return "";
 

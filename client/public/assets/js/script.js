@@ -4909,7 +4909,7 @@
           autoScaleContent: true,
           swipe: true,
         },
-        settings.options
+        settings ? settings.options : {}
       );
 
       this.$el.turn(options);
@@ -5203,7 +5203,7 @@
 
     itemCount: function () {
       var settings = window.FlipbookSettings;
-      if (settings.table) {
+      if (settings && settings.table) {
         return settings.table.length;
       } else {
         if ($("#flipbook").turn("display") == "single") {

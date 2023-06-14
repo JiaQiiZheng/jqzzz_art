@@ -33,9 +33,9 @@ export default function Turnjs5({ params }) {
       // pageFolder: "content/magazine/",
       loadRegions: false,
     }`;
+      setGotSize(true);
     }
     document.body.appendChild(settings_script);
-    setGotSize(true);
     return;
   });
 
@@ -100,96 +100,104 @@ export default function Turnjs5({ params }) {
   }, []);
 
   return (
-    <div className="turnjs_container" id="turnjs_container">
-      {/* <!-- partial:index.partial.html --> */}
-      <div className="catalog-app">
-        <div id="viewer">
-          <div id="flipbook" className="ui-flipbook">
-            {/* <!-- Do not place the content here --> */}
-            <a ignore="1" className="ui-arrow-control ui-arrow-next-page"></a>
-            {/* single zoom */}
-            {pages &&
-              pages.map((page, index) => (
-                <Zmage key={index} className="booklet_page" src={page} alt="" />
-              ))}
-            {/* array zoom */}
-            {/* {pages && <Zmage set={set} />}
-            <a
-              ignore="1"
-              className="ui-arrow-control ui-arrow-previous-page"
-            ></a> */}
+    gotSize && (
+      <div className="turnjs_container" id="turnjs_container">
+        {/* <!-- partial:index.partial.html --> */}
+        <div className="catalog-app">
+          <div id="viewer">
+            <div id="flipbook" className="ui-flipbook">
+              {/* <!-- Do not place the content here --> */}
+              <a ignore="1" className="ui-arrow-control ui-arrow-next-page"></a>
+              {pages &&
+                pages.map((page, index) => (
+                  <Zmage
+                    key={index}
+                    className="booklet_page"
+                    src={page}
+                    alt=""
+                  />
+                ))}
+              <a
+                ignore="1"
+                className="ui-arrow-control ui-arrow-previous-page"
+              ></a>
+            </div>
           </div>
-        </div>
 
-        {/* <!-- controls --> */}
-        <div id="controls">
-          <div className="all">
-            <div className="ui-slider" id="page-slider">
-              <div className="bar">
-                <div className="progress-width">
-                  <div className="progress">
-                    <div className="handler"></div>
+          {/* <!-- controls --> */}
+          <div id="controls">
+            <div className="all">
+              <div className="ui-slider" id="page-slider">
+                <div className="bar">
+                  <div className="progress-width">
+                    <div className="progress">
+                      <div className="handler"></div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="ui-options" id="options">
-              <a className="ui-icon" id="ui-icon-table-contents">
-                <i className="fa fa-bars"></i>
-              </a>
-              <a
-                className="ui-icon show-hint"
-                title="Miniatures"
-                id="ui-icon-miniature"
-              >
-                <i className="fa fa-th"></i>
-              </a>
-              <a className="ui-icon" id="ui-icon-zoom">
-                <i className="fa fa-file-o"></i>
-              </a>
-              <a className="ui-icon show-hint" title="Share" id="ui-icon-share">
-                <i className="fa fa-share"></i>
-              </a>
-              <a
-                className="ui-icon show-hint"
-                title="Full Screen"
-                id="ui-icon-full-screen"
-              >
-                <i className="fa fa-expand"></i>
-              </a>
-              <a className="ui-icon show-hint" id="ui-icon-toggle">
-                <i className="fa fa-ellipsis-v"></i>
-              </a>
-            </div>
-            {/* <!-- zoom slider --> */}
-            <div id="zoom-slider-view" className="zoom-slider">
-              <div className="bg">
-                <div className="ui-slider" id="zoom-slider">
-                  <div className="bar">
-                    <div className="progress-width">
-                      <div className="progress">
-                        <div className="handler"></div>
+              <div className="ui-options" id="options">
+                <a className="ui-icon" id="ui-icon-table-contents">
+                  <i className="fa fa-bars"></i>
+                </a>
+                <a
+                  className="ui-icon show-hint"
+                  title="Miniatures"
+                  id="ui-icon-miniature"
+                >
+                  <i className="fa fa-th"></i>
+                </a>
+                <a className="ui-icon" id="ui-icon-zoom">
+                  <i className="fa fa-file-o"></i>
+                </a>
+                <a
+                  className="ui-icon show-hint"
+                  title="Share"
+                  id="ui-icon-share"
+                >
+                  <i className="fa fa-share"></i>
+                </a>
+                <a
+                  className="ui-icon show-hint"
+                  title="Full Screen"
+                  id="ui-icon-full-screen"
+                >
+                  <i className="fa fa-expand"></i>
+                </a>
+                <a className="ui-icon show-hint" id="ui-icon-toggle">
+                  <i className="fa fa-ellipsis-v"></i>
+                </a>
+              </div>
+              {/* <!-- zoom slider --> */}
+              <div id="zoom-slider-view" className="zoom-slider">
+                <div className="bg">
+                  <div className="ui-slider" id="zoom-slider">
+                    <div className="bar">
+                      <div className="progress-width">
+                        <div className="progress">
+                          <div className="handler"></div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+              {/* <!-- / zoom slider --> */}
             </div>
-            {/* <!-- / zoom slider --> */}
-          </div>
 
-          <div id="ui-icon-expand-options">
-            <a className="ui-icon show-hint">
-              <i className="fa fa-ellipsis-h"></i>
-            </a>
+            <div id="ui-icon-expand-options">
+              <a className="ui-icon show-hint">
+                <i className="fa fa-ellipsis-h"></i>
+              </a>
+            </div>
           </div>
+          {/* <!-- / controls --> */}
+
+          {/* <!-- miniatures --> */}
+          <div id="miniatures" className="ui-miniatures-slider"></div>
+          {/* <!-- / miniatures --> */}
         </div>
-        {/* <!-- / controls --> */}
-
-        {/* <!-- miniatures --> */}
-        <div id="miniatures" className="ui-miniatures-slider"></div>
-        {/* <!-- / miniatures --> */}
       </div>
-    </div>
+    )
   );
 }

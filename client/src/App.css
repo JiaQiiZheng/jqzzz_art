@@ -313,13 +313,12 @@ form.register {
   margin: 1rem 1rem;
 }
 
-#profile_preview {
-  display: flex;
-  justify-content: center;
-}
-
 #profile_preview img {
+  display: flex;
   max-height: 60vh;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .edit_form .form_button {
@@ -875,3 +874,20 @@ figcaption {
   text-overflow: ellipsis;
 } */
 /* ql-attachmentUploading */
+
+#button_filePond_removeAll {
+  color: #555;
+  border: none;
+  width: 20% !important;
+  margin-left: auto;
+  box-shadow: 0 5px 0 rgb(0, 0, 0, 1);
+  transition: 0.2s;
+}
+#button_filePond_removeAll:hover {
+  background-color: var(--warningColor);
+  color: white;
+  transition: 0.2s;
+}
+#button_filePond_removeAll:active {
+  box-shadow: 0 2px 0 rgb(0, 0, 0, 1);
+}

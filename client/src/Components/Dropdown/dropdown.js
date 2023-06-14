@@ -21,8 +21,9 @@ const Dropdown = ({ params }) => {
       id: projectNameArray.length,
       projectName: newName,
     });
-    setNewName("");
-    console.log(projectNameArray);
+    setSelectedItem(projectNameArray.length - 1);
+    handleProjectNameChange(newName);
+    setIsOpen(!isOpen);
   };
 
   if (Array.isArray(projectNameArray) && projectNameArray.length != 0) {

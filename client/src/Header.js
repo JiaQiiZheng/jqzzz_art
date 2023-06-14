@@ -7,7 +7,7 @@ const manager = "jqzzz";
 export default function Header() {
   //get section name
   const currentUrlArray = window.location.href.split("/");
-  const sectionName = currentUrlArray[currentUrlArray.length - 1];
+  const sectionName = currentUrlArray[3];
   const sectionName_create = `/${sectionName}/create`;
 
   const { setUserInfo, userInfo } = useContext(UserContext);

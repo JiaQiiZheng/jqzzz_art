@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component, createRef, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import "./style.css";
 
@@ -52,13 +52,14 @@ setOptions({
   //image resize setting:
   imageResizeTargetWidth: 1200,
   imageTransformOutputQualityMode: "optional",
+  imageResizeMode: "contain",
 
-  imageTransformAfterCreateBlob: (blob) =>
-    new Promise((resolve) => {
-      // do something with the blob, for instance send it to a custom compression alogrithm
-      // return the blob to the plugin for further processing
-      resolve(blob);
-    }),
+  // imageTransformAfterCreateBlob: (blob) =>
+  //   new Promise((resolve) => {
+  //     // do something with the blob, for instance send it to a custom compression alogrithm
+  //     // return the blob to the plugin for further processing
+  //     resolve(blob);
+  //   }),
 
   forceRevert: true,
 
@@ -197,37 +198,71 @@ class App extends Component {
       files: [],
       serverId: [],
       fileIndex: 0,
-      fileObject: [],
+      // fileObject: [],
       processed: false,
+      componentDidMount: false,
     };
+    this.FilePondRef = createRef(null);
+    this.button_removeAll_ref = createRef(null);
+  }
+
+  componentDidMount() {
+    this.state.componentDidMount = true;
   }
 
   // callback methods
   handleInit() {
     var fileObjects = this.props.initialFiles;
-    var serverId = [];
-    fileObjects.map((item) => serverId.push(item.serverId));
-    var collection = [];
-    fileObjects.forEach((item) => {
-      collection.push({ source: item.serverId, options: { type: "limbo" } });
-    });
-    this.setState({ files: collection, serverId: serverId });
+    if (fileObjects) {
+      var serverId = [];
+      fileObjects.map((item) => serverId.push(item.serverId));
+      var collection = [];
+      fileObjects.forEach((item) => {
+        collection.push({ source: item.serverId, options: { type: "limbo" } });
+      });
+      this.setState({ files: collection, serverId: serverId });
+    }
   }
 
   handleUploadedFiles(deleteServerId) {
-    var current = this.state.fileObject;
+    var currentFiles = this.FilePondRef.current.getFiles().map((item) => {
+      return {
+        serverId: item.serverId,
+        fileIndex: item.getMetadata().fileIndex,
+      };
+    });
     if (deleteServerId)
-      this.state.fileObject = current.filter(
+      currentFiles = currentFiles.filter(
         (item) => item.serverId !== deleteServerId
       );
-    this.props.onUploadedFiles(this.state.fileObject);
+    this.props.onUploadedFiles(currentFiles);
   }
+
+  handleRemoveFiles = (isMount) => {
+    if (isMount) {
+      const btn = this.button_removeAll_ref.current;
+      if (btn.confirmed) {
+        clearTimeout(btn.timer);
+        this.FilePondRef.current.removeFiles({ revert: true });
+        btn.textContent = "Remove All Files";
+        btn.confirmed = false;
+      } else {
+        btn.textContent = btn.dataset.confirm;
+        // confrimed so trigger again then run if()
+        btn.confirmed = true;
+        btn.timer = setTimeout(() => {
+          btn.confirmed = false;
+          btn.textContent = "Remove All Files";
+        }, 2000);
+      }
+    }
+  };
 
   render() {
     return (
       <div className="App">
         <FilePond
-          ref={(ref) => (this.pond = ref)}
+          ref={this.FilePondRef}
           files={this.state.files}
           allowMultiple={true}
           allowReorder={true}
@@ -254,44 +289,49 @@ class App extends Component {
             // handle file order
             this.state.fileIndex += 1;
             fileItem.setMetadata("fileIndex", this.state.fileIndex, true);
-            const newFileObject = {
-              serverId: fileItem.serverId,
-              fileIndex: fileItem.getMetadata().fileIndex,
-            };
-            var currentFileObjects = this.state.fileObject;
-            currentFileObjects.push(newFileObject);
-            this.state.fileObject = currentFileObjects;
+            // const newFileObject = {
+            //   serverId: fileItem.serverId,
+            //   fileIndex: fileItem.getMetadata().fileIndex,
+            // };
+            // var currentFileObjects = this.state.fileObject;
+            // currentFileObjects.push(newFileObject);
+            // this.state.fileObject = currentFileObjects;
           }}
           onprocessfilerevert={(fileItem) => {
             const deleteServerId = fileItem.serverId;
             this.handleUploadedFiles(deleteServerId);
-
-            // handle file order
-            var currentFileObjects = this.state.fileObject;
-            this.state.fileObject = currentFileObjects.filter(
-              (item) => item.fileIndex != fileItem.getMetadata().fileIndex
-            );
           }}
           onreorderfiles={(files, origin, target) => {
-            const fileOrder = [];
-            files.map((file) => {
-              fileOrder.push(file.getMetadata().fileIndex);
-            });
-            var oldFileObjects = this.state.fileObject;
-            var newFileObjects = [];
-            for (var i = 1; i <= oldFileObjects.length; i++) {
-              try {
-                newFileObjects[i - 1] = oldFileObjects.find(
-                  (item) => item.fileIndex == fileOrder[i - 1]
-                );
-              } catch (error) {
-                console.warn(error);
-              }
-            }
-            this.state.fileObject = newFileObjects;
+            // const fileOrder = [];
+            // files.map((file) => {
+            //   fileOrder.push(file.getMetadata().fileIndex);
+            // });
+            // var oldFileObjects = this.state.fileObject;
+            // var newFileObjects = [];
+            // for (var i = 1; i <= oldFileObjects.length; i++) {
+            //   try {
+            //     newFileObjects[i - 1] = oldFileObjects.find(
+            //       (item) => item.fileIndex == fileOrder[i - 1]
+            //     );
+            //   } catch (error) {
+            //     console.warn(error);
+            //   }
+            // }
+            // this.state.fileObject = newFileObjects;
             this.handleUploadedFiles();
           }}
         />
+        <button
+          ref={this.button_removeAll_ref}
+          id="button_filePond_removeAll"
+          data-confirm="are you sure?"
+          type="button"
+          onClick={() => {
+            this.handleRemoveFiles(this.state.componentDidMount);
+          }}
+        >
+          Remove All Files
+        </button>
       </div>
     );
   }

@@ -11,9 +11,10 @@ const baseUrl = window.location.origin;
 
 const buildBooklet = (uploadedFiles) => {
   var pageUrls = [];
-  uploadedFiles.map((item) =>
-    pageUrls.push(`https://jqzzz.s3.amazonaws.com/${item.serverId}`)
-  );
+  uploadedFiles &&
+    uploadedFiles.map((item) =>
+      pageUrls.push(`https://jqzzz.s3.amazonaws.com/${item.serverId}`)
+    );
 };
 
 export default function EditPost() {
@@ -38,7 +39,7 @@ export default function EditPost() {
 
   //compress upload profile
   useEffect(() => {
-    const WIDTH = 2000;
+    var WIDTH = 2000;
     let input = document.getElementById("upload_file");
     let profile_preview = document.getElementById("profile_preview");
     let urlToFile = (url) => {
@@ -73,9 +74,25 @@ export default function EditPost() {
             image.src = image_url;
             image.onload = (e) => {
               let canvas = document.createElement("canvas");
-              let ratio = WIDTH / e.target.width;
-              canvas.width = WIDTH;
-              canvas.height = e.target.height * ratio;
+              let originalRatio = e.target.width / e.target.height;
+              let fixFactor = 3;
+              let min = 0.25,
+                max = 4;
+              if (originalRatio >= min && originalRatio <= max) {
+                let ratio = WIDTH / e.target.width;
+                canvas.width = WIDTH;
+                canvas.height = e.target.height * ratio;
+              } else if (originalRatio < min) {
+                WIDTH /= fixFactor;
+                let ratio = WIDTH / e.target.width;
+                canvas.width = WIDTH;
+                canvas.height = e.target.height * ratio;
+              } else if (originalRatio > max) {
+                WIDTH *= fixFactor;
+                let ratio = WIDTH / e.target.width;
+                canvas.width = WIDTH;
+                canvas.height = e.target.height * ratio;
+              }
 
               //draw
               const context = canvas.getContext("2d");
@@ -146,7 +163,7 @@ export default function EditPost() {
         setContent(postInfo.content);
         setSummary(postInfo.summary);
         setUploadedFiles(
-          postInfo.uploadedFiles && JSON.parse(postInfo.uploadedFiles)
+          postInfo.uploadedFiles[0] != "" && JSON.parse(postInfo.uploadedFiles)
         );
         // set current profile preview
         // const current_profile = createElement("img");
@@ -200,7 +217,10 @@ export default function EditPost() {
     if (files) {
       data.set("file", files);
     }
-    data.set("uploadedFiles", JSON.stringify(uploadedFiles));
+    data.set(
+      "uploadedFiles",
+      uploadedFiles.length ? JSON.stringify(uploadedFiles) : [""]
+    );
 
     const response = await fetch(
       `${process.env.REACT_APP_API_URL}/post/${sectionName}`,
@@ -260,7 +280,6 @@ export default function EditPost() {
       {/* <input type="file" id="file" /> */}
       <UploadButton props={handleFileExtCallback} />
       {/* filePond */}
-      {/* <FilePond_Hook /> */}
       <iframe
         className="turnjs_iframe_inserted"
         src={`${baseUrl}/${id}`}

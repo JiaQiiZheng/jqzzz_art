@@ -33,6 +33,11 @@ export default function HomePage() {
       <a href="exhibition/post/6420cc5b020a31ca53a37fb0" className="Brief">
         Howland Exhibition
       </a>
+      <iframe
+        className="turnjs_iframe_inserted"
+        src={window.location.origin + "/6420cc5b020a31ca53a37fb0"}
+        frameBorder="0"
+      ></iframe>
       {/* <AdobePdfViewer
         url={"https://jqzzz.s3.amazonaws.com/1681940740260.pdf"}
       /> */}

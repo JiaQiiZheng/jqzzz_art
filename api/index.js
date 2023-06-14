@@ -372,7 +372,8 @@ app.post(
     const { token } = req.cookies;
     jwt.verify(token, secret, {}, async (err, info) => {
       if (err) throw err;
-      const { projectName, title, summary, content, section } = req.body;
+      const { projectName, title, summary, content, section, uploadedFiles } =
+        req.body;
       const postDoc = await Post.create({
         projectName,
         title,
@@ -381,6 +382,7 @@ app.post(
         cover: url,
         author: info.id,
         section: section,
+        uploadedFiles,
       });
       res.json(postDoc);
     });
