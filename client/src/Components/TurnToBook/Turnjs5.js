@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import Zmage from "../react-zmage";
+import Zmage from "react-zmage";
 
 // const pageNumber = 30;
 // const page_width = 1200;

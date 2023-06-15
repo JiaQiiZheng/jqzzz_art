@@ -4,9 +4,20 @@ import { formatISO9075 } from "date-fns";
 import { UserContext } from "../UserContext";
 import { Link } from "react-router-dom";
 import Image from "../image";
-import Zmage from "../Components/react-zmage";
+import Zmage from "react-zmage";
 
 const baseUrl = process.env.REACT_APP_API_URL;
+
+// improvement of react zmage
+function handleDoubleClickZoom() {
+  document.getElementById("zmageControlZoom").click();
+}
+const handleBrowsing = (state) => {
+  if (state) {
+    document.getElementsByTagName("figure")[0].ondblclick =
+      handleDoubleClickZoom;
+  }
+};
 
 function img_find() {
   var imgs = document.getElementsByTagName("img");
@@ -37,6 +48,9 @@ function richTextClick(event) {
       preset: "desktop",
       set: imgSet,
       defaultPage: img_defaultIndex(imgCurrentSrc, imgSrc),
+      onBrowsing: (state) => {
+        handleBrowsing(state);
+      },
     });
   }
 }

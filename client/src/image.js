@@ -1,5 +1,5 @@
 import React from "react";
-import Zmage from "./Components/react-zmage";
+import Zmage from "react-zmage";
 
 // improvement of react zmage
 function handleDoubleClickZoom() {
@@ -7,7 +7,8 @@ function handleDoubleClickZoom() {
 }
 const handleBrowsing = (state) => {
   if (state) {
-    document.getElementById("zmage").ondblclick = handleDoubleClickZoom;
+    document.getElementsByTagName("figure")[0].ondblclick =
+      handleDoubleClickZoom;
   }
 };
 
