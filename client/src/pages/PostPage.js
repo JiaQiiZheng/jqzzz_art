@@ -12,10 +12,17 @@ const baseUrl = process.env.REACT_APP_API_URL;
 function handleDoubleClickZoom() {
   document.getElementById("zmageControlZoom").click();
 }
+function handleEsc() {
+  document.getElementById("zmageControlClose").click();
+}
 const handleBrowsing = (state) => {
   if (state) {
-    document.getElementsByTagName("figure")[0].ondblclick =
-      handleDoubleClickZoom;
+    document.getElementsByTagName("figure")[0].onclick = handleDoubleClickZoom;
+  }
+};
+const handleZooming = (state) => {
+  if (state) {
+    document.getElementsByTagName("figure")[0].onclick = handleEsc;
   }
 };
 
@@ -50,6 +57,9 @@ function richTextClick(event) {
       defaultPage: img_defaultIndex(imgCurrentSrc, imgSrc),
       onBrowsing: (state) => {
         handleBrowsing(state);
+      },
+      onZooming: (state) => {
+        handleZooming(state);
       },
     });
   }

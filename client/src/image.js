@@ -5,10 +5,17 @@ import Zmage from "react-zmage";
 function handleDoubleClickZoom() {
   document.getElementById("zmageControlZoom").click();
 }
+function handleEsc() {
+  document.getElementById("zmageControlClose").click();
+}
 const handleBrowsing = (state) => {
   if (state) {
-    document.getElementsByTagName("figure")[0].ondblclick =
-      handleDoubleClickZoom;
+    document.getElementsByTagName("figure")[0].onclick = handleDoubleClickZoom;
+  }
+};
+const handleZooming = (state) => {
+  if (state) {
+    document.getElementsByTagName("figure")[0].onclick = handleEsc;
   }
 };
 
@@ -22,6 +29,9 @@ export default function Image({ src, ...rest }) {
       <Zmage
         onBrowsing={(state) => {
           handleBrowsing(state);
+        }}
+        onZooming={(state) => {
+          handleZooming(state);
         }}
         {...rest}
         src={src}

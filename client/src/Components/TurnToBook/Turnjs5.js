@@ -107,10 +107,18 @@ export default function Turnjs5({ params }) {
   function handleDoubleClickZoom() {
     document.getElementById("zmageControlZoom").click();
   }
+  function handleEsc() {
+    document.getElementById("zmageControlClose").click();
+  }
   const handleBrowsing = (state) => {
     if (state) {
-      document.getElementsByTagName("figure")[0].ondblclick =
+      document.getElementsByTagName("figure")[0].onclick =
         handleDoubleClickZoom;
+    }
+  };
+  const handleZooming = (state) => {
+    if (state) {
+      document.getElementsByTagName("figure")[0].onclick = handleEsc;
     }
   };
 
@@ -132,6 +140,9 @@ export default function Turnjs5({ params }) {
                   <Zmage
                     onBrowsing={(state) => {
                       handleBrowsing(state);
+                    }}
+                    onZooming={(state) => {
+                      handleZooming(state);
                     }}
                     id="zmage"
                     key={index}
