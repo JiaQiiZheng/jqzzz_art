@@ -75,9 +75,9 @@ export default function EditPost() {
             image.onload = (e) => {
               let canvas = document.createElement("canvas");
               let originalRatio = e.target.width / e.target.height;
-              let fixFactor = 3;
-              let min = 0.25,
-                max = 4;
+              let fixFactor = 2;
+              let min = 0.5,
+                max = 2;
               if (originalRatio >= min && originalRatio <= max) {
                 let ratio = WIDTH / e.target.width;
                 canvas.width = WIDTH;
@@ -183,7 +183,7 @@ export default function EditPost() {
       `${process.env.REACT_APP_API_URL}/post/${sectionName}/projectNames`
     ).then((response) => {
       response.json().then((projectNameArray) => {
-        setProjectName(projectNameArray);
+        projectNameArray && setProjectName(projectNameArray);
       });
     });
   }, []);

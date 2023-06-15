@@ -1,5 +1,15 @@
 import React from "react";
-import Zmage from "react-zmage";
+import Zmage from "./Components/react-zmage";
+
+// improvement of react zmage
+function handleDoubleClickZoom() {
+  document.getElementById("zmageControlZoom").click();
+}
+const handleBrowsing = (state) => {
+  if (state) {
+    document.getElementById("zmage").ondblclick = handleDoubleClickZoom;
+  }
+};
 
 export default function Image({ src, ...rest }) {
   src =
@@ -8,7 +18,14 @@ export default function Image({ src, ...rest }) {
       : "http//localhost:4000/uploads/" + src;
   return (
     <div className="image">
-      <Zmage {...rest} src={src} alt={""} />
+      <Zmage
+        onBrowsing={(state) => {
+          handleBrowsing(state);
+        }}
+        {...rest}
+        src={src}
+        alt={""}
+      />
     </div>
   );
 }

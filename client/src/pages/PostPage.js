@@ -4,7 +4,7 @@ import { formatISO9075 } from "date-fns";
 import { UserContext } from "../UserContext";
 import { Link } from "react-router-dom";
 import Image from "../image";
-import Zmage from "react-zmage";
+import Zmage from "../Components/react-zmage";
 
 const baseUrl = process.env.REACT_APP_API_URL;
 
@@ -76,14 +76,15 @@ export default function PostPage() {
     });
   }, []);
 
-  // focus on iframe when loaded
-  useEffect(() => {
-    const iframe = document.getElementsByClassName("turnjs_iframe_inserted")[0];
-    if (iframe) {
-      iframe.focus();
-    }
-    return;
-  });
+  // // focus on iframe when loaded
+  // useEffect(() => {
+  //   const iframe = document.getElementsByClassName("ql-video")[0];
+  //   if (iframe) {
+  //     console.log(iframe);
+  //     iframe.focus();
+  //   }
+  //   return;
+  // }, []);
 
   if (!postInfo) return "";
 

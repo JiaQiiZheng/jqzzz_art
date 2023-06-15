@@ -557,6 +557,14 @@ app.put(
   }
 );
 
+// get projectName list data
+app.get("/api/post/programming/projectNames", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  const currentUrlArray = req.url.split("/");
+  const section_name = currentUrlArray[currentUrlArray.length - 2];
+  res.json(await Post.find({ section: section_name }).distinct("projectName"));
+});
+
 app.get("/api/post/programming", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const currentUrlArray = req.url.split("/");

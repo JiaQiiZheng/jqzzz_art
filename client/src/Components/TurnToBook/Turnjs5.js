@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import Zmage from "react-zmage";
+import React, { useState, useEffect, useRef } from "react";
+import Zmage from "../react-zmage";
 
 // const pageNumber = 30;
 // const page_width = 1200;
@@ -18,6 +18,10 @@ export default function Turnjs5({ params }) {
   const [urls, page_width, page_height] = params;
   const [gotSize, setGotSize] = useState(false);
   const [pages, setPages] = useState(urls);
+
+  const handleActivateBooklet = () => {
+    window.frameElement.focus();
+  };
 
   useEffect(() => {
     const settings_script = document.createElement("script");
@@ -99,9 +103,24 @@ export default function Turnjs5({ params }) {
     };
   }, []);
 
+  // improvement of react zmage
+  function handleDoubleClickZoom() {
+    document.getElementById("zmageControlZoom").click();
+  }
+  const handleBrowsing = (state) => {
+    if (state) {
+      document.getElementsByTagName("figure")[0].ondblclick =
+        handleDoubleClickZoom;
+    }
+  };
+
   return (
     gotSize && (
-      <div className="turnjs_container" id="turnjs_container">
+      <div
+        onClick={handleActivateBooklet}
+        className="turnjs_container"
+        id="turnjs_container"
+      >
         {/* <!-- partial:index.partial.html --> */}
         <div className="catalog-app">
           <div id="viewer">
@@ -111,6 +130,10 @@ export default function Turnjs5({ params }) {
               {pages &&
                 pages.map((page, index) => (
                   <Zmage
+                    onBrowsing={(state) => {
+                      handleBrowsing(state);
+                    }}
+                    id="zmage"
                     key={index}
                     className="booklet_page"
                     src={page}
@@ -147,9 +170,9 @@ export default function Turnjs5({ params }) {
                 >
                   <i className="fa fa-th"></i>
                 </a>
-                <a className="ui-icon" id="ui-icon-zoom">
+                {/* <a className="ui-icon" id="ui-icon-zoom">
                   <i className="fa fa-file-o"></i>
-                </a>
+                </a> */}
                 <a
                   className="ui-icon show-hint"
                   title="Share"

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Zmage from "react-zmage";
+import Zmage from "../Components/react-zmage";
 import { Link } from "react-router-dom";
 
 const baseUrl = process.env.REACT_APP_API_URL;
@@ -7,16 +7,19 @@ const baseUrl = process.env.REACT_APP_API_URL;
 export default function HomePage() {
   // focus on iframe when loaded
   useEffect(() => {
-    const iframe = document.getElementsByClassName("turnjs_iframe_inserted")[0];
+    var iframe = document.getElementsByClassName("turnjs_iframe_inserted");
     if (iframe) {
-      iframe.focus();
+      if (iframe.length == 1) {
+        iframe[0].focus();
+      }
+      return;
     }
-    return;
   }, []);
 
   return (
     <div className="home_page">
       <iframe
+        name="sketch"
         className="turnjs_iframe_inserted"
         src={window.location.origin + "/645609d7bb856cb2c9fbb505"}
         frameBorder="0"
