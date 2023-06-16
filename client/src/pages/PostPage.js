@@ -5,6 +5,7 @@ import { UserContext } from "../UserContext";
 import { Link } from "react-router-dom";
 import Image from "../image";
 import Zmage from "react-zmage";
+import * as ReactImprovement from "../Components/react-zmage/zmageImprovement";
 
 const baseUrl = process.env.REACT_APP_API_URL;
 
@@ -56,10 +57,10 @@ function richTextClick(event) {
       set: imgSet,
       defaultPage: img_defaultIndex(imgCurrentSrc, imgSrc),
       onBrowsing: (state) => {
-        handleBrowsing(state);
+        ReactImprovement.handleBrowsing(state);
       },
       onZooming: (state) => {
-        handleZooming(state);
+        ReactImprovement.handleZooming(state);
       },
     });
   }

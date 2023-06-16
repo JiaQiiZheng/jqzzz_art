@@ -1,26 +1,9 @@
 import React, { useEffect } from "react";
 import Zmage from "react-zmage";
 import { Link } from "react-router-dom";
+import * as ReactImprovement from "../Components/react-zmage/zmageImprovement";
 
 const baseUrl = process.env.REACT_APP_API_URL;
-
-// improvement of react zmage
-function handleDoubleClickZoom() {
-  document.getElementById("zmageControlZoom").click();
-}
-function handleEsc() {
-  document.getElementById("zmageControlClose").click();
-}
-const handleBrowsing = (state) => {
-  if (state) {
-    document.getElementsByTagName("figure")[0].onclick = handleDoubleClickZoom;
-  }
-};
-const handleZooming = (state) => {
-  if (state) {
-    document.getElementsByTagName("figure")[0].onclick = handleEsc;
-  }
-};
 
 export default function HomePage() {
   // focus on iframe when loaded
@@ -44,10 +27,10 @@ export default function HomePage() {
       ></iframe>
       <Zmage
         onBrowsing={(state) => {
-          handleBrowsing(state);
+          ReactImprovement.handleBrowsing(state);
         }}
         onZooming={(state) => {
-          handleZooming(state);
+          ReactImprovement.handleZooming(state);
         }}
         className="profile"
         src="https://jqzzz.s3.amazonaws.com/1679927376239.jpg"

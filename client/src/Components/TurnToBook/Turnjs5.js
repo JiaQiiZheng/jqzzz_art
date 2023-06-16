@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Zmage from "react-zmage";
+import * as ReactImprovement from "../../Components/react-zmage/zmageImprovement";
 
 // const pageNumber = 30;
 // const page_width = 1200;
@@ -103,25 +104,6 @@ export default function Turnjs5({ params }) {
     };
   }, []);
 
-  // improvement of react zmage
-  function handleDoubleClickZoom() {
-    document.getElementById("zmageControlZoom").click();
-  }
-  function handleEsc() {
-    document.getElementById("zmageControlClose").click();
-  }
-  const handleBrowsing = (state) => {
-    if (state) {
-      document.getElementsByTagName("figure")[0].onclick =
-        handleDoubleClickZoom;
-    }
-  };
-  const handleZooming = (state) => {
-    if (state) {
-      document.getElementsByTagName("figure")[0].onclick = handleEsc;
-    }
-  };
-
   return (
     gotSize && (
       <div
@@ -139,10 +121,10 @@ export default function Turnjs5({ params }) {
                 pages.map((page, index) => (
                   <Zmage
                     onBrowsing={(state) => {
-                      handleBrowsing(state);
+                      ReactImprovement.handleBrowsing(state);
                     }}
                     onZooming={(state) => {
-                      handleZooming(state);
+                      ReactImprovement.handleZooming(state);
                     }}
                     id="zmage"
                     key={index}

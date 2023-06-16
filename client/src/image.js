@@ -1,23 +1,6 @@
 import React from "react";
 import Zmage from "react-zmage";
-
-// improvement of react zmage
-function handleDoubleClickZoom() {
-  document.getElementById("zmageControlZoom").click();
-}
-function handleEsc() {
-  document.getElementById("zmageControlClose").click();
-}
-const handleBrowsing = (state) => {
-  if (state) {
-    document.getElementsByTagName("figure")[0].onclick = handleDoubleClickZoom;
-  }
-};
-const handleZooming = (state) => {
-  if (state) {
-    document.getElementsByTagName("figure")[0].onclick = handleEsc;
-  }
-};
+import * as ReactImprovement from "./Components/react-zmage/zmageImprovement";
 
 export default function Image({ src, ...rest }) {
   src =
@@ -28,10 +11,10 @@ export default function Image({ src, ...rest }) {
     <div className="image">
       <Zmage
         onBrowsing={(state) => {
-          handleBrowsing(state);
+          ReactImprovement.handleBrowsing(state);
         }}
         onZooming={(state) => {
-          handleZooming(state);
+          ReactImprovement.handleZooming(state);
         }}
         {...rest}
         src={src}

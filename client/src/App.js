@@ -59,7 +59,9 @@ function App() {
           <Route path="/exhibition/edit/:id" element={<EditPost />} />
         </Route>
         <Route path="/computation" element={<Layout />}>
-          <Route index element={<IndexPage />} />
+          <Route index element={<ProjectList />} />
+
+          {/* <Route index element={<IndexPage />} /> */}
           <Route
             path={`/computation/:projectName`}
             element={<IndexPage_Project />}
