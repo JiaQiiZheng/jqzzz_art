@@ -3832,7 +3832,7 @@ cjs-module-lexer@^1.0.0:
 
 classnames@^2.2.6:
   version "2.3.2"
-  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.3.2.tgz#351d813bf0137fcc6a76a16b88208d2560a0d924"
+  resolved "https://registry.npmjs.org/classnames/-/classnames-2.3.2.tgz"
   integrity sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==
 
 clean-css@^5.2.2:
@@ -5591,11 +5591,6 @@ filelist@^1.0.1:
   integrity sha512-w1cEuf3S+DrLCQL7ET6kz+gmlJdbq9J7yXCSjK/OZCPA+qEN1WyF4ZAf0YYJa4/shHJra2t/d/r8SV4Ji+x+8Q==
   dependencies:
     minimatch "^5.0.1"
-
-filepond-plugin-image-crop@^2.0.6:
-  version "2.0.6"
-  resolved "https://registry.npmjs.org/filepond-plugin-image-crop/-/filepond-plugin-image-crop-2.0.6.tgz"
-  integrity sha512-bSy/KND4EP/QtW8MxIj23qgSEPUVRrT8XdktJ+OU9y8xRjFjTG+qcuw1LsycARQYRtzi8cZrD3P4POOITfkywQ==
 
 filepond-plugin-image-exif-orientation@^1.0.11:
   version "1.0.11"
@@ -10273,7 +10268,7 @@ react-dev-utils@^12.0.1:
 
 react-dom@^16.12.0:
   version "16.14.0"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.14.0.tgz#7ad838ec29a777fb3c75c3a190f661cf92ab8b89"
+  resolved "https://registry.npmjs.org/react-dom/-/react-dom-16.14.0.tgz"
   integrity sha512-1gCeQXDLoIqMgqD3IO2Ah9bnf0w9kzhwN5q4FGnHZ67hBm9yePzB5JJAIQCc8x3pFnNlwFq4RidZggNAAkzWWw==
   dependencies:
     loose-envify "^1.1.0"
@@ -10430,7 +10425,7 @@ react-spinners@^0.13.8:
 
 react-zmage@0.8.5-beta.36:
   version "0.8.5-beta.36"
-  resolved "https://registry.yarnpkg.com/react-zmage/-/react-zmage-0.8.5-beta.36.tgz#3dee3cf74c6b92901f40b7d6d4b047fefcf5cc03"
+  resolved "https://registry.npmjs.org/react-zmage/-/react-zmage-0.8.5-beta.36.tgz"
   integrity sha512-iF0LxAXczbU7tTFOZwGe5eMBbGznLdNEmvyuTu51v7ub6K82RE2YiDGhlYO6SRS5ioFm3kWYC/SQYBRk2h6QSQ==
   dependencies:
     classnames "^2.2.6"
@@ -10448,7 +10443,7 @@ react-zmage@0.8.5-beta.36:
 
 react@^16.12.0:
   version "16.14.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.14.0.tgz#94d776ddd0aaa37da3eda8fc5b6b18a4c9a3114d"
+  resolved "https://registry.npmjs.org/react/-/react-16.14.0.tgz"
   integrity sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g==
   dependencies:
     loose-envify "^1.1.0"
@@ -10875,7 +10870,7 @@ saxes@^5.0.1:
 
 scheduler@^0.19.1:
   version "0.19.1"
-  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.19.1.tgz#4f3e2ed2c1a7d65681f4c854fa8c5a1ccb40f196"
+  resolved "https://registry.npmjs.org/scheduler/-/scheduler-0.19.1.tgz"
   integrity sha512-n/zwRWRYSUj0/3g/otKDRPMh6qv2SYMWNq85IEa8iZyAv8od9zDYpGSnpBEjNgcMNq6Scbu5KfIPxNF72R/2EA==
   dependencies:
     loose-envify "^1.1.0"

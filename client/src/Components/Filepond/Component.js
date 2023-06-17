@@ -16,7 +16,6 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import { setOptions, create, getOptions, FileStatus } from "filepond";
 import FilePondPluginImageResize from "filepond-plugin-image-resize";
 import FilePondPluginImageTransform from "filepond-plugin-image-transform";
-// import FilePondPluginImageCrop from "filepond-plugin-image-crop";
 
 // helper
 const unit8ToBase64 = (arr) =>
@@ -41,7 +40,6 @@ registerPlugin(
   FilePondPluginImagePreview,
   FilePondPluginImageResize,
   FilePondPluginImageTransform
-  // FilePondPluginImageCrop
 );
 
 setOptions({
@@ -191,7 +189,6 @@ setOptions({
 class App extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       // Set initial files, type 'local' means this is a file
       // that has already been uploaded to the server (see docs)
@@ -201,6 +198,9 @@ class App extends Component {
       // fileObject: [],
       processed: false,
       componentDidMount: false,
+      embedCode: "",
+      iframeName: "",
+      acceptFileType: ["jpg", "jpeg", "pdf", "svg", "bmp", "png", "json"],
     };
     this.FilePondRef = createRef(null);
     this.button_removeAll_ref = createRef(null);
@@ -238,6 +238,21 @@ class App extends Component {
     this.props.onUploadedFiles(currentFiles);
   }
 
+  handleEmbedCode = () => {
+    const blob = new Blob(
+      [JSON.stringify({ embedCode: this.state.embedCode })],
+      {
+        type: "application/json",
+      }
+    );
+    blob.name = `IFRAME_${this.state.iframeName}.json`;
+    this.FilePondRef.current.addFile(blob);
+  };
+
+  handleIframeEmbed = () => {
+    this.setState({ embedCode: "", iframeName: "" });
+  };
+
   handleRemoveFiles = (isMount) => {
     if (isMount) {
       const btn = this.button_removeAll_ref.current;
@@ -270,6 +285,24 @@ class App extends Component {
           name="filepond"
           labelIdle='Drag & Drop your files to Build a Booklet or <span class="filepond--label-action">Browse</span>'
           oninit={() => this.handleInit()}
+          onaddfile={(err, fileItem) => {
+            const type = fileItem
+              ? fileItem.file.name.split(".").pop()
+              : "unknown";
+            if (this.state.acceptFileType.includes(type)) {
+              document
+                .getElementById("filepondInfo_show")
+                .classList.add("filepondInfo_hide");
+              if (type === "json") {
+                this.handleIframeEmbed();
+              }
+            } else {
+              document
+                .getElementById("filepondInfo_show")
+                .classList.remove("filepondInfo_hide");
+              this.FilePondRef.current.removeFile(fileItem, { revert: true });
+            }
+          }}
           onupdatefiles={(fileItems) => {
             // Set currently active file objects to this.state
             this.setState({
@@ -321,6 +354,66 @@ class App extends Component {
             this.handleUploadedFiles();
           }}
         />
+        <div>
+          {/* <input
+            value={this.state.embedCode}
+            type="embedCode"
+            onChange={(ev) =>
+              this.setState({
+                embedCode: (this.state.embedCode = ev.target.value),
+              })
+            }
+          /> */}
+          {/* <button type="button" onClick={this.handleEmbedCode}>
+            Embed Iframe
+          </button> */}
+          <div>
+            {/* create new iframe */}
+            <div className="createNewIframe">
+              <div className="info">
+                <p
+                  className="filepondInfo_hide"
+                  id="filepondInfo_show"
+                >{`please upload valid files including: ${this.state.acceptFileType
+                  .toString()
+                  .replaceAll(",", ", ")}`}</p>
+              </div>
+              <div className="create">
+                <div className="icon_add" onClick={this.handleEmbedCode}>
+                  <link
+                    rel="stylesheet"
+                    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+                  />
+                  <span className="material-symbols-outlined">add_circle</span>
+                </div>
+                <div className="input">
+                  <input
+                    className="input_IframeName"
+                    type="iframeName"
+                    value={this.state.iframeName}
+                    onChange={(ev) =>
+                      this.setState({
+                        iframeName: (this.state.iframeName = ev.target.value),
+                      })
+                    }
+                    placeholder="iframe name"
+                  />
+                  <input
+                    className="input_EmbedCode"
+                    type="embedCode"
+                    value={this.state.embedCode}
+                    onChange={(ev) =>
+                      this.setState({
+                        embedCode: (this.state.embedCode = ev.target.value),
+                      })
+                    }
+                    placeholder="Input iframe embed code..."
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <button
           ref={this.button_removeAll_ref}
           id="button_filePond_removeAll"

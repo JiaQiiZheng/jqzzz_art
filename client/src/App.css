@@ -821,6 +821,12 @@ figcaption {
 .booklet_page {
   object-fit: scale-down;
 }
+.booklet_iframe iframe {
+  display: flex;
+  margin: auto;
+  width: 95%;
+  height: 100%;
+}
 
 .image-uploading::before {
   content: "";

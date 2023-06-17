@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Zmage from "react-zmage";
 import * as ReactImprovement from "../../Components/react-zmage/zmageImprovement";
+import Vimeo from "../Vimeo/Vimeo";
 
 // const pageNumber = 30;
 // const page_width = 1200;
@@ -19,10 +20,20 @@ export default function Turnjs5({ params }) {
   const [urls, page_width, page_height] = params;
   const [gotSize, setGotSize] = useState(false);
   const [pages, setPages] = useState(urls);
+  const [pagesLoaded, setPagesLoaded] = useState(false);
+  // const [videoEmbedData, setVideoEmbedData] = useState(videoEmbed);
+  // const [videoInsertIndex, setVideoInsertIndex] = useState(0);
 
   const handleActivateBooklet = () => {
     window.frameElement.focus();
   };
+
+  // <Vimeo
+  //               params={`<iframe src="https://player.vimeo.com/video/825545190?h=1d658ee7df" width="640" height="564" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>`}
+  //             />
+
+  // embed all video:
+  useEffect(() => {}, [pagesLoaded]);
 
   useEffect(() => {
     const settings_script = document.createElement("script");
@@ -118,21 +129,36 @@ export default function Turnjs5({ params }) {
               {/* <!-- Do not place the content here --> */}
               <a ignore="1" className="ui-arrow-control ui-arrow-next-page"></a>
               {pages &&
-                pages.map((page, index) => (
-                  <Zmage
-                    onBrowsing={(state) => {
-                      ReactImprovement.handleBrowsing(state);
-                    }}
-                    onZooming={(state) => {
-                      ReactImprovement.handleZooming(state);
-                    }}
-                    id="zmage"
-                    key={index}
-                    className="booklet_page"
-                    src={page}
-                    alt=""
-                  />
-                ))}
+                pages.map((page, index) => {
+                  // if (
+                  //   videoEmbedData[videoInsertIndex] &&
+                  //   index == videoEmbedData[0].insertIndex
+                  // ) {
+                  //   // insertIndex is the pageNumber of inserted videos
+                  //   var embedCode = videoEmbedData[0].embedCode;
+                  //   pages.splice(index, 0, null);
+                  //   videoEmbedData.shift();
+                  //   return <Vimeo params={embedCode} key={index} />;
+                  // }
+                  if (page.split(".").pop() === "json") {
+                    return <Vimeo params={page} key={index} />;
+                  } else {
+                    return (
+                      <Zmage
+                        onBrowsing={(state) => {
+                          ReactImprovement.handleBrowsing(state);
+                        }}
+                        onZooming={(state) => {
+                          ReactImprovement.handleZooming(state);
+                        }}
+                        id="zmage"
+                        key={index}
+                        className="booklet_page"
+                        src={page}
+                      />
+                    );
+                  }
+                })}
               <a
                 ignore="1"
                 className="ui-arrow-control ui-arrow-previous-page"
