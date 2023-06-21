@@ -23,7 +23,7 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    if (userInfo) {
+    if (Object.keys(userInfo).length) {
       document.getElementById("header_buttons").classList.add("hide");
     } else {
       document.getElementById("header_buttons").classList.remove("hide");
