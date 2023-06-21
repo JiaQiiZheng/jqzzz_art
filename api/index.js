@@ -23,6 +23,8 @@ const secret = "asdfe45we45w345wegw345werjktjwertkj";
 const bucket = "jqzzz";
 const perPage = 999;
 
+const { OAuth2Client } = require("google-auth-library");
+
 app.use(
   cors({ credentials: true, origin: `${process.env.REACT_APP_API_URL}` })
 );
@@ -79,6 +81,8 @@ async function uploadToS3_prefix(
 
   const parts = originalFileName.split(".");
   const ext = parts[parts.length - 1];
+  console.log(ext);
+  console.log(mimetype);
   const newFileName = prefix + Date.now() + "." + ext;
   const command = new PutObjectCommand({
     Bucket: bucket,
@@ -202,6 +206,47 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
+// social login
+const users = [];
+const googleAuthClient = new OAuth2Client(
+  process.env.REACT_APP_GOOGLE_CLIENT_CLIENT_ID
+);
+
+// function upsert(array, item) {
+//   const i = array.findIndex((_item) => _item.email === item.email);
+//   if (i > -1) array[i] = item;
+//   else array.push(item);
+// }
+
+app.post("/api/google-login-popup", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  const { token } = req.body;
+  const ticket = await googleAuthClient.verifyIdToken({
+    idToken: token,
+    audience: process.env.REACT_APP_GOOGLE_CLIENT_CLIENT_ID,
+  });
+  const { name, email, picture, sub } = ticket.getPayload();
+  // upsert(users, { name, email, picture });
+
+  try {
+    const user = await User.findOne({ username: sub });
+    if (!user) {
+      const googleUserDoc = await User.create({
+        username: sub,
+        password: "tbd",
+        name,
+        email,
+        picture,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+  res.status(201);
+  res.json({ name, email, picture });
+});
+
 app.get("/api/profile", (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const { token } = req.cookies;
@@ -209,6 +254,19 @@ app.get("/api/profile", (req, res) => {
     if (err) throw err;
     res.json(info);
   });
+});
+
+app.get("/api/google-profile/:id", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  const email = req.params.id;
+  try {
+    const userData = await User.findOne({ email: email });
+    if (userData) {
+      res.json(userData);
+    }
+  } catch (error) {
+    res.status(400).json(error);
+  }
 });
 
 app.post("/api/logout", (req, res) => {

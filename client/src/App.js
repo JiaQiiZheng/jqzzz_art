@@ -1,11 +1,7 @@
 import "./App.css";
-import React, { useState, useEffect, Component } from "react";
-import Post from "./Post";
-import Header from "./Header";
+import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./Layout";
-import Layout_HomePage from "./Layout_HomePage";
-import Layout_ComputationalCommunity from "./Layout_ComputationalCommunity";
 import IndexPage from "./pages/IndexPage";
 import IndexPage_Project from "./pages/IndexPage_Project";
 import LoginPage from "./pages/LoginPage";
@@ -27,7 +23,7 @@ function App() {
   return (
     <UserContextProvider>
       <Routes>
-        <Route path="/" element={<Layout_HomePage />}>
+        <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="/login/" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />

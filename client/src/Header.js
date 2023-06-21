@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { UserContext } from "./UserContext";
+import UserButton from "./Components/UserButton/UserButton";
 
 const manager = "jqzzz";
 
@@ -9,8 +10,8 @@ export default function Header() {
   const currentUrlArray = window.location.href.split("/");
   const sectionName = currentUrlArray[3];
   const sectionName_create = `/${sectionName}/create`;
-
   const { setUserInfo, userInfo } = useContext(UserContext);
+
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/profile`, {
       credentials: "include",
@@ -19,6 +20,27 @@ export default function Header() {
         setUserInfo(userInfo);
       });
     });
+  }, []);
+
+  useEffect(() => {
+    if (userInfo) {
+      document.getElementById("header_buttons").classList.add("hide");
+    } else {
+      document.getElementById("header_buttons").classList.remove("hide");
+    }
+  }, [userInfo]);
+
+  useEffect(() => {
+    const googleUser = JSON.parse(localStorage.getItem("loginData"));
+    if (googleUser) {
+      fetch(
+        `${process.env.REACT_APP_API_URL}/google-profile/${googleUser.email}`
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((userData) => setUserInfo(userData));
+    }
   }, []);
 
   function logout() {
@@ -50,26 +72,30 @@ export default function Header() {
                 New Publish
               </Link>
             )}
-            {username != `${manager}` && sectionName != "computation" && (
+            {/* {username != `${manager}` && sectionName != "computation" && (
               <Link className="header_button">
                 working hard organizing projects
               </Link>
-            )}
-            <a className="header_button" onClick={logout}>
+            )} */}
+            {/* <a className="header_button" onClick={logout}>
               Logout ({username})
-            </a>
+            </a> */}
           </>
         )}
+
         {!username && (
-          <>
+          <div id="header_buttons">
             <Link className="header_button" to="/login">
               Login
             </Link>
             <Link className="header_button" to="/register">
               Register
             </Link>
-          </>
+          </div>
         )}
+        <div id="user_buttons">
+          <UserButton />
+        </div>
       </nav>
     </header>
   );

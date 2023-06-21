@@ -17,6 +17,13 @@ export default function HomePage() {
     }
   }, []);
 
+  useEffect(() => {
+    var allTags = document.getElementsByClassName("menu_text");
+    for (var i = 0; i < allTags.length; i++) {
+      allTags[i].classList.remove("menu_active");
+    }
+  }, []);
+
   return (
     <div className="home_page">
       <iframe

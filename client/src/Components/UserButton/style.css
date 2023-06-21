@@ -1,0 +1,64 @@
+.userButton {
+  position: absolute;
+  width: 10rem;
+  top: 2rem;
+  right: 1rem;
+}
+
+.userButton .user-box .image-box img {
+  border-radius: 50%;
+  position: absolute;
+  width: 2.5rem;
+  right: 1rem;
+  transition: 0.2s;
+}
+
+.userButton .user-box .image-box img:hover {
+  box-shadow: 0 5px 0px rgba(0, 0, 0, 1);
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.userButton .user-box .image-box img.active {
+  box-shadow: 0 5px 0px rgba(0, 0, 0, 1);
+  transition: 0.2s;
+}
+
+.menu-box {
+  position: absolute;
+  top: 3.5rem;
+}
+
+.userButton .menu.active {
+  margin-top: 0;
+  transition: 0.2s;
+  opacity: 1;
+}
+
+.userButton .menu {
+  width: 5rem;
+  left: 0px;
+  opacity: 0;
+  transition: 0.2s;
+}
+
+.userButton .menu li {
+  list-style-type: none;
+  width: 7rem;
+  box-shadow: 2px 5px rgba(0, 0, 0, 1);
+  background-color: white;
+}
+
+.userButton .menu li a {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  padding: 0.5rem 0;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: var(--secondFontColor);
+}
+.userButton .menu li a:hover {
+  color: var(--themeColor);
+  text-decoration: underline;
+}

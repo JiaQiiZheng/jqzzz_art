@@ -137,6 +137,14 @@ header nav {
   gap: 1rem;
 }
 
+header nav .header_button {
+  margin-left: 1rem;
+}
+
+#header_buttons.hide {
+  visibility: hidden;
+}
+
 header nav .header_button:hover {
   text-decoration: underline;
 }
@@ -154,14 +162,12 @@ header nav .header_button:hover {
   transition: 0.5s;
 }
 
-.menu .menu_enlarge {
-  font-weight: bold;
+.menu .menu_active {
   color: var(--secondFontColor);
-  text-transform: uppercase;
+  text-decoration: underline;
+  color: var(--mainColor);
+  margin-left: 1rem;
   display: flex;
-  justify-content: flex-end;
-  padding-right: 1rem;
-  font-size: 2rem;
   transition: 0.5s;
 }
 
@@ -309,6 +315,21 @@ form.register {
   margin-left: auto;
   margin-right: auto;
 }
+
+/* social login */
+.auth_google {
+  display: block;
+  margin-top: 2rem;
+}
+.auth_google p {
+  display: flex;
+  justify-content: center;
+}
+.auth_google #signInDiv {
+  display: flex;
+  justify-content: center;
+}
+
 .edit_form {
   margin: 1rem 1rem;
 }
@@ -367,6 +388,12 @@ button:active {
 form.login h1,
 form.register h1 {
   text-align: center;
+}
+
+#g_id_onload {
+  position: absolute;
+  right: 0.5rem;
+  top: 4rem;
 }
 
 /* Archive title in post page */

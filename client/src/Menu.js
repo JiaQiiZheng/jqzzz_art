@@ -8,8 +8,8 @@ export default function Menu() {
       var allTags = document.getElementsByClassName("menu_text");
       for (var i = 0; i < allTags.length; i++) {
         allTags[i].innerHTML === currentTag.innerHTML
-          ? allTags[i].classList.add("menu_enlarge")
-          : allTags[i].classList.remove("menu_enlarge");
+          ? allTags[i].classList.add("menu_active")
+          : allTags[i].classList.remove("menu_active");
       }
     }, 1);
   };

@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { UserContext } from "../UserContext";
+import SocialLogin from "./SocialLogin";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -44,6 +45,7 @@ export default function LoginPage() {
         onChange={(ev) => setPassword(ev.target.value)}
       />
       <button>Login</button>
+      <SocialLogin />
     </form>
   );
 }

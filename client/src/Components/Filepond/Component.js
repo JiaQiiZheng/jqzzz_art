@@ -46,11 +46,16 @@ setOptions({
   // image preview setting:
   allowImagePreview: true,
   styleItemPanelAspectRatio: 0.5,
+  // imagePreviewFilterItem: (fileItem) => !/gif/.test(fileItem.fileType),
 
   //image resize setting:
   imageResizeTargetWidth: 1200,
   imageTransformOutputQualityMode: "optional",
   imageResizeMode: "contain",
+  allowImageResize: true,
+
+  // image transform setting:
+  imageTransformImageFilter: (fileItem) => !/image\/gif/.test(fileItem.type),
 
   // imageTransformAfterCreateBlob: (blob) =>
   //   new Promise((resolve) => {
@@ -200,7 +205,16 @@ class App extends Component {
       componentDidMount: false,
       embedCode: "",
       iframeName: "",
-      acceptFileType: ["jpg", "jpeg", "pdf", "svg", "bmp", "png", "json"],
+      acceptFileType: [
+        "jpg",
+        "jpeg",
+        "pdf",
+        "png",
+        "svg",
+        "bmp",
+        "gif",
+        "json",
+      ],
     };
     this.FilePondRef = createRef(null);
     this.button_removeAll_ref = createRef(null);
@@ -289,7 +303,8 @@ class App extends Component {
             const type = fileItem
               ? fileItem.file.name.split(".").pop()
               : "unknown";
-            if (this.state.acceptFileType.includes(type)) {
+            var regex = new RegExp(this.state.acceptFileType.join("|"), "i");
+            if (regex.test(type)) {
               document
                 .getElementById("filepondInfo_show")
                 .classList.add("filepondInfo_hide");
