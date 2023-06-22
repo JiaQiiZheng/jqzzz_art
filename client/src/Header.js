@@ -3,30 +3,33 @@ import { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { UserContext } from "./UserContext";
 import UserButton from "./Components/UserButton/UserButton";
 
-const manager = "jqzzz";
+const managers = ["jqzzz", "116171553013983315605", "103267673267484429463"];
 
 export default function Header() {
   //get section name
   const currentUrlArray = window.location.href.split("/");
   const sectionName = currentUrlArray[3];
-  const sectionName_create = `/${sectionName}/create`;
+  const sectionName_create = `${sectionName}/create`;
   const { setUserInfo, userInfo } = useContext(UserContext);
+  const [username, setUsername] = useState();
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/profile`, {
-      credentials: "include",
-    }).then((response) => {
-      response.json().then((userInfo) => {
-        setUserInfo(userInfo);
+    if (Object.keys(userInfo).length !== 0) {
+      fetch(`${process.env.REACT_APP_API_URL}/profile`, {
+        credentials: "include",
+      }).then((response) => {
+        response.json().then((userInfo) => {
+          setUserInfo(userInfo);
+        });
       });
-    });
+    }
   }, []);
 
   useEffect(() => {
     if (Object.keys(userInfo).length) {
-      document.getElementById("header_buttons").classList.add("hide");
+      document.getElementById("header_buttons")?.classList.add("hide");
     } else {
-      document.getElementById("header_buttons").classList.remove("hide");
+      document.getElementById("header_buttons")?.classList.remove("hide");
     }
   }, [userInfo]);
 
@@ -48,10 +51,19 @@ export default function Header() {
       credentials: "include",
       method: "POST",
     });
-    setUserInfo("");
+    setUserInfo([]);
   }
 
-  const username = userInfo?.username;
+  useEffect(() => {
+    if (userInfo) {
+      const user = userInfo.username
+        ? userInfo.username
+        : userInfo.sub
+        ? userInfo.sub
+        : "";
+      setUsername(user);
+    }
+  }, [userInfo]);
 
   return (
     <header>
@@ -65,32 +77,56 @@ export default function Header() {
         </div>
       </Link>
       <nav>
-        {username && (
-          <>
-            {(username === `${manager}` || sectionName === "computation") && (
+        {/* {username && (
+          <> */}
+        {/* {(managers.includes(username) || sectionName === "computation") && (
               <Link className="header_button" to={sectionName_create}>
                 New Publish
               </Link>
-            )}
-            {/* {username != `${manager}` && sectionName != "computation" && (
+            )} */}
+        {/* {username != `${manager}` && sectionName != "computation" && (
               <Link className="header_button">
                 working hard organizing projects
               </Link>
             )} */}
-            {/* <a className="header_button" onClick={logout}>
-              Logout ({username})
-            </a> */}
-          </>
+        {/* <a className="header_button" onClick={logout}>
+          Logout ({username})
+        </a> */}
+        {/* </>
+        )} */}
+
+        <div className="regular_buttons">
+          <div id="searchBar">
+            <span class="material-symbols-outlined">search</span>
+            <input id="text_container" type="text" />
+          </div>
+        </div>
+
+        {Object.keys(userInfo).length == 0 && (
+          <div id="header_buttons">
+            <div className="signIn_buttons">
+              <a id="signIn_button" href={`${window.location.origin}/login`}>
+                <span class="material-symbols-outlined">account_circle</span>
+              </a>
+            </div>
+            {/* <Link className="header_button" to="/login">
+              Login
+            </Link> */}
+            {/* <Link className="header_button" to="/register">
+              Register
+            </Link> */}
+          </div>
         )}
 
-        {!username && (
-          <div id="header_buttons">
-            <Link className="header_button" to="/login">
-              Login
-            </Link>
-            <Link className="header_button" to="/register">
-              Register
-            </Link>
+        {((userInfo && managers.includes(username)) ||
+          sectionName === "computation") && (
+          <div id="function_buttons">
+            <a
+              className="header_button_ui"
+              href={`${window.location.origin}/${sectionName_create}`}
+            >
+              <span class="material-symbols-outlined">edit_square</span>
+            </a>
           </div>
         )}
         <div id="user_buttons">

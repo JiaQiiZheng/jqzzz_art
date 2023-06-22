@@ -244,7 +244,7 @@ app.post("/api/google-login-popup", async (req, res) => {
     res.status(400).json(error);
   }
   res.status(201);
-  res.json({ name, email, picture });
+  res.json({ name, email, picture, sub });
 });
 
 app.get("/api/profile", (req, res) => {

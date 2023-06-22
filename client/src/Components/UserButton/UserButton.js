@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../UserContext";
+import defaultProfile from "../../assets/ui/svg/account_circle_FILL1_wght100_GRAD0_opsz48.svg";
 import "./style.css";
 
 const UserButton = () => {
@@ -36,7 +37,7 @@ const UserButton = () => {
     if (ele) {
       ele.classList.toggle("active");
     }
-    setUserInfo("");
+    setUserInfo([]);
   }
 
   function handleClickOutside(event) {
@@ -53,7 +54,13 @@ const UserButton = () => {
     <div className="userButton">
       <div className="user-box">
         <div className="image-box">
-          <img id="userPicture" src={userData?.picture} alt="" />
+          {Object.keys(userInfo).length != 0 && (
+            <img
+              id="userPicture"
+              src={userData?.picture ? userData?.picture : defaultProfile}
+              alt=""
+            />
+          )}
         </div>
         {/* <p className="username">{userData?.name}</p> */}
       </div>

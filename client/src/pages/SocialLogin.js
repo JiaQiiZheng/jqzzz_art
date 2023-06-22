@@ -39,6 +39,7 @@ export default function SocialLogin() {
   function handleSignOut() {
     localStorage.removeItem("loginData");
     setLoginData(null);
+    setUserInfo([]);
     document.getElementById("signInDiv").hidden = false;
   }
 

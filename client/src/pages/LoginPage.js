@@ -1,5 +1,5 @@
-import { useContext, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Link, Navigate } from "react-router-dom";
 import { UserContext } from "../UserContext";
 import SocialLogin from "./SocialLogin";
 
@@ -8,6 +8,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
   const { setUserInfo } = useContext(UserContext);
+
   async function login(ev) {
     ev.preventDefault();
     const response = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
@@ -30,7 +31,7 @@ export default function LoginPage() {
     return <Navigate to={"/"} />;
   }
   return (
-    <form className="login" onSubmit={login}>
+    <form className="login">
       <h1>Login</h1>
       <input
         type="text"
@@ -44,7 +45,21 @@ export default function LoginPage() {
         value={password}
         onChange={(ev) => setPassword(ev.target.value)}
       />
-      <button>Login</button>
+      <button onClick={login}>Login</button>
+      <div className="login_assistant_buttons">
+        <div className="layout">
+          <Link className="login_assistant_button" to="/register">
+            <span class="material-symbols-outlined">how_to_reg</span>
+            Register
+          </Link>
+        </div>
+        <div className="layout">
+          <Link className="login_assistant_button" to="/register">
+            <span class="material-symbols-outlined">lock</span>
+            Forget Password
+          </Link>
+        </div>
+      </div>
       <SocialLogin />
     </form>
   );

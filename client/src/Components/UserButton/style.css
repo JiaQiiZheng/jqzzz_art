@@ -14,7 +14,7 @@
 }
 
 .userButton .user-box .image-box img:hover {
-  box-shadow: 0 5px 0px rgba(0, 0, 0, 1);
+  box-shadow: 5px 5px 0px rgba(0, 0, 0, 1);
   transition: 0.2s;
   cursor: pointer;
 }
