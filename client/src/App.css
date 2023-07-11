@@ -762,6 +762,7 @@ a svg {
 #toolbar .ql-formats button {
   margin-top: auto;
   margin-bottom: auto;
+  box-shadow: none;
 }
 .ql-size-extra-small {
   font-size: 12px;
