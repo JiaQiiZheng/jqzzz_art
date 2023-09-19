@@ -118,7 +118,7 @@ export default function Header() {
           </div>
         )}
 
-        {userInfo && managers.includes(username) && (
+        {Object.keys(userInfo).length!=0 && (managers.includes(username) || sectionName==="computation") && (
           <div id="function_buttons">
             <a
               className="header_button_ui"

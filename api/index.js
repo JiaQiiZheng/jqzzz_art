@@ -35,6 +35,8 @@ app.use("/uploads", express.static(__dirname + "/uploads"));
 
 var bodyParser = require("body-parser"); // Body Parser Middleware
 const { abort } = require("process");
+const { info } = require("console");
+const { userInfo } = require("os");
 bodyParser = {
   json: { limit: "100mb", extended: true },
   urlencoded: { limit: "100mb", extended: true },
@@ -819,14 +821,15 @@ app.post(
     const { token } = req.cookies;
     jwt.verify(token, secret, {}, async (err, info) => {
       if (err) throw err;
-      const { projectName, title, summary, content, section } = req.body;
+      const { googleUser, projectName, title, summary, content, section } = req.body;
+      console.log(googleUser);
       const postDoc = await Post.create({
         projectName,
         title,
         summary,
         content,
         cover: url,
-        author: info.id,
+        author: googleUser? googleUser : info.id,
         section: section,
       });
       res.json(postDoc);
@@ -891,7 +894,7 @@ app.get("/api/post/computation", async (req, res) => {
   res.json(
     //find by the post type
     await Post.find({ section: section_name })
-      .populate("author", ["username"])
+      .populate("author", ["username", "email"])
       .sort({ createdAt: -1 })
       .limit(perPage)
       .skip(perPage * (page - 1))
@@ -901,7 +904,7 @@ app.get("/api/post/computation", async (req, res) => {
 app.get("/api/computation/post/:id", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const { id } = req.params;
-  const postDoc = await Post.findById(id).populate("author", ["username"]);
+  const postDoc = await Post.findById(id).populate("author", ["username", "email"]);
   res.json(postDoc);
 });
 

@@ -46,7 +46,7 @@ const Dropdown = ({ params }) => {
           {selectedItem != null
             ? items.find((item) => item.id == selectedItem).projectName
             : "Select Stack"}
-          <i className={`fa fa-chevron icon ${isOpen && "open"}`}>{"🡲"}</i>
+          <i className={`fa fa-chevron icon ${isOpen && "open"}`}>{"▶"}</i>
         </div>
         <div className={`dropdown-body ${isOpen && "open"}`}>
           {items.map((item) => (

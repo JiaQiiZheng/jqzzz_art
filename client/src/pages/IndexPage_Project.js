@@ -1,5 +1,5 @@
 import Post from "../Post";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 export default function IndexPage_Project() {
   //get section name

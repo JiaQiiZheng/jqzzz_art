@@ -1,12 +1,13 @@
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { Navigate } from "react-router-dom";
 import Editor from "../Editor";
 import { Link } from "react-router-dom";
 import Dropdown from "../Components/Dropdown/dropdown";
 import UploadButton from "../Components/UploadButton/UploadButton";
 import { default as FilePond_Component } from "../Components/Filepond/Component";
+import { UserContext } from "../UserContext";
 
 const baseUrl = window.location.origin;
 
@@ -34,6 +35,7 @@ export default function CreatePost() {
   const [isGif, setIsGif] = useState();
   const isGifRef = useRef();
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  const {setUserInfo, userInfo} = useContext(UserContext);
 
   // focus on iframe when loaded
   useEffect(() => {
@@ -164,6 +166,12 @@ export default function CreatePost() {
 
   async function createNewPost(ev) {
     const data = new FormData();
+
+    // check whether user login by google account
+    if(userInfo.email){
+      data.set("googleUser", userInfo._id);
+    }
+
     data.set("projectName", selectedProjectName);
     data.set("title", title);
     data.set("summary", summary);

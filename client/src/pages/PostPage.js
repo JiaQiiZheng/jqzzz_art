@@ -8,6 +8,7 @@ import Zmage from "react-zmage";
 import * as ReactImprovement from "../Components/react-zmage/zmageImprovement";
 
 const baseUrl = process.env.REACT_APP_API_URL;
+const managers = ["jqzzz"];
 
 // improvement of react zmage
 function handleDoubleClickZoom() {
@@ -137,8 +138,8 @@ export default function PostPage() {
         </div>
         <h1>{postInfo.title}</h1>
         <time>{formatISO9075(new Date(postInfo.createdAt)).split(" ")[0]}</time>
-        <div className="author">by @{postInfo.author.username}</div>
-        {userInfo.id === postInfo.author._id && (
+        <div className="author">by @{postInfo.author.email? postInfo.author.email.split("@")[0] : postInfo.author.username}</div>
+        {((userInfo.email && userInfo._id===postInfo.author._id) || (userInfo.id === postInfo.author._id) || managers.includes(userInfo.username)) && (
           <div className="edit-row">
             <Link
               className="edit-btn"
