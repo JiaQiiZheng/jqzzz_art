@@ -947,7 +947,7 @@ app.post("/api/post/art", uploadMiddleware.single("file"), async (req, res) => {
   const { token } = req.cookies;
   jwt.verify(token, secret, {}, async (err, info) => {
     if (err) throw err;
-    const { title, summary, content, section } = req.body;
+    const { projectName, title, summary, content, section } = req.body;
     const postDoc = await Post.create({
       projectName,
       title,
