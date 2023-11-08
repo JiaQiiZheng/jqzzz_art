@@ -822,7 +822,6 @@ app.post(
     jwt.verify(token, secret, {}, async (err, info) => {
       if (err) throw err;
       const { googleUser, projectName, title, summary, content, section } = req.body;
-      console.log(googleUser);
       const postDoc = await Post.create({
         projectName,
         title,
