@@ -947,7 +947,7 @@ app.post("/api/post/art", uploadMiddleware.single("file"), async (req, res) => {
   const { token } = req.cookies;
   jwt.verify(token, secret, {}, async (err, info) => {
     if (err) throw err;
-    const { projectName, title, summary, content, section } = req.body;
+    const { projectName, title, summary, content, section, uploadedFiles } = req.body;
     const postDoc = await Post.create({
       projectName,
       title,
@@ -956,6 +956,7 @@ app.post("/api/post/art", uploadMiddleware.single("file"), async (req, res) => {
       cover: url,
       author: info.id,
       section: section,
+      uploadedFiles,
     });
     res.json(postDoc);
   });
@@ -994,6 +995,7 @@ app.put("/api/post/art", uploadMiddleware.single("file"), async (req, res) => {
     res.json(postDoc);
   });
 });
+
 
 // get projectName list data
 app.get("/api/post/art/projectNames", async (req, res) => {
