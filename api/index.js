@@ -949,6 +949,7 @@ app.post("/api/post/art", uploadMiddleware.single("file"), async (req, res) => {
     if (err) throw err;
     const { title, summary, content, section } = req.body;
     const postDoc = await Post.create({
+      projectName,
       title,
       summary,
       content,
