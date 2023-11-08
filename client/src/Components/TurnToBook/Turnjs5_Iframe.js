@@ -39,7 +39,7 @@ const Turnjs5_Iframe = () => {
         return response.json();
       })
       .then((postInfo) => {
-        if (postInfo.uploadedFiles[0] != undefined) {
+        if (postInfo.uploadedFiles[0] != undefined || postInfo.uploadedFiles[0]!="") {
           return JSON.parse(postInfo.uploadedFiles[0]);
         } else {
           return [];
