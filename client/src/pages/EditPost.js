@@ -163,7 +163,7 @@ export default function EditPost() {
         setContent(postInfo.content);
         setSummary(postInfo.summary);
         setUploadedFiles(
-          postInfo.uploadedFiles[0] != "" && JSON.parse(postInfo.uploadedFiles)
+          postInfo.uploadedFiles[0] != undefined && postInfo.uploadedFiles[0] != "" && JSON.parse(postInfo.uploadedFiles)
         );
         // set current profile preview
         // const current_profile = createElement("img");
