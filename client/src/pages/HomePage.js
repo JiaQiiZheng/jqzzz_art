@@ -26,6 +26,8 @@ export default function HomePage() {
 
   return (
     <div className="home_page">
+      <iframe name="portfolio" className="turnjs_iframe_inserted" src={window.location.origin+"/6593a0e760ba83dab61e8686"} frameBorder="0">
+      </iframe>
       <iframe
         name="sketch"
         className="turnjs_iframe_inserted"
