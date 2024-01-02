@@ -87,7 +87,7 @@ function App() {
         files={files}
         onupdatefiles={setFiles}
         allowMultiple={true}
-        maxFiles={100}
+        maxFiles={200}
         // server={`${process.env.REACT_APP_API_URL}/attachment`}
         name="filepond" /* sets the file input name, it's filepond by default */
         labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
