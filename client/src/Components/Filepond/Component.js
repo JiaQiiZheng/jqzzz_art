@@ -295,7 +295,7 @@ class App extends Component {
           files={this.state.files}
           allowMultiple={true}
           allowReorder={true}
-          maxFiles={100}
+          maxFiles={200}
           name="filepond"
           labelIdle='Drag & Drop your files to Build a Booklet or <span class="filepond--label-action">Browse</span>'
           oninit={() => this.handleInit()}
